@@ -1,13 +1,4 @@
-import {
-  Box,
-  Button,
-  Grid,
-  MenuItem,
-  Select,
-  Stack,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Box, Button, Grid, Stack, TextField, Typography } from "@mui/material";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
 
@@ -61,14 +52,6 @@ export default function () {
             label="Email Address"
             placeholder="Enter email address"
           />
-
-          <Select label="I am interested in">
-            <MenuItem>Web development</MenuItem>
-            <MenuItem>Mobile development</MenuItem>
-            <MenuItem>DevOPS</MenuItem>
-            <MenuItem>Blockchain development</MenuItem>
-            <MenuItem>I am still undecided</MenuItem>
-          </Select>
 
           <Box>
             <Grid container spacing={2}>
