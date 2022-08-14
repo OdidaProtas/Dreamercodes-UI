@@ -1,5 +1,6 @@
 import { Box, Button, Toolbar, Typography, Stack } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import Logo from "../../components/shared/logo";
 import Navbar from "../../components/shared/navbar";
 
 export default function () {
@@ -18,6 +19,9 @@ export default function () {
         }}
       >
         <Stack spacing={3}>
+          <Box>
+            <Logo />
+          </Box>
           <Typography variant="h4">Dream School</Typography>
           <Typography variant="h6">
             A premier coding school by the dreamers, for the dreamers

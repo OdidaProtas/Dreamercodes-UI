@@ -1,30 +1,49 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Toolbar,
+  Typography,
+  Avatar,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
 
 export default () => {
   const { push } = useHistory();
 
-  const { checkLoginStatus, getCurrentUser, logout } = useAuth();
+  const { checkLoginStatus, getCurrentUser } = useAuth();
 
   const isLoggedIn = checkLoginStatus();
-  const user = getCurrentUser();
 
   return (
-    <AppBar elevation={0}>
+    <AppBar color="inherit" elevation={0}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography sx={{ cursor: "pointer" }} onClick={() => push("/")}>
+          <Typography
+            variant="h5"
+            sx={{ cursor: "pointer" }}
+            onClick={() => push("/")}
+          >
             Dreamschool
           </Typography>
         </Box>
         {isLoggedIn && (
-          <Button onClick={logout} variant="contained">
-            Hi {user?.username}! Logout
-          </Button>
+          <>
+            <Box sx={{ mr: 2 }}>
+              <Avatar
+                onClick={() => push("/profile")}
+                sx={{ cursor: "pointer" }}
+              />
+            </Box>
+          </>
         )}
         {!isLoggedIn && (
-          <Button onClick={() => push("/portal")} variant="contained">
+          <Button
+            disableElevation
+            onClick={() => push("/portal")}
+            variant="contained"
+          >
             Portal
           </Button>
         )}

@@ -7,9 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import actions from "../actions";
 
 export default () => {
   const { push } = useHistory();
+  const { handleOnboarded } = actions();
+
+  function handleCompleteOnboarded() {
+    handleOnboarded();
+    push("/portal");
+  }
   return (
     <Container>
       <Box sx={{ mt: 3, textAlign: "center", mb: 6 }}>
@@ -44,10 +51,7 @@ export default () => {
             </Paper>
           </Box>
           <Box>
-            <Button
-              onClick={() => push("/portal/onboarding/plan")}
-              variant="contained"
-            >
+            <Button onClick={handleCompleteOnboarded} variant="contained">
               Thanks
             </Button>
           </Box>

@@ -11,10 +11,10 @@ export default class ErrorBoundary extends React.Component {
   }
 
   componentDidCatch(err) {
-    console.log(err);
     this.setState({
       hasError: true,
       message: err.message,
+      stack: err.stack,
     });
   }
 
@@ -22,7 +22,12 @@ export default class ErrorBoundary extends React.Component {
     const CustomErrorComponent = this.props.errorComponent;
     if (this.state.hasError) {
       if (CustomErrorComponent) return <CustomErrorComponent />;
-      return <DefaultErrorComponent />;
+      return (
+        <DefaultErrorComponent
+          stack={this.state.stack}
+          error={this.state.message}
+        />
+      );
     }
     return <>{this.props.children}</>;
   }

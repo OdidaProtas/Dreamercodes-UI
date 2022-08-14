@@ -1,6 +1,6 @@
 import { Toolbar } from "@mui/material";
 import { lazy } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, useRouteMatch } from "react-router-dom";
 import Navbar from "../../components/shared/navbar";
 import Navigation from "../../features/navigation";
 import { useAuth } from "../../hooks/useAuth";
@@ -19,7 +19,9 @@ export default () => {
   const { checkLoginStatus } = useAuth();
   const isLoggedIn = checkLoginStatus();
 
-  if (!isLoggedIn) return <Redirect to="/accounts" />;
+  const { url } = useRouteMatch();
+
+  if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
 
   return (
     <>

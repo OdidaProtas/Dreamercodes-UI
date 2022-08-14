@@ -1,4 +1,5 @@
 import {
+  Alert,
   Box,
   Button,
   Grid,
@@ -11,14 +12,19 @@ import {
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
 import { useAuth } from "../../../hooks/useAuth";
+import useQueryParams from "../../../hooks/useQueryParams";
 
 export default function () {
   const { push } = useHistory();
   const { login } = useAuth();
+
+  const next = useQueryParams("next");
+
   const handleSubmit = (e) => {
     e.preventDefault();
     login({ username: "User" });
-    push("/portal");
+    if (next) push(next);
+    else push("/portal");
   };
   return (
     <Box
@@ -34,9 +40,15 @@ export default function () {
           <Box sx={{ textAlign: "center" }}>
             <Logo />
             <Typography variant="h4">Welcome back</Typography>
+
             <Typography>
               Get started building your dream projects sooner, not later.
             </Typography>
+            {Boolean(next) && (
+              <Alert sx={{ mt: 2 }} severity="error">
+                Please log in to view the requested resource
+              </Alert>
+            )}
           </Box>
 
           <TextField
