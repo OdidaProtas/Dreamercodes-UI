@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from "@mui/material";
 import useToast from "../../../hooks/useToast";
 
 export default () => {
@@ -5,6 +6,11 @@ export default () => {
 
   const { severity, message, action, visible } = toast;
 
-
-  return <></>;
+  return (
+    <>
+      <Snackbar open={visible} >
+        <Alert>Hehe</Alert>
+      </Snackbar>
+    </>
+  );
 };

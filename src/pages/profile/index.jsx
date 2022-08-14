@@ -31,6 +31,7 @@ export default function () {
   const { pathname } = useLocation();
 
   const isCert = /\/cert/.test(pathname);
+  const isUpdate = /\/update/.test(pathname);
 
   const { checkLoginStatus, logout } = useAuth();
 
@@ -48,22 +49,23 @@ export default function () {
       <Navbar />
       <Toolbar />
       <Navigation options={navigationOptions} />
-      {!Boolean(isCert) && (
+      {!isCert && !isUpdate && (
         <>
           <Box sx={{ textAlign: "center" }}>
             <Typography variant="h5"> My Certifications</Typography>
             <CertGrid />
           </Box>
-          <Button
-            onClick={handleLogout}
-            color="error"
-            disableElevation
-            variant="contained"
-            sx={{ mt: 6 }}
-            fullWidth
-          >
-            Logout
-          </Button>
+          <Box sx={{ textAlign: "center" }}>
+            <Button
+              onClick={handleLogout}
+              color="error"
+              disableElevation
+              variant="contained"
+              sx={{ mt: 6, mb: 6 }}
+            >
+              Logout
+            </Button>
+          </Box>
         </>
       )}
     </Container>

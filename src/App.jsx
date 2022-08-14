@@ -1,7 +1,12 @@
 import "./App.css";
+import Toast from "./components/shared/toast";
 import Pages from "./pages";
-import { useStateValue } from "./state/hooks";
 
 export default function App() {
-  return <Pages />;
+  return (
+    <>
+      <Pages />
+      <Toast />
+    </>
+  );
 }

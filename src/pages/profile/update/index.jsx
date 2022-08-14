@@ -13,6 +13,7 @@ import SaveIcon from "@mui/icons-material/Save";
 import EditIcon from "@mui/icons-material/AttachFile";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import UpdatePassword from "../../../components/dialogs/updatePassword";
+import UpdateProfilePic from "../../../components/dialogs/updateProfilePic";
 
 export default function () {
   const { push, goBack } = useHistory();
@@ -37,11 +38,7 @@ export default function () {
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Box sx={{ position: "relative" }}>
                 <Avatar sx={{ height: 108, width: 108 }} />
-                <IconButton
-                  sx={{ position: "absolute", bottom: 5, right: -18 }}
-                >
-                  <EditIcon />
-                </IconButton>
+                <UpdateProfilePic />
               </Box>
             </Box>
             <Box>

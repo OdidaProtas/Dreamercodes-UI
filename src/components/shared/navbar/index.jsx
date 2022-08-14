@@ -17,7 +17,7 @@ export default () => {
   const isLoggedIn = checkLoginStatus();
 
   return (
-    <AppBar color="inherit" elevation={0}>
+    <AppBar color="inherit" elevation={1}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
           <Typography

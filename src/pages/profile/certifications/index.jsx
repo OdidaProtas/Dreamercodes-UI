@@ -22,23 +22,23 @@ export default function () {
 
   const isProfile = /\/profile/.test(pathname);
 
-  const handleShareCert = async () => {
-    await navigator.share(`/cert/${id}`);
+  const handleShareCert = () => {
+    push(`/cert/${id}`);
   };
 
   return (
     <>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box>
+          <Typography>DS Certificate</Typography>
+          <Typography>Certificate id: #_{id}</Typography>
+        </Box>
+        <Box>
           {isProfile && (
             <IconButton onClick={handleShareCert}>
               <ShareIcon />
             </IconButton>
           )}
-        </Box>
-        <Box>
-          <Typography>DS Certificate</Typography>
-          <Typography>Certificate id: #_{id}</Typography>
         </Box>
       </Box>
       <Suspense

@@ -24,7 +24,7 @@ export default function () {
           </Box>
           <Typography variant="h4">Dream School</Typography>
           <Typography variant="h6">
-            A premier coding school by the dreamers, for the dreamers
+            A premier online coding bootcamp by the dreamers, for the dreamers
           </Typography>
           <Button
             disableElevation
