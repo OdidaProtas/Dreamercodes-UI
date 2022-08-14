@@ -39,13 +39,23 @@ export default () => {
           </>
         )}
         {!isLoggedIn && (
-          <Button
-            disableElevation
-            onClick={() => push("/portal")}
-            variant="contained"
-          >
-            Portal
-          </Button>
+          <>
+            <Button
+              disableElevation
+              onClick={() => push("/portal")}
+              variant="contained"
+            >
+              Portal
+            </Button>
+            <Button
+              sx={{ ml: 2 }}
+              disableElevation
+              onClick={() => push("/mentor")}
+              variant="contained"
+            >
+              Mentor
+            </Button>
+          </>
         )}
       </Toolbar>
     </AppBar>
