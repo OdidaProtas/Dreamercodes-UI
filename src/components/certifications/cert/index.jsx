@@ -5,7 +5,7 @@ export default function ({ noMargin }) {
   return (
     <>
       <Paper
-        elevation={1}
+        elevation={0}
         sx={{
           p: 2,
           bgcolor: "azure",
