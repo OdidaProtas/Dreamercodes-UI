@@ -29,7 +29,11 @@ export default () => {
             >
               Yes, I know what course I want.
             </Button>
-            <Button variant="contained" disableElevation>
+            <Button
+              onClick={() => push(`${url}/categories`)}
+              variant="contained"
+              disableElevation
+            >
               No, Please recommend me one.
             </Button>
           </Stack>

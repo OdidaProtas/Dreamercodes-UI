@@ -1,4 +1,11 @@
-import { Box, Button, Toolbar, Typography, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  Toolbar,
+  Typography,
+  Stack,
+  Divider,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import Logo from "../../components/shared/logo";
 import Navbar from "../../components/shared/navbar";
@@ -22,7 +29,7 @@ export default function () {
           <Box>
             <Logo />
           </Box>
-          <Typography variant="h4">Dream School</Typography>
+          <Typography variant="h4">Dreamercodes</Typography>
           <Typography variant="h6">
             A premier online coding bootcamp by the dreamers, for the dreamers
           </Typography>
@@ -31,8 +38,9 @@ export default function () {
             variant="contained"
             onClick={() => push("/accounts/signup")}
           >
-            Get Started
+            Start Learning now
           </Button>
+          <Divider />
         </Stack>
       </Box>
     </>

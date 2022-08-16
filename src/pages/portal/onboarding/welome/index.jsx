@@ -15,7 +15,7 @@ export default () => {
 
   function handleCompleteOnboarded() {
     handleOnboarded();
-    push("/portal");
+    push("/portal/onboarding/learning-plan");
   }
   return (
     <Container>

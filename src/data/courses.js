@@ -1,3 +1,3 @@
 export default () => {
-  return [{ name: "Frontend Development" }];
+  return [{ name: "HTML" }];
 };

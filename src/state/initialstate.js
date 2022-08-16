@@ -1,5 +1,5 @@
 export default {
-  // isLoggedIn: true,
+  isLoggedIn: true,
   // onBoarded: true,
   debug: true,
 };

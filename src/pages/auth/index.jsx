@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import { lazy } from "react";
 import { useHistory } from "react-router-dom";
 import bgImg from "../../assets/defaultBg.png";
@@ -29,8 +29,16 @@ export default function () {
       >
         <Navigation options={navOptions} />;
       </Grid>
-      <Grid item xs={1} md={6} lg={6} sx={{ height: "97vh" }}>
-        <img height={"100%"} width="100%" src={bgImg} alt="" />
+      <Grid item xs={1} md={6} lg={6} sx={{ height: "97vh", bgcolor: "azure" }}>
+        <Box
+          sx={{
+            height: "100%",
+            width: "100%",
+            display: { xs: "none", md: "none", lg: "block" },
+          }}
+        >
+          <img height={"100%"} width="100%" src={bgImg} alt="" />
+        </Box>
       </Grid>
     </Grid>
   );

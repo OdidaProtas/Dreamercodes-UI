@@ -7,7 +7,10 @@ const CoursesSelection = lazy(() => import("./coursesSelection"));
 const Motivational = lazy(() => import("./motivational"));
 const Availability = lazy(() => import("./availability"));
 const Pace = lazy(() => import("./pace"));
+const Categories = lazy(() => import("./categories"));
+const LearningPlan = lazy(() => import("./learningPlan"));
 const Welcome = lazy(() => import("./welome"));
+const Payment = lazy(() => import("./payment"));
 const QuestionExperience = lazy(() => import("./questionExperience"));
 
 const navOptions = [
@@ -17,7 +20,10 @@ const navOptions = [
   { exact: true, children: <QuestionExperience />, route: "/experience" },
   { exact: true, children: <Availability />, route: "/availability" },
   { exact: true, children: <Pace />, route: "/pace" },
+  { exact: true, children: <Categories />, route: "/categories" },
   { exact: true, children: <Welcome />, route: "/welcome" },
+  { exact: true, children: <Payment />, route: "/payment" },
+  { exact: true, children: <LearningPlan />, route: "/learning-plan" },
   { exact: false, children: <FourOurFour />, route: "*" },
 ];
 

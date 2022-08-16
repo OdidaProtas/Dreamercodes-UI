@@ -25,7 +25,7 @@ export default () => {
             sx={{ cursor: "pointer" }}
             onClick={() => push("/")}
           >
-            Dreamschool
+            Dreamercodes
           </Typography>
         </Box>
         {isLoggedIn && (

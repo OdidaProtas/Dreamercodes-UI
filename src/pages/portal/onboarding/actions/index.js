@@ -10,5 +10,21 @@ export default function () {
     });
   }
 
-  return { handleOnboarded };
+  function handleSelectedCategory(category) {
+    dispatch({
+      type: "ADD_ENTRIES",
+      context: "prefferedCategory",
+      payload: category,
+    });
+  }
+
+  function handleSelectedCourse(course) {
+    dispatch({
+      type: "ADD_ENTRIES",
+      context: "selectedCourse",
+      payload: course,
+    });
+  }
+
+  return { handleOnboarded, handleSelectedCategory, handleSelectedCourse };
 }
