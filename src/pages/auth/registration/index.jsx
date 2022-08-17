@@ -11,10 +11,10 @@ import { useMemo } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import useAxios from "../../../network/hooks/useAxios";
 import Logo from "../../../components/shared/logo";
 import { REGISTRATION_URL } from "../../../network/endpoints";
 import useToast from "../../../hooks/useToast";
+import { useAxios } from "../../../network";
 
 export default function () {
   const { push } = useHistory();
@@ -30,7 +30,8 @@ export default function () {
 
   function successHandler() {
     console.log(data);
-    localStorage.setItem("access_token", data?.accessToken)
+    localStorage.setItem("access_token", data?.accessToken);
+    push("/accounts/email-verification");
   }
 
   function errorHandler() {
@@ -42,10 +43,10 @@ export default function () {
     e.preventDefault();
     axiosAction({
       method: "post",
-      endpoint: REGISTRATION_URL,
-      payload: { ...state },
       successHandler,
       errorHandler,
+      payload: { ...state },
+      endpoint: ENDPOINTS.REGISTRATION_URL,
     });
   };
 

@@ -20,6 +20,7 @@ import {
 import ImageIcon from "@mui/icons-material/Check";
 import Timeline from "./timeline";
 import { useHistory } from "react-router-dom";
+import actions from "../actions";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -28,11 +29,10 @@ export default function FullScreenDialog() {
   const [open, setOpen] = React.useState(true);
   const { push } = useHistory();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  const { handleOnboarded } = actions();
 
   const handleClose = () => {
+    handleOnboarded();
     push("/portal");
   };
 

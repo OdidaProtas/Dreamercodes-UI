@@ -1,7 +1,9 @@
 import axios from "axios";
-import { BASE_URL } from "./endpoints";
+import useAxios from "./hooks/useAxios";
 
-const baseURL = BASE_URL
+import * as ENDPOINTS from "./endpoints";
+
+const baseURL = ENDPOINTS.BASE_URL;
 
 const axiosInstance = axios.create({
   baseURL,
@@ -20,4 +22,4 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-export { axiosInstance };
+export { axiosInstance, useAxios, ENDPOINTS };

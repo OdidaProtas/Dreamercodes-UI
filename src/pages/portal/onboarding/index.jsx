@@ -12,6 +12,7 @@ const LearningPlan = lazy(() => import("./learningPlan"));
 const Welcome = lazy(() => import("./welome"));
 const Payment = lazy(() => import("./payment"));
 const QuestionExperience = lazy(() => import("./questionExperience"));
+const Checkout = lazy(() => import("./checkout"));
 
 const navOptions = [
   { exact: true, children: <SurveyCourses />, route: "" },
@@ -23,6 +24,7 @@ const navOptions = [
   { exact: true, children: <Categories />, route: "/categories" },
   { exact: true, children: <Welcome />, route: "/welcome" },
   { exact: true, children: <Payment />, route: "/payment" },
+  { exact: true, children: <Checkout />, route: "/checkout" },
   { exact: true, children: <LearningPlan />, route: "/learning-plan" },
   { exact: false, children: <FourOurFour />, route: "*" },
 ];
