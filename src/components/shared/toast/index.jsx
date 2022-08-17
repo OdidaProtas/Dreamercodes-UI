@@ -8,8 +8,10 @@ export default () => {
 
   return (
     <>
-      <Snackbar open={visible} >
-        <Alert>Hehe</Alert>
+      <Snackbar open={visible}>
+        <Alert severity={severity} sx={{ width: "100%" }}>
+          {message}
+        </Alert>
       </Snackbar>
     </>
   );

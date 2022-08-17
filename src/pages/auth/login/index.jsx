@@ -3,12 +3,11 @@ import {
   Box,
   Button,
   Grid,
-  MenuItem,
-  Select,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
 import { useAuth } from "../../../hooks/useAuth";
@@ -17,6 +16,12 @@ import useQueryParams from "../../../hooks/useQueryParams";
 export default function () {
   const { push } = useHistory();
   const { login } = useAuth();
+
+  const [state, setState] = useState();
+
+  const handleChange = (e) => {
+    setState({ ...state, [e.target.name]: e.target.value });
+  };
 
   const next = useQueryParams("next");
 
@@ -55,11 +60,21 @@ export default function () {
             label="Email Address"
             placeholder="Enter email address"
             fullWidth
+            name={"email"}
+            value={state?.email}
+            onChange={handleChange}
+            required
+            type="email"
           />
           <TextField
             label="Password"
             placeholder="Enter your password"
             fullWidth
+            type="password"
+            required
+            name="password"
+            value={state?.password}
+            onChange={handleChange}
           />
 
           <Button type="submit" disableElevation variant="contained">
@@ -71,7 +86,7 @@ export default function () {
                 <Link to="/accounts/password-reset">Forgot password</Link>
               </Grid>
               <Grid sx={{ textAlign: "right" }} item xs>
-                <Link to="/accounts/signup">Need account? Register.</Link>
+                <Link to="/accounts/signup">Register.</Link>
               </Grid>
             </Grid>
           </Box>
