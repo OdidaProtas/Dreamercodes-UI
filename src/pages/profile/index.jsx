@@ -33,7 +33,8 @@ export default function () {
   const isCert = /\/cert/.test(pathname);
   const isUpdate = /\/update/.test(pathname);
 
-  const { checkLoginStatus, logout } = useAuth();
+  const { checkLoginStatus, logout, } = useAuth();
+
 
   const isLoggedIn = checkLoginStatus();
 

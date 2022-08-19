@@ -2,7 +2,6 @@ import {
   Box,
   CircularProgress,
   IconButton,
-  Paper,
   Typography,
 } from "@mui/material";
 import { useHistory, useLocation, useParams } from "react-router-dom";
@@ -25,6 +24,7 @@ export default function () {
   const handleShareCert = () => {
     push(`/cert/${id}`);
   };
+
 
   return (
     <>

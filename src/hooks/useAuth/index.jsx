@@ -26,6 +26,14 @@ export function useAuth() {
     [state]
   );
 
+  const checkVerificationStatus = useCallback(
+    function () {
+      const { user } = state;
+      return Boolean(user?.emailVerified);
+    },
+    [state]
+  );
+
   const getCurrentUser = useCallback(
     function () {
       const { user } = state;
@@ -39,5 +47,6 @@ export function useAuth() {
     logout,
     checkLoginStatus,
     getCurrentUser,
+    checkVerificationStatus
   };
 }

@@ -2,10 +2,15 @@ import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import CertGrid from "../../../components/certifications/certGrid";
+import { useAuth } from "../../../hooks/useAuth";
 
 export default function () {
   const { push } = useHistory();
   const { url } = useRouteMatch();
+
+  const { getCurrentUser } = useAuth();
+
+  const user = getCurrentUser();
 
   return (
     <Box
@@ -21,10 +26,10 @@ export default function () {
             <Avatar sx={{ height: 108, width: 108 }} />
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Typography variant="h4">Brian Odida</Typography>
+            <Typography variant="h4">{user?.firstName} {user?.lastName}</Typography>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Typography variant="h6">brian.odida@gmail.com</Typography>
+            <Typography variant="h6">{user?.email}</Typography>
           </Box>
           <Box sx={{ textAlign: "center" }}>
             <Button
@@ -39,7 +44,6 @@ export default function () {
           <Box>
             <Divider sx={{ my: 3 }} />
           </Box>
-          
         </Stack>
       </Box>
     </Box>

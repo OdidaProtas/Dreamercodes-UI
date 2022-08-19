@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../../hooks/useAuth";
+import Logo from "../logo";
 
 export default () => {
   const { push } = useHistory();
@@ -20,13 +21,7 @@ export default () => {
     <AppBar color="inherit" elevation={1}>
       <Toolbar>
         <Box sx={{ flexGrow: 1 }}>
-          <Typography
-            variant="h5"
-            sx={{ cursor: "pointer" }}
-            onClick={() => push("/")}
-          >
-            Dreamercodes
-          </Typography>
+          <Logo textOnly />
         </Box>
         {isLoggedIn && (
           <>

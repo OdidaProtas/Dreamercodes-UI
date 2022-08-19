@@ -2,6 +2,7 @@ import {
   Alert,
   Box,
   Button,
+  CircularProgress,
   Grid,
   Stack,
   TextField,
@@ -12,12 +13,22 @@ import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
 import { useAuth } from "../../../hooks/useAuth";
 import useQueryParams from "../../../hooks/useQueryParams";
+import useToast from "../../../hooks/useToast";
+import { useAxios } from "../../../network";
+import { LOGIN_URL } from "../../../network/endpoints";
+import jwt_decode from "jwt-decode";
 
 export default function () {
   const { push } = useHistory();
   const { login } = useAuth();
 
-  const [state, setState] = useState();
+  const [state, setState] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { loading, error, axiosAction } = useAxios();
+  const { showToast } = useToast();
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
@@ -25,11 +36,33 @@ export default function () {
 
   const next = useQueryParams("next");
 
+  function successHandler(res) {
+    try {
+      const accessToken = res.data.accessToken;
+      localStorage.setItem("access_token", accessToken);
+      const user = jwt_decode(accessToken);
+      login(user);
+      showToast("success", "Login successful");
+      push("/portal");
+    } catch (e) {
+      showToast("error", "An error occured. Try again!");
+    }
+  }
+
+  function errorHandler(err) {
+    console.error(err);
+    showToast("error", "An error occured. Try again");
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    login({ username: "User" });
-    if (next) push(next);
-    else push("/portal");
+    axiosAction({
+      method: "post",
+      payload: { ...state },
+      successHandler,
+      errorHandler,
+      endpoint: LOGIN_URL,
+    });
   };
   return (
     <Box
@@ -77,8 +110,13 @@ export default function () {
             onChange={handleChange}
           />
 
-          <Button type="submit" disableElevation variant="contained">
-            Submit
+          <Button
+            disabled={loading}
+            type="submit"
+            disableElevation
+            variant="contained"
+          >
+            {loading ? <CircularProgress size={20} /> : "Submit"}
           </Button>
           <Box>
             <Grid container>

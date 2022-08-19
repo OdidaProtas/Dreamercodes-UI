@@ -16,12 +16,16 @@ const navOptions = [
 ];
 
 export default () => {
-  const { checkLoginStatus } = useAuth();
+  const { checkLoginStatus, checkVerificationStatus } = useAuth();
   const isLoggedIn = checkLoginStatus();
+  const isVerified = checkVerificationStatus();
 
   const { url } = useRouteMatch();
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
+
+  if (!isVerified)
+    return <Redirect to={`/accounts/email-verification?next=${url}`} />;
 
   return (
     <>

@@ -8,45 +8,56 @@ import {
   Typography,
 } from "@mui/material";
 import { useMemo } from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
-import { REGISTRATION_URL } from "../../../network/endpoints";
 import useToast from "../../../hooks/useToast";
 import { useAxios } from "../../../network";
+import { REGISTRATION_URL } from "../../../network/endpoints";
+import jwt_decode from "jwt-decode";
+import { useAuth } from "../../../hooks/useAuth";
 
 export default function () {
   const { push } = useHistory();
 
   const [state, setState] = useState();
 
-  const { data, loading, error, axiosAction } = useAxios();
+  const { login } = useAuth();
+
+  const { loading, error, axiosAction } = useAxios();
   const { showToast } = useToast();
 
   const handleChange = (e) => {
     setState((p) => ({ ...p, [e.target.name]: e.target.value }));
   };
 
-  function successHandler() {
-    console.log(data);
-    localStorage.setItem("access_token", data?.accessToken);
-    push("/accounts/email-verification");
+  function successHandler(res) {
+    localStorage.setItem("access_token", res?.data?.accessToken);
+    try {
+      const user = jwt_decode(res?.data?.accessToken);
+      login(user);
+      showToast("success", "Account created!");
+      push("/portal");
+    } catch (e) {
+      showToast("error", "signup failed!");
+    }
   }
 
   function errorHandler() {
-    console.log(error);
+    console.error(error);
     showToast("error", "signup failed!");
   }
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let payload = { ...state };
+    delete payload["confirmPassword"];
     axiosAction({
       method: "post",
       successHandler,
       errorHandler,
-      payload: { ...state },
-      endpoint: ENDPOINTS.REGISTRATION_URL,
+      payload,
+      endpoint: REGISTRATION_URL,
     });
   };
 

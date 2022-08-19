@@ -16,7 +16,7 @@ const navOptions = [
   {
     exact: false,
     children: <EmailConfirmation />,
-    route: "/email-confirmation",
+    route: "/email-verification",
   },
   { exact: false, children: <PasswordResetPage />, route: "/password-reset" },
   { exact: false, children: <Fourohfour />, route: "*" },
@@ -28,7 +28,7 @@ export default function () {
     <Grid container>
       <Grid item xs sx={{ maxHeight: "100vh", overflow: "auto" }}>
         <Container sx={{ mt: { xs: 9 } }}>
-          <Navigation options={navOptions} />;
+          <Navigation options={navOptions} />
         </Container>
       </Grid>
       <Grid

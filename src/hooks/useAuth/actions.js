@@ -4,7 +4,6 @@ export default function useAuthActions() {
   const dispatch = useDispatch();
 
   function handleLoginSuccess(userData) {
-    console.log(userData);
     dispatch({
       type: "ADD_ENTRIES",
       context: "user",
@@ -26,6 +25,7 @@ export default function useAuthActions() {
   }
 
   function handleLogout() {
+    localStorage.clear();
     dispatch({
       type: "RESET",
     });
