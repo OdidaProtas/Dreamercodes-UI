@@ -16,6 +16,7 @@ import { useAxios } from "../../../network";
 import { REGISTRATION_URL } from "../../../network/endpoints";
 import jwt_decode from "jwt-decode";
 import { useAuth } from "../../../hooks/useAuth";
+// import CountrySelect from "../../../components/auth/countrySelect";
 
 export default function () {
   const { push } = useHistory();
@@ -131,6 +132,9 @@ export default function () {
             placeholder="Enter email address"
           />
 
+          {/* <Box>
+            <CountrySelect />
+          </Box> */}
           <Box>
             <Grid container spacing={2}>
               <Grid item xs>

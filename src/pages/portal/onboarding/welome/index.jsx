@@ -7,11 +7,16 @@ import {
   Typography,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
+import { useAuth } from "../../../../hooks/useAuth";
 import actions from "../actions";
 
 export default () => {
   const { push } = useHistory();
   const { handleOnboarded } = actions();
+
+  const { getCurrentUser } = useAuth();
+
+  const user = getCurrentUser();
 
   function handleCompleteOnboarded() {
     handleOnboarded();
@@ -27,7 +32,7 @@ export default () => {
             learning plan.
           </Typography>
           <Typography sx={{ color: "#40BF9C" }} variant="h3">
-            That's all, Brian Odida
+            That's all, {user?.firstName} {user?.lastName}
           </Typography>
           <Box sx={{ display: "flex", justifyContent: "center" }}>
             <Paper sx={{ width: "fit-content", p: 3 }}>

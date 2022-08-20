@@ -6,11 +6,13 @@ import { useAuth } from "../../hooks/useAuth";
 export default function () {
   const { url } = useRouteMatch();
 
-  const { checkLoginStatus } = useAuth();
+  const { checkLoginStatus, checkVerificationStatus } = useAuth();
 
   const isLoggedIn = checkLoginStatus();
+  const isVerified = checkVerificationStatus();
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
+  if (!isVerified) return <Redirect to={`/accounts/email-verification?next=${url}`} />;
 
   return (
     <Container>

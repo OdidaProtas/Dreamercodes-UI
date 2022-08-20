@@ -33,10 +33,10 @@ export default function () {
   const isCert = /\/cert/.test(pathname);
   const isUpdate = /\/update/.test(pathname);
 
-  const { checkLoginStatus, logout, } = useAuth();
-
+  const { checkLoginStatus, logout, checkVerificationStatus } = useAuth();
 
   const isLoggedIn = checkLoginStatus();
+  const isVerified = checkVerificationStatus();
 
   const handleLogout = () => {
     logout();
@@ -44,6 +44,7 @@ export default function () {
   };
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
+  if (!isVerified) return <Redirect to={`/accounts/email-verification?next=${url}`} />;
 
   return (
     <Container>

@@ -10,9 +10,22 @@ import {
 import { useHistory } from "react-router-dom";
 import Logo from "../../components/shared/logo";
 import Navbar from "../../components/shared/navbar";
+import { useAuth } from "../../hooks/useAuth";
 
 export default function () {
   const { push } = useHistory();
+
+  const { checkLoginStatus } = useAuth();
+  const isLoggedIn = checkLoginStatus();
+
+  function handleCOA() {
+    if (isLoggedIn) {
+      push("/portal");
+    } else {
+      push("/accounts/signup");
+    }
+  }
+
   return (
     <Container>
       <Navbar />
@@ -30,12 +43,8 @@ export default function () {
           <Box>
             <Logo />
           </Box>
-          <Button
-            disableElevation
-            variant="contained"
-            onClick={() => push("/accounts/signup")}
-          >
-            Start Learning now
+          <Button disableElevation variant="contained" onClick={handleCOA}>
+            {"Get started"}
           </Button>
           <Divider />
         </Stack>
