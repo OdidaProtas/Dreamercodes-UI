@@ -3,6 +3,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Container,
   Grid,
   Stack,
   TextField,
@@ -65,14 +66,7 @@ export default function () {
     });
   };
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
+    <Container>
       <form onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Box sx={{ textAlign: "center" }}>
@@ -121,15 +115,15 @@ export default function () {
           <Box>
             <Grid container>
               <Grid item xs>
-                <Link to="/accounts/password-reset">Forgot password</Link>
+                <Link to="/accounts/password-reset">Reset password</Link>
               </Grid>
               <Grid sx={{ textAlign: "right" }} item xs>
-                <Link to="/accounts/signup">Register.</Link>
+                <Link to="/accounts/signup">Create account</Link>
               </Grid>
             </Grid>
           </Box>
         </Stack>
       </form>
-    </Box>
+    </Container>
   );
 }

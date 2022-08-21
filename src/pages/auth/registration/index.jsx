@@ -2,6 +2,7 @@ import {
   Box,
   Button,
   CircularProgress,
+  Container,
   Grid,
   Stack,
   TextField,
@@ -75,21 +76,14 @@ export default function () {
   }, [state?.password]);
 
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
+    <Container>
       <form onSubmit={handleSubmit}>
         <Stack spacing={2}>
           <Box sx={{ textAlign: "center" }}>
             <Logo />
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Typography variant="h4">Signup</Typography>
+            <Typography variant="h4">Create Account</Typography>
             <Typography variant="h6">
               Create an account to start learning for free
             </Typography>
@@ -203,6 +197,6 @@ export default function () {
           </Box>
         </Stack>
       </form>
-    </Box>
+    </Container>
   );
 }

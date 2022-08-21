@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useMemo } from "react";
 import { useState } from "react";
-import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
+import { Link, Redirect, useHistory, useRouteMatch } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
 import { useAuth } from "../../../hooks/useAuth";
 import useQueryParams from "../../../hooks/useQueryParams";
@@ -19,6 +19,7 @@ import { VERIFICATION_URL } from "../../../network/endpoints";
 import jwt_decode from "jwt-decode";
 import useToast from "../../../hooks/useToast";
 import ReactCodeInput from "react-verification-code-input";
+import ResendVerificationCode from "../../../components/auth/resendVerificationCode";
 
 export default function () {
   const { push } = useHistory();
@@ -79,7 +80,7 @@ export default function () {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Container sx={{ pt: 6, textAlign: "center" }}>
+      <Container sx={{ pt: 2, textAlign: "center" }}>
         <Stack spacing={3}>
           <Box>
             <Logo />
@@ -111,6 +112,11 @@ export default function () {
           >
             {loading ? <CircularProgress size={20} /> : "Verify"}
           </Button>
+          <ResendVerificationCode />
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Link to="/accounts/signup" >Create Account</Link>
+            <Link to="/accounts" >Log in</Link>
+          </Box>
         </Stack>
       </Container>
     </form>

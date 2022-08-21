@@ -13,6 +13,7 @@ import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import { useHistory, useRouteMatch } from "react-router-dom";
+import Achievements from "../../dialogs/achievements";
 export default function () {
   const { push } = useHistory();
   const { url } = useRouteMatch();
@@ -111,9 +112,7 @@ export default function () {
                     </Grid>
                   </Button>
                 </Box>
-                <Button fullWidth variant="outlined">
-                  See More
-                </Button>
+                <Achievements />
               </Stack>
             </Paper>
             <Paper sx={{ p: 2, mt: 3 }}>

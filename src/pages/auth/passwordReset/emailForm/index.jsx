@@ -47,17 +47,8 @@ export default function () {
     showToast("error", "An error occured!");
   }
 
-  
-
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        height: "100%",
-      }}
-    >
+    <Box sx={{mt:5}} >
       <form onSubmit={handleSubmit}>
         <Container>
           <Stack spacing={3}>

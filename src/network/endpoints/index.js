@@ -4,3 +4,4 @@ export const LOGIN_URL = "/generate-token";
 export const VERIFICATION_URL = "/verify";
 export const REQUEST_RESET_URL = "/request-reset";
 export const PASSWORD_RESET_URL = "/reset-password";
+export const RESEND_VERIFICATION_CODE_URL = "/resend-code";
