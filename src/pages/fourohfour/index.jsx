@@ -16,7 +16,7 @@ export default () => {
       >
         <Paper sx={{ p: 3 }}>
           <Stack spacing={3}>
-            <Typography variant="h4">Dreamschool</Typography>
+            <Typography variant="h4">Dreamercodes</Typography>
             <Typography variant="h5">Requested resource not found</Typography>
             <Typography variant="h6">
               Please check the resource url and try again.

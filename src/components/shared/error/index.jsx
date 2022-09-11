@@ -21,8 +21,14 @@ export default class ErrorComponents extends React.Component {
     const { desc, action } = this.props;
     return (
       <div style={{ textAlign: "center", marginLeft: "-144px" }}>
-        <Lottie options={defaultOptions} height={270} width={270} />
-        <Typography variant="h6">{desc}</Typography>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={{ overflow: "hidden", borderRadius: "50%", width: 270 }}>
+            <Lottie options={defaultOptions} height={270} width={"100%"} />{" "}
+          </div>
+        </div>
+        <Typography sx={{ mt: 3 }} variant="h6">
+          {desc}
+        </Typography>
         <Typography>
           <em>{action}</em>{" "}
         </Typography>

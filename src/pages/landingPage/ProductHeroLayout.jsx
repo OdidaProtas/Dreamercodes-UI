@@ -25,13 +25,11 @@ const Background = styled(Box)({
   bottom: 0,
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat",
-  zIndex: -2,
+  // zIndex: -1,
 });
 
 function ProductHeroLayout(props) {
   const { sxBackground, children } = props;
-
-  console.log(sxBackground);
 
   return (
     <ProductHeroLayoutRoot>
@@ -60,7 +58,7 @@ function ProductHeroLayout(props) {
             bottom: 0,
             backgroundColor: "common.black",
             opacity: 0.5,
-            zIndex: -1,
+            zIndex: 1,
           }}
         />
         <Background sx={sxBackground} />
@@ -77,15 +75,5 @@ function ProductHeroLayout(props) {
   );
 }
 
-ProductHeroLayout.propTypes = {
-  children: PropTypes.node,
-  sxBackground: PropTypes.oneOfType([
-    PropTypes.arrayOf(
-      PropTypes.oneOfType([PropTypes.func, PropTypes.object, PropTypes.bool])
-    ),
-    PropTypes.func,
-    PropTypes.object,
-  ]),
-};
 
 export default ProductHeroLayout;

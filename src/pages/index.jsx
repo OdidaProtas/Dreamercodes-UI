@@ -9,6 +9,9 @@ const Profile = lazy(() => import("./profile"));
 const Cert = lazy(() => import("./cert"));
 const Mentor = lazy(() => import("./mentor"));
 const Blog = lazy(() => import("./blog"));
+const Courses = lazy(() => import("./courses"));
+const About = lazy(() => import("./about"));
+const Community = lazy(() => import("./community"));
 
 const navOptions = [
   { exact: true, children: <LandingPage />, route: "/" },
@@ -18,6 +21,9 @@ const navOptions = [
   { exact: false, children: <Cert />, route: "cert/:id" },
   { exact: false, children: <Mentor />, route: "mentor" },
   { exact: false, children: <Blog />, route: "blog" },
+  { exact: true, children: <Courses />, route: "courses" },
+  { exact: true, children: <About />, route: "about-us" },
+  { exact: true, children: <Community />, route: "community" },
   { exact: false, children: <Fourohfour />, route: "*" },
 ];
 

@@ -14,6 +14,10 @@ export default () => {
     setTimeout(() => handleHideSnackBar(), 6000);
   }
 
+  function hideToast() {
+    handleHideSnackBar();
+  }
+
   const toasty = toast ?? {
     severity: "",
     message: "",
@@ -21,5 +25,5 @@ export default () => {
     visible: false,
   };
 
-  return { showToast, toast: toasty };
+  return { showToast, toast: toasty, hideToast };
 };

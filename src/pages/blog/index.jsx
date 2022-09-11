@@ -15,6 +15,7 @@ import Footer from "./Footer";
 import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
+import useDocTitle from "../../hooks/useDocTitle";
 
 const sections = [
   { title: "IOT", url: "#" },
@@ -63,9 +64,7 @@ const sidebar = {
   title: "About",
   description:
     "Etiam porta sem malesuada magna mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.",
-  archives: [
-    { title: "September 2022", url: "#" },
-  ],
+  archives: [{ title: "September 2022", url: "#" }],
   social: [
     { name: "GitHub", icon: GitHubIcon },
     { name: "Twitter", icon: TwitterIcon },
@@ -76,11 +75,12 @@ const sidebar = {
 const theme = createTheme();
 
 export default function Blog() {
+  useDocTitle("Blog");
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Dreamercodes Blog" sections={sections} />
+        <Header title="Dreamercodes" sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
