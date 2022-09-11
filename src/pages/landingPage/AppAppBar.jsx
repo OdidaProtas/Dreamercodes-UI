@@ -85,7 +85,7 @@ function AppAppBar() {
               color="inherit"
               variant="h6"
               underline="none"
-              onClick={() => push("/admin")}
+              onClick={() => push("/mentor")}
               sx={rightLink}
             >
               {"Admin"}

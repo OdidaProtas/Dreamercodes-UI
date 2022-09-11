@@ -10,7 +10,7 @@ export default () => {
   return (
     <>
       {Boolean(severity) && Boolean(message) && Boolean(visible) && (
-        <Snackbar
+        <Snackbar 
           onClose={hideToast}
           autoHideDuration={6000}
           anchorOrigin={{ vertical: "top", horizontal: "center" }}
