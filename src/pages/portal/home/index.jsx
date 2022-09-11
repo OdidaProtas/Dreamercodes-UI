@@ -1,22 +1,23 @@
-import { Container } from "@mui/material";
+import { Container, LinearProgress } from "@mui/material";
 import { lazy } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import Navigation from "../../../features/navigation";
-import { useStateValue } from "../../../state/hooks";
+import useOnboardingProfile from "../onboarding/hooks/useOnboardingProfile";
 
 const Overview = lazy(() => import("./overview"));
 
 const navOptions = [{ exact: true, children: <Overview />, route: "" }];
 
 export default () => {
-  const { onBoarded } = useStateValue();
+  const { profile, loading } = useOnboardingProfile();
 
   const { url } = useRouteMatch();
 
-  if (!onBoarded) return <Redirect to={`${url}/onboarding`} />;
+  if (!profile?.isSurveyedCourses) return <Redirect to={`${url}/onboarding`} />;
   return (
     <Container>
-      <Navigation options={[...navOptions]} />
+      {loading && <LinearProgress />}
+      {!loading && <Navigation options={[...navOptions]} />}
     </Container>
   );
 };

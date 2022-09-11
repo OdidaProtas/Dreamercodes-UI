@@ -11,7 +11,7 @@ export default () => {
       message,
       action,
     });
-    setTimeout(() => handleHideSnackBar(), 3000);
+    setTimeout(() => handleHideSnackBar(), 6000);
   }
 
   const toasty = toast ?? {

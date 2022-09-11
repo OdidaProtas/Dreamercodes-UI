@@ -1,6 +1,6 @@
 import "./App.css";
 import Toast from "./components/shared/toast";
-import useAccessToken from "./hooks/useAccessToken";
+import { useAccessToken } from "./hooks";
 import Pages from "./pages";
 
 export default function App() {

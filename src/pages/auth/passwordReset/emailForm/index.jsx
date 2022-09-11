@@ -8,26 +8,27 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../../components/shared/logo";
-import useToast from "../../../../hooks/useToast";
-import { useAxios } from "../../../../network";
-import { REQUEST_RESET_URL } from "../../../../network/endpoints";
+import { useToast, useAxios } from "../../../../hooks";
+import network from "../../../../network";
 
 export default function () {
   const { push } = useHistory();
 
   const [state, setState] = useState();
 
-  const { loading, axiosAction } = useAxios();
+  const { endpoints } = network;
+
+  const { loading, axiosAction } = useAxios("auth");
   const { showToast } = useToast();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axiosAction({
       method: "post",
-      endpoint: REQUEST_RESET_URL,
+      endpoint: endpoints.AUTH_URLS.requestReset,
       payload: { ...state },
       successHandler,
       errorHandler,
@@ -48,7 +49,7 @@ export default function () {
   }
 
   return (
-    <Box sx={{mt:5}} >
+    <Box sx={{ mt: 5 }}>
       <form onSubmit={handleSubmit}>
         <Container>
           <Stack spacing={3}>

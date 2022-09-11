@@ -14,15 +14,18 @@ import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import ReactCodeInput from "react-verification-code-input";
 import Logo from "../../../../components/shared/logo";
-import useToast from "../../../../hooks/useToast";
-import { useAxios } from "../../../../network";
-import { PASSWORD_RESET_URL } from "../../../../network/endpoints";
+import { useToast, useAxios } from "../../../../hooks";
+import network from "../../../../network";
 
 export default () => {
   const { push } = useHistory();
   const [state, setState] = useState();
 
-  const { loading, axiosAction } = useAxios();
+  const {
+    endpoints,
+  } = network;
+
+  const { loading, axiosAction } = useAxios("auth");
   const { showToast } = useToast();
 
   function handleCodeChange(value) {
@@ -36,7 +39,7 @@ export default () => {
     e.preventDefault();
     axiosAction({
       method: "post",
-      endpoint: PASSWORD_RESET_URL,
+      endpoint: endpoints.AUTH_URLS.resetPassword,
       payload: { ...state },
       successHandler,
       errorHandler,

@@ -1,6 +1,21 @@
+import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 
-export default function (value) {
+export default function (values) {
+  const [results, setResults] = useState([]);
   const { search } = useLocation();
-  return new URLSearchParams(search).get(value);
+
+  function updateValues() {
+    let res = [];
+    const params = new URLSearchParams(search);
+    for (let val of values) {
+      const param = params.get(val);
+      res.push(param);
+    }
+    setResults(res);
+  }
+
+  useEffect(() => updateValues(), []);
+
+  return results;
 }

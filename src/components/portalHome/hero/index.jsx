@@ -1,7 +1,6 @@
 import { Star } from "@mui/icons-material";
 import { Avatar, Box, Stack, Typography } from "@mui/material";
-import { useAuth } from "../../../hooks/useAuth";
-import useDocTitle from "../../../hooks/useDocTitle";
+import { useAuth, useDocTitle } from "../../../hooks";
 
 export default function () {
   const { getCurrentUser } = useAuth();

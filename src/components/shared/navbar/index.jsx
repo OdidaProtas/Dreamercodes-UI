@@ -1,14 +1,7 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Toolbar,
-  Typography,
-  Avatar,
-} from "@mui/material";
-import { useHistory } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { AppBar, Box, Button, Toolbar, Avatar } from "@mui/material";
 import Logo from "../logo";
+import { useAuth } from "../../../hooks";
+import { useHistory } from "react-router-dom";
 
 export default () => {
   const { push } = useHistory();
@@ -23,9 +16,34 @@ export default () => {
         <Box sx={{ flexGrow: 1 }}>
           <Logo textOnly />
         </Box>
+        <Box>
+          <Button
+            sx={{ ml: 2, mr: 3 }}
+            disableElevation
+            size="small"
+            color="inherit"
+            onClick={() => push("/blog")}
+            variant="contained"
+          >
+            Blog
+          </Button>
+        </Box>
         {isLoggedIn && (
           <>
-            <Box sx={{ mr: 2 }}>
+            <Box sx={{ mr: 2, display: "flex" }}>
+              <Box>
+                <Button
+                  sx={{ ml: 2, mr: 3 }}
+                  disableElevation
+                  size="small"
+                  color="inherit"
+                  onClick={() => push("/mentor")}
+                  variant="contained"
+                >
+                  Mentor
+                </Button>
+              </Box>
+
               <Avatar
                 onClick={() => push("/profile")}
                 sx={{ cursor: "pointer" }}

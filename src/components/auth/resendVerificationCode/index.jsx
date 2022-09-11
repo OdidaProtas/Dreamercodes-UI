@@ -1,16 +1,17 @@
 import { Button, CircularProgress } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useAuth } from "../../../hooks/useAuth";
-import useToast from "../../../hooks/useToast";
-import { useAxios } from "../../../network";
-import { RESEND_VERIFICATION_CODE_URL } from "../../../network/endpoints";
+import { useAuth, useToast, useAxios } from "../../../hooks";
+
+import network from "../../../network";
 
 export default function () {
   const [resendIn, setResendIn] = useState(0);
 
+  const { endpoints } = network;
+
   const { getCurrentUser, checkLoginStatus } = useAuth();
-  const { loading, axiosAction } = useAxios();
+  const { loading, axiosAction } = useAxios("auth");
   const { showToast } = useToast();
 
   const user = getCurrentUser();
@@ -22,10 +23,11 @@ export default function () {
       return;
     }
     axiosAction({
-      method: "get",
+      method: "post",
       successHandler,
       errorHandler,
-      endpoint: RESEND_VERIFICATION_CODE_URL + `/${user?.email}`,
+      payload: { email: user?.email },
+      endpoint: endpoints.AUTH_URLS.requestReset,
     });
   }
 

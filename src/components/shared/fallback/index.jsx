@@ -1,4 +1,5 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
+import PageLoader from "../pageLoader";
 
 export default () => {
   return (
@@ -8,12 +9,11 @@ export default () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        textAlign:"center"
+        textAlign: "center",
       }}
     >
       <Box>
-        <CircularProgress />
-        <Typography>Loading requested resource...</Typography>
+        <PageLoader />
       </Box>
     </Box>
   );

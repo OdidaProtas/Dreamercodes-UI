@@ -10,32 +10,34 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { Link, useHistory } from "react-router-dom";
-import Logo from "../../../components/shared/logo";
-import { useAuth } from "../../../hooks/useAuth";
-import useQueryParams from "../../../hooks/useQueryParams";
-import useToast from "../../../hooks/useToast";
-import { useAxios } from "../../../network";
-import { LOGIN_URL } from "../../../network/endpoints";
 import jwt_decode from "jwt-decode";
+import { Link, useHistory } from "react-router-dom";
+import { useToast, useAuth, useAxios, useQueryParams } from "../../../hooks";
+
+import network from "../../../network";
+import Logo from "../../../components/shared/logo";
 
 export default function () {
   const { push } = useHistory();
   const { login } = useAuth();
+
+  const { endpoints } = network;
 
   const [state, setState] = useState({
     email: "",
     password: "",
   });
 
-  const { loading, error, axiosAction } = useAxios();
+  const { loading, error, axiosAction } = useAxios("auth");
   const { showToast } = useToast();
 
   const handleChange = (e) => {
     setState({ ...state, [e.target.name]: e.target.value });
   };
 
-  const next = useQueryParams("next");
+  const [next] = useQueryParams(["next"]);
+
+  console.log(next)
 
   function successHandler(res) {
     try {
@@ -62,7 +64,7 @@ export default function () {
       payload: { ...state },
       successHandler,
       errorHandler,
-      endpoint: LOGIN_URL,
+      endpoint: endpoints.AUTH_URLS.login,
     });
   };
   return (

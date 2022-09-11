@@ -1,54 +1,27 @@
-import {
-  Box,
-  Button,
-  Toolbar,
-  Typography,
-  Stack,
-  Divider,
-  Container,
-} from "@mui/material";
-import { useHistory } from "react-router-dom";
-import Logo from "../../components/shared/logo";
-import Navbar from "../../components/shared/navbar";
-import { useAuth } from "../../hooks/useAuth";
+import * as React from 'react';
+import ProductCategories from './ProductCategories';
+import ProductSmokingHero from './ProductSmokingHero';
+import AppFooter from './AppFooter';
+import ProductHero from './ProductHero';
+import ProductValues from './ProductValues';
+import ProductHowItWorks from './ProductHowItWorks';
+import ProductCTA from './ProductCTA.jsx';
+import AppAppBar from './AppAppBar';
+import withRoot from './withRoot';
 
-export default function () {
-  const { push } = useHistory();
-
-  const { checkLoginStatus } = useAuth();
-  const isLoggedIn = checkLoginStatus();
-
-  function handleCOA() {
-    if (isLoggedIn) {
-      push("/portal");
-    } else {
-      push("/accounts/signup");
-    }
-  }
-
+function Index() {
   return (
-    <Container>
-      <Navbar />
-      <Toolbar />
-      <Box
-        sx={{
-          minHeight: "50vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          textAlign: "center",
-        }}
-      >
-        <Stack spacing={3}>
-          <Box>
-            <Logo />
-          </Box>
-          <Button disableElevation variant="contained" onClick={handleCOA}>
-            {"Get started"}
-          </Button>
-          <Divider />
-        </Stack>
-      </Box>
-    </Container>
+    <React.Fragment>
+      <AppAppBar />
+      <ProductHero />
+      <ProductValues />
+      <ProductCategories />
+      <ProductHowItWorks />
+      <ProductCTA />
+      <ProductSmokingHero />
+      <AppFooter />
+    </React.Fragment>
   );
 }
+
+export default withRoot(Index);

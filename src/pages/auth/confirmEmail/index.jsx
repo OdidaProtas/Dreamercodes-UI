@@ -5,26 +5,26 @@ import {
   CircularProgress,
   Container,
   Stack,
-  TextField,
   Typography,
 } from "@mui/material";
-import { useMemo } from "react";
-import { useState } from "react";
-import { Link, Redirect, useHistory, useRouteMatch } from "react-router-dom";
-import Logo from "../../../components/shared/logo";
-import { useAuth } from "../../../hooks/useAuth";
-import useQueryParams from "../../../hooks/useQueryParams";
-import { useAxios } from "../../../network";
-import { VERIFICATION_URL } from "../../../network/endpoints";
+
 import jwt_decode from "jwt-decode";
-import useToast from "../../../hooks/useToast";
+import network from "../../../network";
+import { useState, useEffect } from "react";
+
+import Logo from "../../../components/shared/logo";
 import ReactCodeInput from "react-verification-code-input";
+
+import { useToast, useAxios, useAuth, useQueryParams, useDocTitle } from "../../../hooks";
+import { Link, Redirect, useHistory, useRouteMatch } from "react-router-dom";
 import ResendVerificationCode from "../../../components/auth/resendVerificationCode";
 
 export default function () {
   const { push } = useHistory();
 
-  const { loading, axiosAction } = useAxios();
+  const { endpoints } = network;
+
+  const { loading, axiosAction } = useAxios("auth");
   const { showToast } = useToast();
   const { getCurrentUser, checkLoginStatus, login } = useAuth();
 
@@ -35,7 +35,7 @@ export default function () {
     verificationCode: "",
   });
 
-  const next = useQueryParams("next");
+  const [next] = useQueryParams(["next"]);
 
   function successHandler(res) {
     const accessToken = res.data.accessToken;
@@ -53,7 +53,7 @@ export default function () {
   }
 
   function errorHandler(err) {
-    console.log(err);
+    console.error(err);
     showToast("error", "An error occured while verifying your account!");
   }
 
@@ -66,15 +66,22 @@ export default function () {
       payload: { verificationCode: state.verificationCode },
       successHandler,
       errorHandler,
-      endpoint: `${VERIFICATION_URL}/${user?.id}`,
+      endpoint: `${endpoints.AUTH_URLS.verifyEmail}/${user?.id}`,
     });
   };
+
 
   function handleChange(v) {
     setState({ ...state, verificationCode: v });
   }
 
   const { url } = useRouteMatch();
+
+  useEffect(() => {
+    showToast("warning", "Your account has not been verified");
+  }, []);
+
+  useDocTitle("Verify Account")
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
 
@@ -88,8 +95,8 @@ export default function () {
           </Box>
           <Box>
             <Alert severity="info">
-              Hi, {user?.lastName} verify your account to complete signup! Enter
-              6 digit code sent to you via email.
+              Hi, {user?.firstName} {user?.lastName} verify your account to
+              complete signup! Enter 6 digit code sent to you via email.
             </Alert>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -114,8 +121,8 @@ export default function () {
           </Button>
           <ResendVerificationCode />
           <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-            <Link to="/accounts/signup" >Create Account</Link>
-            <Link to="/accounts" >Log in</Link>
+            <Link to="/accounts/signup">Create Account</Link>
+            <Link to="/accounts">Log in</Link>
           </Box>
         </Stack>
       </Container>

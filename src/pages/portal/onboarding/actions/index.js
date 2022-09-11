@@ -2,6 +2,23 @@ import { useDispatch } from "../../../../state/hooks";
 
 export default function () {
   const dispatch = useDispatch();
+
+  function handleDispatchLoadingOnboarding(bool) {
+    dispatch({
+      type: "ADD_ENTRIES",
+      context: "loadingOnboardingProfile",
+      payload: bool,
+    });
+  }
+
+  function handledispatchOnboarding(data) {
+    dispatch({
+      type: "ADD_ENTRIES",
+      context: "onboardingProfile",
+      payload: data,
+    });
+  }
+
   function handleOnboarded() {
     dispatch({
       type: "ADD_ENTRIES",
@@ -26,5 +43,11 @@ export default function () {
     });
   }
 
-  return { handleOnboarded, handleSelectedCategory, handleSelectedCourse };
+  return {
+    handleOnboarded,
+    handleSelectedCategory,
+    handleSelectedCourse,
+    handledispatchOnboarding,
+    handleDispatchLoadingOnboarding,
+  };
 }

@@ -12,21 +12,21 @@ import { useMemo } from "react";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import Logo from "../../../components/shared/logo";
-import useToast from "../../../hooks/useToast";
-import { useAxios } from "../../../network";
-import { REGISTRATION_URL } from "../../../network/endpoints";
+import { useToast, useAuth, useAxios } from "../../../hooks";
 import jwt_decode from "jwt-decode";
-import { useAuth } from "../../../hooks/useAuth";
-// import CountrySelect from "../../../components/auth/countrySelect";
+
+import network from "../../../network";
 
 export default function () {
   const { push } = useHistory();
 
   const [state, setState] = useState();
 
+  const { endpoints } = network;
+
   const { login } = useAuth();
 
-  const { loading, error, axiosAction } = useAxios();
+  const { loading, error, axiosAction } = useAxios("auth");
   const { showToast } = useToast();
 
   const handleChange = (e) => {
@@ -59,7 +59,7 @@ export default function () {
       successHandler,
       errorHandler,
       payload,
-      endpoint: REGISTRATION_URL,
+      endpoint: endpoints.AUTH_URLS.reg,
     });
   };
 

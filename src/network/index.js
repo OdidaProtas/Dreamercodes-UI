@@ -1,25 +1,18 @@
-import axios from "axios";
-import useAxios from "./hooks/useAxios";
+import { compilerAxiosInstance } from "./compiler";
+import { coursesAxiosInstance } from "./courses";
+import { onboardingAxiosInstance } from "./onboarding";
+import { authAxiosInstance } from "./auth";
 
-import * as ENDPOINTS from "./endpoints";
+import endpoints from "./endpoints";
 
-const baseURL = ENDPOINTS.BASE_URL;
+const axiosInstances = {
+  auth: authAxiosInstance,
+  onboarding: onboardingAxiosInstance,
+  courses: coursesAxiosInstance,
+  compiler: compilerAxiosInstance,
+};
 
-const axiosInstance = axios.create({
-  baseURL,
-  timeout: 50000,
-});
-
-axiosInstance.interceptors.request.use(
-  (config) => {
-    const accessToken = localStorage.getItem("access_token");
-    if (Boolean(accessToken))
-      config.headers.common["access_token"] = `Bearer ${accessToken}`;
-    return config;
-  },
-  (error) => {
-    console.log(error);
-  }
-);
-
-export { axiosInstance, useAxios, ENDPOINTS };
+export default {
+  axiosInstances,
+  endpoints,
+};

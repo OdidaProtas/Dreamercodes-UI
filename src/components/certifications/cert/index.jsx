@@ -1,5 +1,5 @@
 import { Box, Divider, Paper, Typography } from "@mui/material";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../../hooks";
 import Logo from "../../shared/logo";
 
 export default function ({ noMargin }) {
@@ -22,7 +22,9 @@ export default function ({ noMargin }) {
         <Typography>Dreamschool Certificate</Typography>
         <Divider sx={{ my: 2 }} />
         <Typography>This is to certify that</Typography>
-        <Typography variant="h4">{user?.firstName} {user?.lastName}</Typography>
+        <Typography variant="h4">
+          {user?.firstName} {user?.lastName}
+        </Typography>
       </Paper>
     </>
   );

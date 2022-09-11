@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { useStateValue } from "../../state/hooks";
 import useAuthActions from "./actions";
 
-export function useAuth() {
+export default function useAuth() {
   const state = useStateValue();
 
   const { handleLoginSuccess, handleLogout } = useAuthActions();

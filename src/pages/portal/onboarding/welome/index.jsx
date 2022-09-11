@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../../../../hooks/useAuth";
+import { useAuth } from "../../../../hooks";
 import actions from "../actions";
 
 export default () => {

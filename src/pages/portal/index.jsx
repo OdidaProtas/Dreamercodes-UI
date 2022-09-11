@@ -1,10 +1,13 @@
 import { Toolbar } from "@mui/material";
 import { lazy } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
+import Fallback from "../../components/shared/fallback";
 import Navbar from "../../components/shared/navbar";
 import Navigation from "../../features/navigation";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks";
 import Fourohfour from "../fourohfour";
+
+import useOnboardingProfile from "./onboarding/hooks/useOnboardingProfile";
 
 const OnboardingPage = lazy(() => import("./onboarding"));
 const HomePage = lazy(() => import("./home"));
@@ -19,10 +22,16 @@ const navOptions = [
 
 export default () => {
   const { checkLoginStatus, checkVerificationStatus } = useAuth();
+
   const isLoggedIn = checkLoginStatus();
   const isVerified = checkVerificationStatus();
 
   const { url } = useRouteMatch();
+
+  const { loading } = useOnboardingProfile();
+
+
+  if (loading) return <Fallback />;
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
 

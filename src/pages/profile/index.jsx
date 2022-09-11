@@ -10,7 +10,7 @@ import {
 import CertGrid from "../../components/certifications/certGrid";
 import Navbar from "../../components/shared/navbar";
 import Navigation from "../../features/navigation";
-import { useAuth } from "../../hooks/useAuth";
+import { useAuth } from "../../hooks";
 import Fourohfour from "../fourohfour";
 
 const Overview = lazy(() => import("./overview"));
@@ -44,7 +44,8 @@ export default function () {
   };
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
-  if (!isVerified) return <Redirect to={`/accounts/email-verification?next=${url}`} />;
+  if (!isVerified)
+    return <Redirect to={`/accounts/email-verification?next=${url}`} />;
 
   return (
     <Container>

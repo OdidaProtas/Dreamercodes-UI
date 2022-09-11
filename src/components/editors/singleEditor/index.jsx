@@ -1,6 +1,14 @@
 import AceEditor from "react-ace";
 
-import { Box, Button, Divider, Grid, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Divider,
+  Grid,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import Send from "@mui/icons-material/Send";
@@ -32,11 +40,19 @@ import { useRef } from "react";
 import Themes from "../themes";
 import Mode from "../mode";
 import Output from "../output";
+import network from "../../../network";
+import { useAxios } from "../../../hooks";
+// import { CopyBlock } from "react-code-blocks";
 
 export default function () {
   const [mode, setMode] = useState("javascript");
   const [theme, setTheme] = useState("solarized_light");
   const [code, setCode] = useState("");
+
+  const { endpoints } = network;
+  const { loading, axiosAction } = useAxios("compiler");
+
+  const [codeOutPut, setCodeOutput] = useState("");
 
   const editor = useRef();
 
@@ -45,11 +61,22 @@ export default function () {
   }
 
   function run() {
-    try {
-      new Function(code)();
-    } catch (e) {
-      console.error(e);
-    }
+    axiosAction({
+      method: "post",
+      payload: { code },
+      errorHandler,
+      successHandler,
+      endpoint: `${endpoints.COMPILER_URLS.exec}/${mode}`,
+    });
+  }
+
+  function successHandler(res) {
+    const { data } = res;
+    console.log(data);
+  }
+
+  function errorHandler(err) {
+    console.error(err);
   }
 
   function handleModeChange(e) {
@@ -68,17 +95,72 @@ export default function () {
   return (
     <>
       <Grid container spacing={1}>
-        <Grid item xs={2}>
-          <Box sx={{ my: 2 }}>
-            <Typography variant="h5">DS IDE</Typography>
-          </Box>
+        <Grid item sx={{ pt: 3 }} xs={4}>
+          <Typography variant="h5">1.0 Practice lesson</Typography>
           <Divider sx={{ my: 2 }} />
-          <Themes value={theme} handleChange={handleThemeChange} />
-          <Box sx={{ my: 2 }}>
-            <Mode handleChange={handleModeChange} value={mode} />
-          </Box>
+          <Typography variant="body1">
+            1. Write your first {mode} program
+          </Typography>
+
+          <Typography sx={{ my: 3 }}>console.log("Hello World!")</Typography>
+
+          {/* <CopyBlock
+            text={"console.log('hello world')"}
+            language={mode}
+            showLineNumbers
+            wrapLines
+          /> */}
         </Grid>
         <Grid item xs>
+          <Grid container sx={{ my: 1 }} spacing={2}>
+            <Grid item xs>
+              <Themes value={theme} handleChange={handleThemeChange} />
+            </Grid>
+            <Grid item xs>
+              <Mode handleChange={handleModeChange} value={mode} />
+            </Grid>
+            <Grid item xs>
+              <div style={{ display: "flex" }}>
+                <div style={{ flexGrow: 1 }}>
+                  <Button
+                    // disabled={mode !== "javascript" || mode !== "python"}
+                    onClick={run}
+                    fullWidth
+                    disabled={loading}
+                    startIcon={loading ? null : <PlayArrowIcon />}
+                    disableElevation
+                    variant="contained"
+                  >
+                    {loading ? <CircularProgress size={20} /> : "Run Code"}
+                  </Button>
+                  {/* <Button
+                  disabled
+                  onClick={handleReset}
+                  startIcon={<HighlightOffIcon />}
+                  disableElevation
+                  variant="contained"
+                  color="error"
+                  sx={{ my: 1, ml: 2 }}
+                >
+                  Reset
+                </Button> */}
+                </div>
+                <div>
+                  {/* <Button
+                  disabled
+                  onClick={run}
+                  startIcon={<Send />}
+                  disableElevation
+                  color="success"
+                  variant="contained"
+                  sx={{ my: 1 }}
+                >
+                  Submit
+                </Button> */}
+                </div>
+              </div>
+            </Grid>
+          </Grid>
           <AceEditor
             ref={editor}
             mode={mode}
@@ -98,51 +180,9 @@ export default function () {
             fontSize={15}
           />
           <div>
-            <div style={{ display: "flex" }}>
-              <div style={{ flexGrow: 1 }}>
-                <Button
-                  disabled={mode !== "javascript"}
-                  onClick={run}
-                  startIcon={<PlayArrowIcon />}
-                  disableElevation
-                  variant="contained"
-                  sx={{ my: 2 }}
-                >
-                  Run Code
-                </Button>
-                <Button
-                  disabled
-                  onClick={handleReset}
-                  startIcon={<HighlightOffIcon />}
-                  disableElevation
-                  variant="contained"
-                  color="error"
-                  sx={{ my: 2, ml: 2 }}
-                >
-                  Reset
-                </Button>
-              </div>
-              <div>
-                <Button
-                  disabled
-                  onClick={run}
-                  startIcon={<Send />}
-                  disableElevation
-                  color="success"
-                  variant="contained"
-                  sx={{ my: 2 }}
-                >
-                  Submit
-                </Button>
-              </div>
-            </div>
-
             <Box>
-              <Typography>Console Output: </Typography>
-              <Divider />
-              <Box sx={{ mt: 3 }}>
-                <Output />
-              </Box>
+              {loading && <LinearProgress />}
+              <Output />
             </Box>
           </div>
         </Grid>

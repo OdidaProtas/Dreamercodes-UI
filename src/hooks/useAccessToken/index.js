@@ -1,5 +1,5 @@
 import React from "react";
-import { useAuth } from "../useAuth";
+import useAuth from "../useAuth";
 import jwt_decode from "jwt-decode";
 
 export default function () {

@@ -1,7 +1,7 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 
 export default function (title) {
-  useEffect(() => {
-    document.title = `${title} :: Dreamercodes School`;
+  useLayoutEffect(() => {
+    document.title = `${title} - Dreamercodes School`;
   }, [title]);
 }
