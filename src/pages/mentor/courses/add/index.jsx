@@ -18,6 +18,8 @@ import { useAuth, useAxios, useDocTitle, useToast } from "../../../../hooks";
 import ImageUpload from "./imageUpload";
 import network from "../../../../network";
 import TopicsForm from "./topicsForm";
+import { useActions } from "./actions";
+import useUpload from "../../../../hooks/useUpload";
 
 const formats = [
   "header",
@@ -40,6 +42,8 @@ const formats = [
 export default function () {
   useDocTitle("New Course");
 
+  const { addCourseToState } = useActions();
+
   const [topics, setTopics] = useState([]);
 
   const [value, setValue] = useState("");
@@ -48,7 +52,7 @@ export default function () {
     endpoints: { COURSES_URLS },
   } = network;
 
-  const { goBack } = useHistory();
+  const { goBack, push } = useHistory();
 
   const { getCurrentUser } = useAuth();
   const { showToast } = useToast();
@@ -84,49 +88,36 @@ export default function () {
       [e.target.name]: e.target.value,
     }));
   };
+  const uploadImages = useUpload();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    uploadImages();
+    const uploads = await uploadImages([
+      { fileData: banner, field: "bannerUrl" },
+      { fileData: logo, field: "imageUrl" },
+    ]);
+
+    const images = uploads.reduce((p, c) => {
+      return { ...p, [c.field]: c.url };
+    }, {});
     axiosAction({
       method: "post",
       successHandler,
       errorHandler,
-      payload: { ...state },
+      payload: { ...state, description: value, ...images },
       endpoint: COURSES_URLS.courses,
     });
   };
 
   function successHandler(res) {
     const { data } = res;
-    console.log(data);
+    addCourseToState(data);
+    push(`/mentor/courses/${data.id}`);
   }
 
   function errorHandler(e) {
     console.log(e);
     showToast("error", "An error occured");
-  }
-
-  function uploadImages() {
-    const files = [logo, banner];
-    files.forEach((file, index) => {
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", "ml_default");
-      data.append("cloud_name", "dreamercodes");
-      fetch("  https://api.cloudinary.com/v1_1/dreamercodes/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          setState((prev) => ({
-            ...prev,
-            [index === 0 ? "imageUrl" : "bannerUrl"]: data.url,
-          }));
-        })
-        .catch((err) => console.log(err));
-    });
   }
 
   return (

@@ -5,8 +5,9 @@ import { useAxios, useToast } from "..";
 import { useDispatch, useStateValue } from "../../state/hooks";
 
 export default function (options) {
-  const { slug, instance } = options;
-  const { id } = useParams();
+  const { slug, instance, itemId } = options;
+  const { id } = itemId ?? useParams();
+
 
   const state = useStateValue();
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ export default function (options) {
     if (data) {
       const allData = { ...items, [data.id]: data };
       dispatch({
-        type: "ADD_MUTIPLE",
+        type: "ADD_ENTRIES",
         context: slug,
         payload: allData,
       });
@@ -73,14 +74,16 @@ export default function (options) {
   };
 
   useEffect(() => {
-    const item = (items ?? {})[id];
-    if (!loading && !Boolean(item)) {
-      dispatch({
-        type: "ADD_ENTRIES",
-        context: `loading_${slug}_item`,
-        payload: true,
-      });
-      updateItem();
+    if (Boolean(id)) {
+      const item = (items ?? {})[id];
+      if (!loading && !Boolean(item)) {
+        dispatch({
+          type: "ADD_ENTRIES",
+          context: `loading_${slug}_item`,
+          payload: true,
+        });
+        updateItem();
+      }
     }
   }, []);
 

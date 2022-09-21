@@ -28,11 +28,7 @@ import "ace-builds/src-noconflict/mode-python";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/mode-javascript";
 
-import "ace-builds/src-noconflict/theme-terminal";
 import "ace-builds/src-noconflict/theme-solarized_dark";
-import "ace-builds/src-noconflict/theme-solarized_light";
-import "ace-builds/src-noconflict/theme-github";
-import "ace-builds/src-noconflict/theme-dracula";
 
 import "ace-builds/src-noconflict/ext-language_tools";
 import { useState } from "react";

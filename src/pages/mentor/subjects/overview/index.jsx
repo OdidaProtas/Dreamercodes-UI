@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import CourseCard from "../../../../components/mentor/courseCard";
 import CoursesFab from "../../../../components/mentor/coursesFab";
 import ErrorComponent from "../../../../components/shared/error";
@@ -31,7 +31,17 @@ export default function () {
           desc="An error occured while fetching courses"
         />
       )}
-      {Boolean(subjects.length) && <CourseCard />}
+      {Boolean(subjects.length) && (
+        <Grid container spacing={2}>
+          {subjects.map((subject) => {
+            return (
+              <Grid key={subject.id} item xs={4}>
+                <CourseCard course={subject} />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
       <CoursesFab />
     </>
   );

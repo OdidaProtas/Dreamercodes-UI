@@ -1,4 +1,11 @@
-import { AppBar, Box, Button, Toolbar, Avatar } from "@mui/material";
+import {
+  AppBar,
+  Box,
+  Button,
+  Toolbar,
+  Avatar,
+  Typography,
+} from "@mui/material";
 import Logo from "../logo";
 import { useAuth } from "../../../hooks";
 import { useHistory } from "react-router-dom";
@@ -13,8 +20,8 @@ export default () => {
   return (
     <AppBar color="inherit" elevation={1}>
       <Toolbar>
-        <Box sx={{ flexGrow: 1 }}>
-          <Logo textOnly />
+        <Box onClick={() => push("/")} sx={{ flexGrow: 1, cursor: "pointer" }}>
+          <Typography variant="h5">DREAMERCODES</Typography>
         </Box>
         <Box>
           <Button

@@ -1,13 +1,16 @@
 import {
   Box,
   Button,
+  CircularProgress,
   Container,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useAuth } from "../../../../hooks";
+import { useAuth, useAxios, useToast } from "../../../../hooks";
+import { useDispatch, useStateValue } from "../../../../state/hooks";
 import actions from "../actions";
 
 export default () => {
@@ -18,10 +21,44 @@ export default () => {
 
   const user = getCurrentUser();
 
-  function handleCompleteOnboarded() {
-    handleOnboarded();
-    push("/portal/onboarding/learning-plan");
+  const [selected, setSelected] = useState([]);
+
+  const { profile } = useStateValue();
+
+  const { showToast } = useToast();
+
+  const dispatch = useDispatch();
+
+  const { loading, axiosAction } = useAxios("onboarding");
+
+  function successHandler({ data }) {
+    dispatch({
+      type: "ADD_ENTRIES",
+      payload: { ...data },
+      context: "onboardingProfile",
+    });
+    showToast("success", "Information updated");
+    push(`/portal/onboarding/learning-plan`);
   }
+
+  function errorHandler(err) {
+    console.error(err);
+    showToast("error", "An error occured");
+  }
+
+  const handleChange = () => {
+    axiosAction({
+      errorHandler,
+      successHandler,
+      method: "post",
+      endpoint: "/onboarding",
+      payload: {
+        ...profile,
+        isWelcomed: true,
+      },
+    });
+  };
+
   return (
     <Container>
       <Box sx={{ mt: 3, textAlign: "center", mb: 6 }}>
@@ -56,8 +93,13 @@ export default () => {
             </Paper>
           </Box>
           <Box>
-            <Button onClick={handleCompleteOnboarded} variant="contained">
-              Thanks
+            <Button
+              fullWidth
+              disableElevation
+              onClick={handleChange}
+              variant="contained"
+            >
+              {loading ? <CircularProgress size={20} /> : "Thanks"}
             </Button>
           </Box>
         </Stack>

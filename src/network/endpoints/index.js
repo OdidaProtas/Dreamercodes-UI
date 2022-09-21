@@ -21,6 +21,7 @@ const ONBOARDING_URLS = {
 
 const COURSES_URLS = {
   courses: "/courses",
+  subjects:"/subjects"
 };
 
 const COMPILER_URLS = {

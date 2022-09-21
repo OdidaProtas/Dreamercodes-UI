@@ -4,24 +4,27 @@ import { Redirect, useRouteMatch } from "react-router-dom";
 import Drawer from "../../components/mentor/drawer";
 import Navigation from "../../features/navigation";
 import { useAuth } from "../../hooks";
+import withRoot from "../landingPage/withRoot";
 
 const Overview = lazy(() => import("./overview"));
 const Courses = lazy(() => import("./courses"));
 const Students = lazy(() => import("./students"));
 const Assesmeents = lazy(() => import("./assesments"));
 const Settins = lazy(() => import("./subjects"));
+const Blog = lazy(() => import("./blog"));
 const NotFoundPage = lazy(() => import("../fourohfour"));
 
 const navOptions = [
   { exact: true, children: <Overview />, route: "" },
   { exact: false, children: <Courses />, route: "/courses" },
-  { exact: true, children: <Students />, route: "/students" },
-  { exact: true, children: <Assesmeents />, route: "/assesments" },
-  { exact: true, children: <Settins />, route: "/subjects" },
+  { exact: false, children: <Students />, route: "/students" },
+  { exact: false, children: <Assesmeents />, route: "/assesments" },
+  { exact: false, children: <Settins />, route: "/subjects" },
+  { exact: false, children: <Blog />, route: "/blog" },
   { exact: false, children: <NotFoundPage />, route: "**" },
 ];
 
-export default function () {
+export default withRoot(function () {
   const { url } = useRouteMatch();
 
   const { checkLoginStatus, checkVerificationStatus } = useAuth();
@@ -40,4 +43,4 @@ export default function () {
       </Drawer>
     </Container>
   );
-}
+});

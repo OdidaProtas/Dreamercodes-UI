@@ -10,9 +10,18 @@ import AppAppBar from "./AppAppBar";
 import withRoot from "./withRoot";
 import useDocTitle from "../../hooks/useDocTitle";
 import Testimonials from "./testimonials";
+import { useList } from "../../hooks";
 
 function Index() {
   useDocTitle("Home");
+  useList({
+    slug: "courses",
+    instance: "courses",
+  });
+  useList({
+    slug: "about",
+    instance: "courses",
+  });
   return (
     <React.Fragment>
       <AppAppBar />

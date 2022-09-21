@@ -1,4 +1,4 @@
-import { LinearProgress, Typography } from "@mui/material";
+import { Button, LinearProgress, Typography } from "@mui/material";
 import CourseCard from "../../../../components/mentor/courseCard";
 import CoursesFab from "../../../../components/mentor/coursesFab";
 import ErrorComponent from "../../../../components/shared/error";
@@ -14,7 +14,7 @@ export default function () {
     error: studentsError,
   } = useList({
     slug: "students",
-    instance: "users",
+    instance: "courses",
   });
 
   const students = getItemsArray();
@@ -30,6 +30,19 @@ export default function () {
           action="Refresh the page to try again, or contact support"
           desc="An error occured while fetching courses"
         />
+      )}
+      {!Boolean(students.length) && !loadingStudents && (
+        <>
+          No users found
+          <div>
+            <Button disableElevation variant="contained">
+              Invite
+            </Button>
+            <Button disableElevation variant="contained" sx={{ ml: 2 }}>
+              Add
+            </Button>
+          </div>
+        </>
       )}
       {Boolean(students.length) && <CourseCard />}
       <CoursesFab />

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useAuth, useAxios } from "../../../../../hooks";
-import { useStateValue } from "../../../../../state/hooks";
+import { useDispatch, useStateValue } from "../../../../../state/hooks";
 import actions from "../../actions";
 
 import network from "../../../../../network";
@@ -10,9 +10,14 @@ export default function () {
 
   const { endpoints } = network;
 
+  const dispatch = useDispatch();
+
   const { axiosAction, loading } = useAxios("onboarding");
 
-  const { onboardingProfile, loadingOnboardingProfile } = useStateValue();
+  const {
+    onboardingProfile,
+    loading_student_profile: loadingOnboardingProfile,
+  } = useStateValue();
 
   const { handledispatchOnboarding, handleDispatchLoadingOnboarding } =
     actions();
@@ -23,20 +28,36 @@ export default function () {
 
   function successHandler(res) {
     handledispatchOnboarding(res.data);
+    dispatch({
+      type: "ADD_ENTRIES",
+      payload: false,
+      context: "loading_student_profile",
+    });
   }
 
   function errorHandler(error) {
     setError(true);
+    dispatch({
+      type: "ADD_ENTRIES",
+      payload: false,
+      context: "loading_student_profile",
+    });
   }
 
   useEffect(() => {
-    if (!Boolean(onboardingProfile))
+    if (!Boolean(onboardingProfile) && !loading && !loadingOnboardingProfile) {
+      dispatch({
+        type: "ADD_ENTRIES",
+        payload: true,
+        context: "loading_student_profile",
+      });
       axiosAction({
         successHandler,
         errorHandler,
         method: "get",
-        endpoint: `${endpoints.ONBOARDING_URLS.userProfile}/${user.id}`,
+        endpoint: `/onboarding-byuser/${user.id}`,
       });
+    }
   }, []);
 
   useEffect(() => {

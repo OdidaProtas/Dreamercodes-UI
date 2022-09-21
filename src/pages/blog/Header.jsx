@@ -7,9 +7,10 @@ import SearchIcon from "@mui/icons-material/Search";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useHistory } from "react-router-dom";
+import { LinearProgress } from "@mui/material";
 
 function Header(props) {
-  const { sections, title } = props;
+  const { sections, title, loading } = props;
 
   const { push } = useHistory();
 
@@ -40,6 +41,7 @@ function Header(props) {
         variant="dense"
         sx={{ justifyContent: "space-between", overflowX: "auto" }}
       >
+        {loading && <LinearProgress />}
         {sections.map((section) => (
           <Link
             color="inherit"

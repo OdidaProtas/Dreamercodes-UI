@@ -10,10 +10,9 @@ const navOptions = [{ exact: true, children: <Overview />, route: "" }];
 
 export default () => {
   const { profile, loading } = useOnboardingProfile();
-
   const { url } = useRouteMatch();
-
-  if (!profile?.isSurveyedCourses) return <Redirect to={`${url}/onboarding`} />;
+  if (Boolean(profile) && !profile?.hasPrefferedCourse)
+    return <Redirect to={`${url}/onboarding`} />;
   return (
     <Container>
       {loading && <LinearProgress />}

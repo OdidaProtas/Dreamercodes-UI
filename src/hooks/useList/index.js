@@ -74,6 +74,24 @@ export default function (options) {
     }
   }, []);
 
+  const cachedResponses = state["cachedResponses"];
+
+  useEffect(() => {
+    axiosAction({
+      successHandler() {},
+      errorHandler() {},
+      endpoint: `/check_stale/${Object.keys(items ?? {}).length}`,
+      implicitInstance: instance,
+      method: "get",
+    });
+
+    if (cachedResponses) {
+      if (cachedResponses[`/${slug}`]?.shouldUpdate) {
+        updateItems();
+      }
+    }
+  }, [cachedResponses]);
+
   const getItems = useCallback(() => {
     return items;
   }, [items]);

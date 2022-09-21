@@ -3,7 +3,7 @@ import React from "react";
 import Lottie from "react-lottie";
 import animationData from "../../../assets/lottie/loading.json";
 
-export default class LoaderComponent extends React.Component {
+export default class Loader extends React.Component {
   constructor(props) {
     super(props);
   }

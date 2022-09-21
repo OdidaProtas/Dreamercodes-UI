@@ -27,7 +27,7 @@ function AppAppBar() {
             underline="none"
             color="inherit"
             onClick={() => push("/")}
-            sx={{ fontSize: 24 }}
+            sx={{ fontSize: 24, cursor: "pointer" }}
           >
             {"dreamercodes"}
           </Link>
@@ -79,16 +79,7 @@ function AppAppBar() {
               onClick={() => push("/portal")}
               sx={rightLink}
             >
-              {"Portal"}
-            </Link>
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              onClick={() => push("/mentor")}
-              sx={rightLink}
-            >
-              {"Admin"}
+              {"Students"}
             </Link>
             <Link
               variant="h6"

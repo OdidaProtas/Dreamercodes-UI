@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import { Box, Grid } from "@mui/material";
+import CourseCard from "../../components/mentor/courseCard";
 import ErrorComponents from "../../components/shared/error";
 import LoaderComponent from "../../components/shared/loader";
 import { useDocTitle, useList } from "../../hooks";
@@ -10,10 +11,16 @@ import withRoot from "../landingPage/withRoot";
 function Courses() {
   useDocTitle("Courses");
 
-  const { loading_courses: LoadingCourses, error: coursesError } = useList({
+  const {
+    loading_courses: LoadingCourses,
+    error: coursesError,
+    getItemsArray,
+  } = useList({
     instance: "courses",
     slug: "courses",
   });
+
+  const courses = getItemsArray().filter(Boolean);
 
   return (
     <Box sx={{ bgcolor: coursesError ? "lightgray" : "hsl(210, 46%, 95%)" }}>
@@ -33,6 +40,21 @@ function Courses() {
           />
         </Box>
       )}
+      {Boolean(courses.length) && (
+        <Grid sx={{ p: 9 }} container spacing={2}>
+          {courses.map((course) => {
+            return (
+              <Grid item xs={4} key={course.id}>
+                <CourseCard course={course} key={courses} />
+              </Grid>
+            );
+          })}
+        </Grid>
+      )}
+
+      <Box sx={{ my: 9, textAlign: "center" }}>
+        {!Boolean(courses.length) && !LoadingCourses && <>No courses found</>}
+      </Box>
       <Box sx={{ mt: 12 }}>
         <AppFooter />
       </Box>

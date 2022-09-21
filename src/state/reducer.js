@@ -11,6 +11,18 @@ export default (state = initialState, action) => {
         [context]: payload,
       };
     }
+    case "ADD_ENTRY": {
+      return {
+        ...state,
+        [context]: { ...interest, [payload.id]: payload },
+      };
+    }
+    case "ADD_ENTRY_ARRAY": {
+      return {
+        ...state,
+        [context]: [...interest, payload],
+      };
+    }
     case "RESET": {
       return {
         ...initialState,

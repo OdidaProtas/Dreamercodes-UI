@@ -17,7 +17,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Logo from "../../shared/logo";
 import AccountMenu from "../../auth/accountMenu";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -27,9 +27,17 @@ export default function MentorDashDrawer(props) {
 
   const { push } = useHistory();
 
+  const { pathname } = useLocation();
+
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+  const isCourses = /\/courses/.test(pathname);
+  const isSubjects = /\/subjects/.test(pathname);
+  const isAssesments = /\/assesments/.test(pathname);
+  const isStudents = /\/students/.test(pathname);
+  const isBlog = /\/blog/.test(pathname);
 
   const drawer = (
     <div>
@@ -39,7 +47,7 @@ export default function MentorDashDrawer(props) {
         </Box>
       </Toolbar>
       <Divider />
-      <List>
+      <List sx={{ bgcolor: "azure" }}>
         {[
           { name: "Overview", slug: "" },
           { name: "Courses", slug: "/courses" },
@@ -47,7 +55,22 @@ export default function MentorDashDrawer(props) {
           { name: "Assesments", slug: "/assesments" },
           { name: "Students", slug: "/students" },
         ].map((item, index) => (
-          <ListItem key={index} disablePadding>
+          <ListItem
+            selected={
+              (item.name === "Courses" && isCourses) ||
+              (item.name === "Students" && isStudents) ||
+              (item.name === "Assesments" && isAssesments) ||
+              (item.name === "Subjects" && isSubjects) ||
+              (item.name === "Overview" &&
+                !isCourses &&
+                !isStudents &&
+                !isSubjects &&
+                !isAssesments &&
+                !isBlog)
+            }
+            key={index}
+            disablePadding
+          >
             <ListItemButton
               onClick={() => push(`/mentor${item ? `${item?.slug}` : ""}`)}
             >
@@ -60,12 +83,17 @@ export default function MentorDashDrawer(props) {
         ))}
       </List>
       <Divider />
-      <List>
-        {["Messages", "Settings", "Blog"].map((text, index) => (
-          <ListItem key={text} disablePadding>
+      <List sx={{ bgcolor: "azure" }}>
+        {["Blog"].map((text, index) => (
+          <ListItem
+            selected={isBlog}
+            onClick={() => push("/mentor/blog")}
+            key={text}
+            disablePadding
+          >
             <ListItemButton>
               <ListItemIcon>
-                {index % 2 === 1 ? <InboxIcon /> : <MailIcon />}
+                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
               </ListItemIcon>
               <ListItemText primary={text} />
             </ListItemButton>
@@ -129,6 +157,7 @@ export default function MentorDashDrawer(props) {
               boxSizing: "border-box",
               width: drawerWidth,
             },
+            bgcolor: "azure",
           }}
         >
           {drawer}
@@ -141,6 +170,7 @@ export default function MentorDashDrawer(props) {
               boxSizing: "border-box",
               width: drawerWidth,
             },
+            bgcolor: "azure",
           }}
           open
         >

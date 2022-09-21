@@ -9,15 +9,30 @@ import {
   Typography,
   Grid,
   CircularProgress,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  LinearProgress,
 } from "@mui/material";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
-import { useAuth, useAxios, useDocTitle, useToast } from "../../../../hooks";
+import {
+  useAuth,
+  useAxios,
+  useDocTitle,
+  useItem,
+  useList,
+  useQueryParams,
+  useToast,
+} from "../../../../hooks";
 import ImageUpload from "./imageUpload";
 import network from "../../../../network";
 import TopicsForm from "./topicsForm";
+import courses from "../../courses";
+import useUpload from "../../../../hooks/useUpload";
 
 const formats = [
   "header",
@@ -55,6 +70,8 @@ export default function () {
   const { loading, axiosAction } = useAxios("courses");
   const user = getCurrentUser();
 
+  const [id] = useQueryParams(["id"]);
+
   const [logo, setLogo] = useState(null);
   const [banner, setBanner] = useState(null);
 
@@ -62,6 +79,7 @@ export default function () {
     title: "",
     description: value,
     addedBy: user?.id,
+    course: null,
   });
 
   const handleLogoChange = useCallback(
@@ -85,15 +103,24 @@ export default function () {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const uploadImages = useUpload();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    uploadImages();
+    const uploads = await uploadImages([
+      { fileData: banner, field: "bannerUrl" },
+      { fileData: logo, field: "imageUrl" },
+    ]);
+
+    const images = uploads.reduce((p, c) => {
+      return { ...p, [c.field]: c.url };
+    }, {});
     axiosAction({
       method: "post",
       successHandler,
       errorHandler,
-      payload: { ...state },
-      endpoint: COURSES_URLS.courses,
+      payload: { ...state, ...images },
+      endpoint: COURSES_URLS.subjects,
     });
   };
 
@@ -107,27 +134,25 @@ export default function () {
     showToast("error", "An error occured");
   }
 
-  function uploadImages() {
-    const files = [logo, banner];
-    files.forEach((file, index) => {
-      const data = new FormData();
-      data.append("file", file);
-      data.append("upload_preset", "ml_default");
-      data.append("cloud_name", "dreamercodes");
-      fetch("  https://api.cloudinary.com/v1_1/dreamercodes/image/upload", {
-        method: "post",
-        body: data,
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          setState((prev) => ({
-            ...prev,
-            [index === 0 ? "imageUrl" : "bannerUrl"]: data.url,
-          }));
-        })
-        .catch((err) => console.log(err));
+  const { getItem: getCourse, loading_courses_item: loadingCourse } = useItem({
+    instance: "courses",
+    itemId: { id },
+    slug: "courses",
+  });
+
+  const { getItemsArray: getCourses, loading_courses: loadingCourses } =
+    useList({
+      instance: "courses",
+      slug: "courses",
     });
-  }
+
+  const course = getCourse();
+
+  const courses = getCourses();
+
+  useEffect(() => {
+    if (course) setState((p) => ({ ...p, course }));
+  }, [course]);
 
   return (
     <form onSubmit={handleSubmit}>
@@ -135,7 +160,7 @@ export default function () {
         <Box>
           <Toolbar sx={{ bgcolor: "#68B0AB" }}>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h4">New Course</Typography>
+              <Typography variant="h4">New Subject</Typography>
             </Box>
             <Box>
               <Button startIcon={<ArrowBackIosIcon />} onClick={goBack}>
@@ -149,8 +174,32 @@ export default function () {
           onChange={handleChange}
           name={"title"}
           required
-          label="Course title"
+          label="Title"
         />
+
+        {loadingCourse || (loadingCourses && <LinearProgress />)}
+        {Boolean(courses.length) && (
+          <FormControl fullWidth>
+            <InputLabel id="demo-simple-select-label">Course</InputLabel>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              value={state.course}
+              label="Course"
+              name="course"
+              onChange={handleChange}
+            >
+              {courses?.map((course) => {
+                return (
+                  <MenuItem key={course.id} value={course}>
+                    {course.title}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        )}
+
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={4}>
@@ -172,7 +221,7 @@ export default function () {
 
         <ReactQuill
           formats={formats}
-          placeholder="Course description"
+          placeholder="Subject description"
           theme="snow"
           value={value}
           onChange={setValue}

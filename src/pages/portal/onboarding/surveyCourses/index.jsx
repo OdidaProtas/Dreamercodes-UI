@@ -7,11 +7,14 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { Redirect, useHistory, useRouteMatch } from "react-router-dom";
 import { useToast, useAuth, useAxios } from "../../../../hooks";
 import { useStateValue } from "../../../../state/hooks";
 import actions from "../actions";
 import network from "../../../../network";
+import useOnboardingProfile from "../hooks/useOnboardingProfile";
+import Loader from "../../../../components/shared/loader";
+
 export default () => {
   const { push } = useHistory();
 
@@ -19,7 +22,7 @@ export default () => {
 
   const { endpoints } = network;
 
-  const { onboardingProfile } = useStateValue();
+  const { profile, loading: loadingProfile } = useOnboardingProfile();
   const { url } = useRouteMatch();
 
   const { loading, axiosAction } = useAxios("onboarding");
@@ -34,12 +37,11 @@ export default () => {
     handledispatchOnboarding(data);
     if (data.hasPreference) {
       push(`${url}/select-courses`);
-      return;
-    }
-    push(`${url}/categories`);
+    } else push(`${url}/categories`);
   }
 
   function errorHandler(err) {
+    console.log(err);
     showToast("error", "An error occured, refresh the page and try again");
   }
 
@@ -50,15 +52,52 @@ export default () => {
       errorHandler,
       method: "post",
       payload: {
-        ...onboardingProfile,
+        ...profile,
         user: user.id,
         hasPreference,
-        isSurveyedCourses: true,
+        isSurveyedCoursePreference: true,
       },
-      endpoint: endpoints.ONBOARDING_URLS.profiles,
+      endpoint: "/onboarding",
     });
   }
 
+  if (loadingProfile || loadingProfile === "undefined") {
+    return (
+      <Box sx={{ my: 12, ml: 7 }}>
+        <Loader />
+      </Box>
+    );
+  }
+
+  if (profile?.isWelcomed) {
+    return <Redirect to={`${url}/learning-plan`} />;
+  }
+
+  if (profile?.isSurveyedAge) {
+    return <Redirect to={`${url}/welcome`} />;
+  }
+
+  if (profile?.isSurveyedAvailability) {
+    return <Redirect to={`${url}/pace`} />;
+  }
+
+  if (profile?.isSurveyedExperience) {
+    return <Redirect to={`${url}/availability`} />;
+  }
+
+  if (profile?.isMotivated) {
+    return <Redirect to={`${url}/experience`} />;
+  }
+
+  if (profile?.hasSelectedPrefCourse) {
+    return <Redirect to={`${url}/motivational`} />;
+  }
+
+  if (profile?.isSurveyedCoursePreference) {
+    if (profile.hasPreference) {
+      return <Redirect to={`${url}/select-courses`} />;
+    } else return <Redirect to={`${url}/categories`} />;
+  }
   return (
     <Container>
       <Box

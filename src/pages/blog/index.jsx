@@ -16,28 +16,11 @@ import post1 from "./blog-post.1.md";
 import post2 from "./blog-post.2.md";
 import post3 from "./blog-post.3.md";
 import useDocTitle from "../../hooks/useDocTitle";
-
-const sections = [
-  { title: "IOT", url: "#" },
-  { title: "React", url: "#" },
-  { title: "Angular", url: "#" },
-  { title: "Python", url: "#" },
-  { title: "Data Science", url: "#" },
-  { title: "JavaScript", url: "#" },
-  { title: "Android", url: "#" },
-  { title: "IOS", url: "#" },
-  { title: "Java", url: "#" },
-  { title: "Cloud", url: "#" },
-];
-
-const mainFeaturedPost = {
-  title: "Getting started with Dreamercodes",
-  description:
-    "A premier online coding bootcamp that helps you code like the dreamers, bringing you upto speed in building your dream projects from the comfort of your home",
-  image: "https://source.unsplash.com/random",
-  imageText: "main image description",
-  linkText: "Continue reading…",
-};
+import { useList } from "../../hooks";
+import { useMemo } from "react";
+import { useStateValue } from "../../state/hooks";
+import theme from "../landingPage/theme";
+import withRoot from "../landingPage/withRoot";
 
 const featuredPosts = [
   {
@@ -72,15 +55,54 @@ const sidebar = {
   ],
 };
 
-const theme = createTheme();
-
-export default function Blog() {
+export default withRoot(function () {
   useDocTitle("Blog");
+
+  useList({
+    slug: "blog-topics",
+    instance: "courses",
+  });
+
+  const { getItemsArray: getArticlesArray } = useList({
+    instance: "courses",
+    slug: "articles",
+  });
+
+  const state = useStateValue();
+  const loading = state["loading_blog-posts"];
+
+  const sections = useMemo(() => {
+    return Object.keys(state["blog-topics"] ?? [])
+      .map((id) => state["blog-topics"][id])
+      .map((topic) => ({
+        ...topic,
+        url: `blog/article${topic.slug}`,
+      }));
+  }, [state["blog-topics"]]);
+
+  const articles = getArticlesArray();
+
+  const mainFeaturedPost = articles.map((a) => {
+    return {
+      title: a.title,
+      description: (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: a.description,
+          }}
+        ></div>
+      ),
+      image: a.bannerUrl,
+      imageText: a.title,
+      linkText: "Continue reading…",
+    };
+  })[0];
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Dreamercodes" sections={sections} />
+        <Header loading={loading} title="Dreamercodes" sections={sections} />
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
@@ -105,4 +127,4 @@ export default function Blog() {
       />
     </ThemeProvider>
   );
-}
+});

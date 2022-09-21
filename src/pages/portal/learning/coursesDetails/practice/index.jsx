@@ -9,7 +9,7 @@ const SingleEditor = lazy(() =>
 export default function () {
   return (
     <Container>
-      <Suspense fallback={<Fallback />}>
+      <Suspense fallback={<></>}>
         <SingleEditor />
       </Suspense>
     </Container>

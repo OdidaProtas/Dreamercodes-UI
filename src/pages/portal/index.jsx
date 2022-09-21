@@ -1,11 +1,13 @@
-import { Toolbar } from "@mui/material";
+import { Box, CircularProgress, Toolbar } from "@mui/material";
 import { lazy } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
 import Fallback from "../../components/shared/fallback";
+import LoaderComponent from "../../components/shared/loader";
 import Navbar from "../../components/shared/navbar";
 import Navigation from "../../features/navigation";
 import { useAuth } from "../../hooks";
 import Fourohfour from "../fourohfour";
+import withRoot from "../landingPage/withRoot";
 
 import useOnboardingProfile from "./onboarding/hooks/useOnboardingProfile";
 
@@ -20,7 +22,7 @@ const navOptions = [
   { exact: false, children: <Fourohfour />, route: "*" },
 ];
 
-export default () => {
+export default withRoot(() => {
   const { checkLoginStatus, checkVerificationStatus } = useAuth();
 
   const isLoggedIn = checkLoginStatus();
@@ -30,13 +32,18 @@ export default () => {
 
   const { loading } = useOnboardingProfile();
 
-
-  if (loading) return <Fallback />;
-
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
 
   if (!isVerified)
     return <Redirect to={`/accounts/email-verification?next=${url}`} />;
+
+  if (loading) {
+    return (
+      <Box sx={{ my: 12, pl: 7 }}>
+        <LoaderComponent desc="Your Profile" />
+      </Box>
+    );
+  }
 
   return (
     <>
@@ -45,4 +52,4 @@ export default () => {
       <Navigation options={navOptions} />
     </>
   );
-};
+});

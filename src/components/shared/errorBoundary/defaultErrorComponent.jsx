@@ -1,4 +1,5 @@
 import { Alert, Box, Divider, Typography } from "@mui/material";
+import { Console } from "console-feed";
 import { useStateValue } from "../../../state/hooks";
 
 export default function ({ error, stack }) {
@@ -14,7 +15,7 @@ export default function ({ error, stack }) {
       }}
     >
       <Box>
-        <Alert  icon={false} severity="error">
+        <Alert icon={false} severity="error">
           <Box>
             <Typography variant="h6">An error occured on this page</Typography>
             <Divider sx={{ my: 2 }} />
@@ -27,6 +28,7 @@ export default function ({ error, stack }) {
                 <Typography variant="caption" sx={{ my: 2 }}>
                   You are seeing this error because debug has been set to true.
                 </Typography>
+                <Console />
               </>
             )}
           </Box>
