@@ -20,8 +20,8 @@ export default function () {
     (config) => {
       dispatch({
         type: "ADD_ENTRIES",
-        payload: { ...cachedResponses, [config.url]: config },
-        context: "cachedResponses",
+        payload: { ...cachedRequests, [config.url]: config },
+        context: "cachedRequests",
       });
     },
     [cachedRequests, cachedResponses]
@@ -36,7 +36,7 @@ export default function () {
   const getCachedResponse = useCallback(
     (request) => {
       if (!Boolean(cachedResponses)) return null;
-      else cachedRequests[request.config.url];
+      else cachedResponses[request.config.url];
     },
     [cachedRequests, cachedResponses]
   );
@@ -58,7 +58,7 @@ export default function () {
       if (!Boolean(cachedResponses)) return false;
       return Boolean(cachedResponses[config.url]);
     },
-    [cachedRequests]
+    [cachedResponses]
   );
 
   const setShouldUpdate = useCallback(

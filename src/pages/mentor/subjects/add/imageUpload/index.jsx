@@ -3,7 +3,7 @@ import React from "react";
 import { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 
-export default function ({ desc, value, handleChange }) {
+export default function ({ desc, value, handleChange, isEdit, existing }) {
   const [image, setImage] = React.useState(null);
 
   const onDrop = React.useCallback((acceptedFiles) => {
@@ -42,9 +42,13 @@ export default function ({ desc, value, handleChange }) {
       {...rootProps}
     >
       <Box>
-        {Boolean(image) && (
+        {(Boolean(image) || existing) && (
           <Box>
-            <img height={144} src={image} alt="Uploaded Image" />
+            <img
+              height={144}
+              src={image ? image : isEdit ? existing : image}
+              alt="Uploaded Image"
+            />
             <Divider />
           </Box>
         )}

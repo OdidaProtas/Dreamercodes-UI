@@ -6,6 +6,8 @@ import {
   Button,
   Typography,
   Stack,
+  CircularProgress,
+  Avatar,
 } from "@mui/material";
 import CourseProgress from "./courseProgress";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -14,9 +16,22 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import Achievements from "../../dialogs/achievements";
+import { useItem } from "../../../hooks";
+import useOnboardingProfile from "../../../pages/portal/onboarding/hooks/useOnboardingProfile";
 export default function () {
   const { push } = useHistory();
   const { url } = useRouteMatch();
+
+  const { profile } = useOnboardingProfile();
+
+  const { getItem: getCourse, loading_courses_item: loading } = useItem({
+    instance: "courses",
+    slug: "courses",
+    itemId: { id: profile?.selectedPrefCourseId },
+  });
+
+  const course = getCourse();
+
   return (
     <Container>
       <Box sx={{ px: 6 }}>
@@ -32,23 +47,25 @@ export default function () {
                 </Box>
                 <Box sx={{ py: 3 }}>
                   <Button
-                    onClick={() => push(`${url}/learning/:id`)}
+                    onClick={() => push(`${url}/learning/${course?.id}`)}
                     size="large"
                     fullWidth
                   >
                     <Grid container>
                       <Grid item xs>
-                        <img
-                          width={40}
-                          style={{ borderRadius: "50%" }}
-                          src="https://sololearnuploads.azureedge.net/uploads/courses/1068.png"
-                          alt=""
-                        />
+                        {loading && <CircularProgress size={36} />}
+                        {!loading && (
+                          <Avatar
+                            style={{ height: 66, width: 66 }}
+                            src={course?.imageUrl}
+                            alt={course?.title}
+                          />
+                        )}
                       </Grid>
-                      <Grid item xs={8} sx={{ pt: 1 }}>
+                      <Grid item xs={8} sx={{ pt: 3 }}>
                         <CourseProgress />
                       </Grid>
-                      <Grid item xs sx={{ pt: 1 }}>
+                      <Grid item xs sx={{ pt: 3 }}>
                         <PlayArrowIcon />
                       </Grid>
                     </Grid>

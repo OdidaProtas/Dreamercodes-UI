@@ -3,7 +3,7 @@ import { useAxios, useToast } from "..";
 import { useDispatch, useStateValue } from "../../state/hooks";
 
 export default function (options) {
-  const { slug, instance } = options;
+  const { slug, instance, alias } = options;
 
   const state = useStateValue();
   const { showToast } = useToast();
@@ -11,8 +11,8 @@ export default function (options) {
   const { axiosAction, loading: loadingRequest } = useAxios(instance);
   const items = state[slug];
 
-  const loading = state[`loading_${slug}`] || loadingRequest;
-  const error = state[`error_${slug}`];
+  const loading = state[`loading_${alias ?? slug}`] || loadingRequest;
+  const error = state[`error_${alias ?? slug}`];
 
   function successHandler(res) {
     const { data } = res;
@@ -23,18 +23,18 @@ export default function (options) {
       }, {});
       dispatch({
         type: "ADD_ENTRIES",
-        context: slug,
+        context: alias ?? slug,
         payload: allData,
       });
     }
     dispatch({
       type: "ADD_ENTRIES",
-      context: `error_${slug}`,
+      context: `error_${alias ?? slug}`,
       payload: false,
     });
     dispatch({
       type: "ADD_ENTRIES",
-      context: `loading_${slug}`,
+      context: `loading_${alias ?? slug}`,
       payload: false,
     });
   }
@@ -43,15 +43,15 @@ export default function (options) {
     console.error(err);
     dispatch({
       type: "ADD_ENTRIES",
-      context: `error_${slug}`,
+      context: `error_${alias ?? slug}`,
       payload: true,
     });
     dispatch({
       type: "ADD_ENTRIES",
-      context: `loading_${slug}`,
+      context: `loading_${alias ?? slug}`,
       payload: false,
     });
-    showToast("error", `An error occured while fetching ${slug} items`);
+    // showToast("error", `An error occured while fetching ${slug} items`);
   }
 
   function updateItems() {
@@ -64,10 +64,10 @@ export default function (options) {
   }
 
   useEffect(() => {
-    if (!items && !loading) {
+    if (!loading) {
       dispatch({
         type: "ADD_ENTRIES",
-        context: `loading_${slug}`,
+        context: `loading_${alias ?? slug}`,
         payload: true,
       });
       updateItems();
@@ -77,19 +77,18 @@ export default function (options) {
   const cachedResponses = state["cachedResponses"];
 
   useEffect(() => {
-    axiosAction({
-      successHandler() {},
-      errorHandler() {},
-      endpoint: `/check_stale/${Object.keys(items ?? {}).length}`,
-      implicitInstance: instance,
-      method: "get",
-    });
-
-    if (cachedResponses) {
-      if (cachedResponses[`/${slug}`]?.shouldUpdate) {
-        updateItems();
-      }
-    }
+    // axiosAction({
+    //   successHandler() {},
+    //   errorHandler() {},
+    //   endpoint: `/check_stale/${Object.keys(items ?? {}).length}`,
+    //   implicitInstance: instance,
+    //   method: "get",
+    // });
+    // if (cachedResponses) {
+    //   if (cachedResponses[`/${slug}`]?.shouldUpdate) {
+    //     updateItems();
+    //   }
+    // }
   }, [cachedResponses]);
 
   const getItems = useCallback(() => {
@@ -107,7 +106,7 @@ export default function (options) {
   return {
     getItems,
     getItemsArray,
-    [`loading_${slug}`]: loading,
+    [`loading_${alias ?? slug}`]: loading,
     error,
   };
 }

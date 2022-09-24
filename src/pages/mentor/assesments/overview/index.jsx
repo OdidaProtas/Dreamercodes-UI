@@ -31,19 +31,20 @@ export default function () {
           desc="An error occured while fetching assesments"
         />
       )}
-      {!Boolean(assesments.length) && (
-        <>
-          No Assesments are found
-          <div>
-            <Button disableElevation variant="contained">
-              Invite
-            </Button>
-            <Button disableElevation variant="contained" sx={{ ml: 2 }}>
-              Add
-            </Button>{" "}
-          </div>
-        </>
-      )}
+      {!Boolean(assesments.length) &&
+        (loadingAssesments !== undefined || loadingAssesments !== null) && (
+          <>
+            No Assesments are found
+            <div>
+              <Button disableElevation variant="contained">
+                Invite
+              </Button>
+              <Button disableElevation variant="contained" sx={{ ml: 2 }}>
+                Add
+              </Button>{" "}
+            </div>
+          </>
+        )}
       {Boolean(assesments.length) && <CourseCard />}
       <CoursesFab />
     </>

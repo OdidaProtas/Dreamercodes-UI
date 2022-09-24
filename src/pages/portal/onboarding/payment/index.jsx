@@ -13,6 +13,7 @@ import {
   Avatar,
   Box,
   Button,
+  CircularProgress,
   Container,
   Grid,
   ListItemAvatar,
@@ -21,6 +22,9 @@ import ImageIcon from "@mui/icons-material/Check";
 import Timeline from "./timeline";
 import { useHistory } from "react-router-dom";
 import actions from "../actions";
+import { useAxios, useToast } from "../../../../hooks";
+import { useDispatch } from "../../../../state/hooks";
+import useOnboardingProfile from "../hooks/useOnboardingProfile";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -29,10 +33,42 @@ export default function FullScreenDialog() {
   const [open, setOpen] = React.useState(true);
   const { push } = useHistory();
 
-  const { handleOnboarded } = actions();
+  const { loading, axiosAction } = useAxios("onboarding");
+  const dispatch = useDispatch();
+  const { showToast } = useToast();
 
+  const { profile } = useOnboardingProfile();
+
+  function successHandler({ data }) {
+    dispatch({
+      type: "ADD_ENTRIES",
+      payload: { ...data },
+      context: "onboardingProfile",
+    });
+    showToast("success", "Information updated");
+    push("/portal/onboarding/checkout");
+  }
+
+  function errorHandler(error) {
+    console.error(error);
+    showToast("error", "An error occured");
+  }
+
+  function handleClick(id) {
+    axiosAction({
+      successHandler,
+      errorHandler,
+      method: "post",
+      payload: {
+        ...profile,
+        isPro: true,
+        isTrial: true,
+        trialStarted: Date.now(),
+      },
+      endpoint: "/onboarding",
+    });
+  }
   const handleClose = () => {
-    handleOnboarded();
     push("/portal");
   };
 
@@ -118,12 +154,25 @@ export default function FullScreenDialog() {
                 <Timeline />
                 <Box sx={{ p: 6 }}>
                   <Button
-                    onClick={() => push("/portal/onboarding/checkout")}
                     fullWidth
+                    onClick={() => push("/portal")}
+                    variant="outlined"
+                    sx={{ mb: 5 }}
+                  >
+                    Continue with Free
+                  </Button>
+                  <Button
+                    fullWidth
+                    disabled={loading}
                     disableElevation
+                    onClick={handleClick}
                     variant="contained"
                   >
-                    Start Free Trial
+                    {loading ? (
+                      <CircularProgress size={20} />
+                    ) : (
+                      "Start Free Trial"
+                    )}
                   </Button>
                 </Box>
               </Box>

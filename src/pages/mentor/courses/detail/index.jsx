@@ -3,14 +3,16 @@ import {
   Box,
   Button,
   Divider,
+  Grid,
   LinearProgress,
   Typography,
 } from "@mui/material";
 import { useHistory, useParams } from "react-router-dom";
+import CourseCard from "../../../../components/mentor/courseCard";
 import CoursesFab from "../../../../components/mentor/coursesFab";
 import ErrorComponents from "../../../../components/shared/error";
 import LoaderComponent from "../../../../components/shared/loader";
-import { useDocTitle } from "../../../../hooks";
+import { useDocTitle, useList } from "../../../../hooks";
 import useItem from "../../../../hooks/useItem";
 
 export default function () {
@@ -25,11 +27,21 @@ export default function () {
   });
 
   const course = getCourse();
-  const subjects = [];
 
   const { id } = useParams();
 
   const { push } = useHistory();
+
+  const { getItemsArray: getSubjects } = useList({
+    instance: "courses",
+    slug: "subjects",
+  });
+
+  const subjects = getSubjects();
+
+  const handleClick = (id) => {
+    push(`/mentor/subjects/${id}`);
+  };
 
   return (
     <>
@@ -78,10 +90,23 @@ export default function () {
             </Button>
           </Box>
           <Box sx={{ mt: 6, textAlign: "center", mb: 3 }}>
-            {Boolean(!subjects.length) && (
+            {!Boolean(subjects.length) && (
               <>No subjects found for this course</>
             )}
           </Box>
+          <>
+            <Box>
+              <Grid spacing={2} container>
+                {subjects.map((subject) => {
+                  return (
+                    <Grid key={subject.id} item xs={4}>
+                      <CourseCard handleClick={handleClick} course={subject} />
+                    </Grid>
+                  );
+                })}
+              </Grid>
+            </Box>
+          </>
         </Box>
       )}
       <CoursesFab edit />

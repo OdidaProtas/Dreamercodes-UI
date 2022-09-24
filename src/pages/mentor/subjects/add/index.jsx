@@ -158,7 +158,7 @@ export default function () {
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         <Box>
-          <Toolbar sx={{ bgcolor: "#68B0AB" }}>
+          <Toolbar sx={{ bgcolor: "azure", borderRadius: "4px" }}>
             <Box sx={{ flexGrow: 1 }}>
               <Typography variant="h4">New Subject</Typography>
             </Box>

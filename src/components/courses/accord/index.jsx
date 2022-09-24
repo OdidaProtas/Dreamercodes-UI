@@ -9,6 +9,8 @@ import Typography from "@mui/material/Typography";
 import { Stack, Paper } from "@mui/material";
 import DetailTimeline from "../detailTimeline";
 import { useHistory } from "react-router-dom";
+import { useList } from "../../../hooks";
+import Loader from "../../shared/loader";
 
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
@@ -47,7 +49,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 export default function () {
-  const [expanded, setExpanded] = React.useState("panel1");
+  const [expanded, setExpanded] = React.useState("");
 
   const handleChange = (panel) => (event, newExpanded) => {
     setExpanded(newExpanded ? panel : false);
@@ -55,41 +57,42 @@ export default function () {
 
   const { push } = useHistory();
 
+  const { getItemsArray: getUnits, loading_units: loadingUnits } = useList({
+    instance: "courses",
+    slug: "units",
+  });
+
+  const units = getUnits();
+
+  if (loadingUnits) {
+    return <Loader desc="Units" />;
+  }
+
   return (
     <div>
-      <Accordion
-        expanded={expanded === "panel1"}
-        onChange={handleChange("panel1")}
-      >
-        <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-          <Typography>Basic concepts</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Stack spacing={3}>
-            <Paper elevation={0} sx={{ bgcolor: "azure", p: 2 }}>
-              <DetailTimeline />
-            </Paper>
-          </Stack>
-        </AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel2"}
-        onChange={handleChange("panel2")}
-      >
-        <AccordionSummary aria-controls="panel2d-content" id="panel2d-header">
-          <Typography>Strings & Variables</Typography>
-        </AccordionSummary>
-        <AccordionDetails></AccordionDetails>
-      </Accordion>
-      <Accordion
-        expanded={expanded === "panel3"}
-        onChange={handleChange("panel3")}
-      >
-        <AccordionSummary aria-controls="panel3d-content" id="panel3d-header">
-          <Typography>Control structures</Typography>
-        </AccordionSummary>
-        <AccordionDetails></AccordionDetails>
-      </Accordion>
+      {units.map((subject) => {
+        return (
+          <Accordion
+            key={subject.id}
+            expanded={expanded === subject.id}
+            onChange={handleChange(subject.id)}
+          >
+            <AccordionSummary
+              aria-controls="panel1d-content"
+              id="panel1d-header"
+            >
+              <Typography>{subject?.title}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Stack spacing={3}>
+                <Paper elevation={0} sx={{ bgcolor: "azure", p: 2 }}>
+                  <DetailTimeline />
+                </Paper>
+              </Stack>
+            </AccordionDetails>
+          </Accordion>
+        );
+      })}
     </div>
   );
 }

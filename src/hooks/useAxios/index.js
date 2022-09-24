@@ -26,36 +26,11 @@ export default function (mode) {
     setError(null);
     setSuccess(false);
     const axios_instance =
-      network.axiosInstances[implicitInstance ?? mode ?? "courses"];
-    axios_instance.interceptors.request.use((config) => {
-      if (/\/check_stale/.test(config.url)) return config;
-      if (config.method === "post") return config;
-
-      if (requestCache.shouldUpdate(config)) {
-        return config;
-      }
-
-      if (requestCache.isCached(config)) {
-        const skipXHRError = new Error("skip");
-        skipXHRError.isSkipXHR = true;
-        skipXHRError.request = config;
-        throw skipXHRError;
-      } else {
-        if (Boolean(requestCache.getCachedRequest(config)))
-          requestCache.waitForResponse(config);
-        return config;
-      }
-    });
+      network.axiosInstances[implicitInstance || mode || "courses"];
     axios_instance.interceptors.response.use(
       function (response) {
-        if (/\/check_stale/.test(response.config.url)) {
-          if (response.data.shouldUpdate) {
-            requestCache.setShouldUpdate(response.data.which);
-          }
-          return response;
-        }
         requestCache.setCachedResponse(response);
-        return response;  
+        return response;
       },
       function (error) {
         if (error.isSkipXHR) {
@@ -64,6 +39,25 @@ export default function (mode) {
         return Promise.reject(error);
       }
     );
+    axios_instance.interceptors.request.use(
+      (config) => {
+        if (/\/check_stale/.test(config?.url)) return config;
+        if (config.method === "post") return config;
+
+        if (requestCache.isCached(config)) {
+          let skipXHRError = new Error("skip");
+          skipXHRError.isSkipXHR = true;
+          skipXHRError.request = config;
+          throw skipXHRError;
+        } else {
+          return config;
+        }
+      },
+      (error) => {
+        Promise.reject(error);
+      }
+    );
+
     const request = axios_instance[method](endpoint, payload);
     const [res, err] = await tryCatch(request);
     if (err) {

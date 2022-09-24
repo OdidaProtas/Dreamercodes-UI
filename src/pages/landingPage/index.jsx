@@ -11,6 +11,7 @@ import withRoot from "./withRoot";
 import useDocTitle from "../../hooks/useDocTitle";
 import Testimonials from "./testimonials";
 import { useList } from "../../hooks";
+import useOnboardingProfile from "../portal/onboarding/hooks/useOnboardingProfile";
 
 function Index() {
   useDocTitle("Home");
@@ -22,6 +23,7 @@ function Index() {
     slug: "about",
     instance: "courses",
   });
+  useOnboardingProfile();
   return (
     <React.Fragment>
       <AppAppBar />

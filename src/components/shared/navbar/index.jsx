@@ -18,7 +18,7 @@ export default () => {
   const isLoggedIn = checkLoginStatus();
 
   return (
-    <AppBar color="inherit" elevation={1}>
+    <AppBar elevation={0}>
       <Toolbar>
         <Box onClick={() => push("/")} sx={{ flexGrow: 1, cursor: "pointer" }}>
           <Typography variant="h5">DREAMERCODES</Typography>
@@ -28,7 +28,6 @@ export default () => {
             sx={{ ml: 2, mr: 3 }}
             disableElevation
             size="small"
-            color="inherit"
             onClick={() => push("/blog")}
             variant="contained"
           >
@@ -43,7 +42,6 @@ export default () => {
                   sx={{ ml: 2, mr: 3, mt: 0.6 }}
                   disableElevation
                   size="small"
-                  color="inherit"
                   onClick={() => push("/mentor")}
                   variant="contained"
                 >
@@ -63,7 +61,6 @@ export default () => {
             <Button
               disableElevation
               onClick={() => push("/portal")}
-              variant="contained"
             >
               Portal
             </Button>
@@ -71,7 +68,6 @@ export default () => {
               sx={{ ml: 2 }}
               disableElevation
               onClick={() => push("/mentor")}
-              variant="contained"
             >
               Mentor
             </Button>

@@ -55,10 +55,10 @@ export default function () {
         successHandler,
         errorHandler,
         method: "get",
-        endpoint: `/onboarding-byuser/${user.id}`,
+        endpoint: `/onboarding-byuser/${user?.id}`,
       });
     }
-  }, []);
+  }, [user?.id]);
 
   useEffect(() => {
     handleDispatchLoadingOnboarding(loading);

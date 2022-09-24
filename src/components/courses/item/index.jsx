@@ -1,25 +1,35 @@
-import { Divider, Grid, Paper, Stack, Typography, Box } from "@mui/material";
+import {
+  Divider,
+  Grid,
+  Paper,
+  Stack,
+  Typography,
+  Box,
+  Avatar,
+} from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
 export default function ({ course }) {
   const { push } = useHistory();
   const { url } = useRouteMatch();
+  const { imageUrl, id } = course;
   return (
     <Grid
       item
-      onClick={() => push(`${url}/:id`)}
+      onClick={() => push(`${url}/${id}`)}
       xs={3}
       sx={{ cursor: "pointer" }}
     >
       <Paper sx={{ p: 2 }}>
         <Stack spacing={3}>
-          <Box sx={{ textAlign: "center" }}>
-            <img
-              width={"40%"}
-              style={{ borderRadius: "50%" }}
-              src="https://sololearnuploads.azureedge.net/uploads/courses/1141.png"
-              alt=""
-            />
+          <Box
+            sx={{
+              textAlign: "center",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Avatar style={{ height: 100, width: 100 }} src={imageUrl} alt="" />
           </Box>
 
           <Divider />

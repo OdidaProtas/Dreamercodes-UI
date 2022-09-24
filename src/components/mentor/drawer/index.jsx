@@ -42,8 +42,11 @@ export default function MentorDashDrawer(props) {
   const drawer = (
     <div>
       <Toolbar>
-        <Box sx={{ flexGrow: 1, textAlign: "center" }}>
-          <Logo textOnly />
+        <Box
+          onClick={() => push("/")}
+          sx={{ flexGrow: 1, textAlign: "center", cursor: "pointer" }}
+        >
+          <Typography variant="h6">Dreamercodes</Typography>
         </Box>
       </Toolbar>
       <Divider />
@@ -111,7 +114,7 @@ export default function MentorDashDrawer(props) {
       <CssBaseline />
       <AppBar
         position="fixed"
-        color="inherit"
+        elevation={0}
         sx={{
           width: { sm: `calc(100% - ${drawerWidth}px)` },
           ml: { sm: `${drawerWidth}px` },
@@ -128,7 +131,7 @@ export default function MentorDashDrawer(props) {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" noWrap component="div">
+            <Typography color={"secondary"} variant="h6" noWrap component="div">
               Dashboard
             </Typography>
           </Box>

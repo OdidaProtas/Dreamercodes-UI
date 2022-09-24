@@ -69,35 +69,7 @@ export default () => {
     );
   }
 
-  if (profile?.isWelcomed) {
-    return <Redirect to={`${url}/learning-plan`} />;
-  }
-
-  if (profile?.isSurveyedAge) {
-    return <Redirect to={`${url}/welcome`} />;
-  }
-
-  if (profile?.isSurveyedAvailability) {
-    return <Redirect to={`${url}/pace`} />;
-  }
-
-  if (profile?.isSurveyedExperience) {
-    return <Redirect to={`${url}/availability`} />;
-  }
-
-  if (profile?.isMotivated) {
-    return <Redirect to={`${url}/experience`} />;
-  }
-
-  if (profile?.hasSelectedPrefCourse) {
-    return <Redirect to={`${url}/motivational`} />;
-  }
-
-  if (profile?.isSurveyedCoursePreference) {
-    if (profile.hasPreference) {
-      return <Redirect to={`${url}/select-courses`} />;
-    } else return <Redirect to={`${url}/categories`} />;
-  }
+  
   return (
     <Container>
       <Box

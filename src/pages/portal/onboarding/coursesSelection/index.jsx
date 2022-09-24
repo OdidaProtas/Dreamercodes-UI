@@ -80,22 +80,6 @@ export default () => {
     });
   }
 
-  if (loadingProfile || loadingProfile === "undefined") {
-    return (
-      <Box sx={{ my: 12, ml: 7 }}>
-        <Loader desc="Your Profile" />
-      </Box>
-    );
-  }
-
-  if (profile?.isSurveyedExperience) {
-    return <Redirect to={`/portal/onboarding/availability`} />;
-  }
-
-  if (profile?.hasSelectedPrefCourse) {
-    return <Redirect to={`/portal/onboarding/motivational`} />;
-  }
-
   if (loadingCourses) {
     return (
       <Box sx={{ my: 12, ml: 7 }}>

@@ -22,16 +22,7 @@ export default function ({ value, handleChange }) {
           <MenuItem value={"java"}>Java</MenuItem>
           <MenuItem value={"python"}>Python</MenuItem>
           <MenuItem value={"ruby"}>Ruby</MenuItem>
-          <MenuItem value={"xml"}>XML</MenuItem>
-          <MenuItem value={"saas"}>Saas</MenuItem>
-          <MenuItem value={"mysql"}>MySQL</MenuItem>
-          <MenuItem value={"markdown"}>Markdown</MenuItem>
-          <MenuItem value={"json"}>JSON</MenuItem>
-          <MenuItem value={"html"}>HTML</MenuItem>
-          <MenuItem value={"handlebars"}>Handlebars</MenuItem>
-          <MenuItem value={"golang"}>Go</MenuItem>
-          <MenuItem value={"cshart"}>C#</MenuItem>
-          <MenuItem value={"css"}>CSS</MenuItem>
+          <MenuItem value={"csharp"}>C#</MenuItem>
         </Select>
       </FormControl>
     </Box>

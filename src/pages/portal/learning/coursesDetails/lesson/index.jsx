@@ -1,33 +1,78 @@
 import { ArrowBackIos } from "@mui/icons-material";
-import { Box, Button, Container, Grid } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Divider,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 import { useHistory } from "react-router-dom";
 import Drawer from "../../../../../components/comments/drawer";
+import VerticalTabs from "../../../../../components/learning";
 import CourseProgress from "../../../../../components/portalHome/cards/courseProgress";
 
-export default function () {
+export default function Lesson() {
   const { goBack } = useHistory();
+
   return (
-    <Container>
-      <Grid container sx={{ mt: 6 }} spacing={2}>
-        <Grid item xs={4}>
-          <Button onClick={goBack} startIcon={<ArrowBackIos />}>
-            Welcome to Python
-          </Button>
+    <Box
+      sx={{
+        bgcolor: "azure",
+        maxHeight: "98vh",
+        minHeight: "88vh",
+        pt: 1,
+        overflow: "hidden",
+      }}
+    >
+      <Container>
+        <Grid container spacing={2}>
+          <Grid item xs={3}>
+            <Button
+              sx={{ display: "flex", textTransform: "none" }}
+              onClick={goBack}
+              startIcon={<ArrowBackIos />}
+            >
+              Introduction to programming
+            </Button>
+          </Grid>
+          <Grid item xs sx={{ display: "flex", alignItems: "center" }}>
+            <Box sx={{ flexGrow: "1" }}>
+              <CourseProgress />
+            </Box>
+          </Grid>
+          <Grid item xs={5} sx={{ textAlign: "right" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-evenly" }}>
+              <Box>
+                <Drawer title="Notes" />
+              </Box>
+              <Box>
+                <Drawer title="Comments" />
+              </Box>
+              <Box>
+                <ToggleButtonGroup
+                  color="primary"
+                  size="small"
+                  fullWidth
+                  // value={alignment}
+                  exclusive
+                  // onChange={handleChange}
+                  aria-label="Platform"
+                >
+                  <ToggleButton value="web">Prev</ToggleButton>
+                  <ToggleButton value="android">1.2</ToggleButton>
+                  <ToggleButton value="ios">Next</ToggleButton>
+                </ToggleButtonGroup>
+              </Box>
+            </Box>
+          </Grid>
         </Grid>
-        <Grid item xs>
-          <CourseProgress />
-        </Grid>
-        <Grid item xs={3} sx={{ textAlign: "right" }}>
-          <Drawer />
-        </Grid>
-      </Grid>
-      <Box sx={{ mt: 3 }}>
-        <Box sx={{ textAlign: "right", mt: 6 }}>
-          <Button variant="contained" disableElevation>
-            Continue
-          </Button>
+        <Divider sx={{ mt: 2 }} />
+        <Box>
+          <VerticalTabs />
         </Box>
-      </Box>
-    </Container>
+      </Container>
+    </Box>
   );
 }

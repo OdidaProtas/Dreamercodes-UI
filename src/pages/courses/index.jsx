@@ -32,7 +32,7 @@ function Courses() {
         </Box>
       )}
 
-      {!LoadingCourses && coursesError && (
+      {!LoadingCourses && coursesError && !Boolean(courses.length) && (
         <Box sx={{ ml: "90px", my: 9 }}>
           <ErrorComponents
             action="Check your network and reload this page, or contact support for help"
@@ -45,7 +45,7 @@ function Courses() {
           {courses.map((course) => {
             return (
               <Grid item xs={4} key={course.id}>
-                <CourseCard course={course} key={courses} />
+                <CourseCard disabled course={course} key={courses} />
               </Grid>
             );
           })}

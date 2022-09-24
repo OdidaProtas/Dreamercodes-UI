@@ -30,7 +30,7 @@ export default withRoot(() => {
 
   const { url } = useRouteMatch();
 
-  const { loading } = useOnboardingProfile();
+  const { loading, profile } = useOnboardingProfile();
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
 

@@ -20,9 +20,6 @@ export default function ({ value, handleChange }) {
         >
           <MenuItem value={"solarized_light"}>Solarized Light</MenuItem>
           <MenuItem value={"solarized_dark"}>Solarized Dark</MenuItem>
-          <MenuItem value={"github"}>Github</MenuItem>
-          <MenuItem value={"dracula"}>Dracula</MenuItem>
-          <MenuItem value={"terminal"}>Terminal</MenuItem>
         </Select>
       </FormControl>
     </Box>
