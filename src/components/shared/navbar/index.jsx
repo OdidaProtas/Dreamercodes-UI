@@ -1,16 +1,10 @@
-import {
-  AppBar,
-  Box,
-  Button,
-  Toolbar,
-  Avatar,
-  Typography,
-} from "@mui/material";
-import Logo from "../logo";
+import { AppBar, Box, Button, Toolbar, Avatar } from "@mui/material";
 import { useAuth } from "../../../hooks";
 import { useHistory } from "react-router-dom";
+import AccountMenu from "../../auth/accountMenu";
+import Typography from "../../../pages/landingPage/components/Typography";
 
-export default () => {
+export default function Navbar() {
   const { push } = useHistory();
 
   const { checkLoginStatus, getCurrentUser } = useAuth();
@@ -21,59 +15,14 @@ export default () => {
     <AppBar elevation={0}>
       <Toolbar>
         <Box onClick={() => push("/")} sx={{ flexGrow: 1, cursor: "pointer" }}>
-          <Typography variant="h5">DREAMERCODES</Typography>
+          <Typography color="secondary" variant="h6">
+            Dreamercodes
+          </Typography>
         </Box>
         <Box>
-          <Button
-            sx={{ ml: 2, mr: 3 }}
-            disableElevation
-            size="small"
-            onClick={() => push("/blog")}
-            variant="contained"
-          >
-            Blog
-          </Button>
+          <AccountMenu />
         </Box>
-        {isLoggedIn && (
-          <>
-            <Box sx={{ mr: 2, display: "flex" }}>
-              <Box>
-                <Button
-                  sx={{ ml: 2, mr: 3, mt: 0.6 }}
-                  disableElevation
-                  size="small"
-                  onClick={() => push("/mentor")}
-                  variant="contained"
-                >
-                  Mentor
-                </Button>
-              </Box>
-
-              <Avatar
-                onClick={() => push("/profile")}
-                sx={{ cursor: "pointer" }}
-              />
-            </Box>
-          </>
-        )}
-        {!isLoggedIn && (
-          <>
-            <Button
-              disableElevation
-              onClick={() => push("/portal")}
-            >
-              Portal
-            </Button>
-            <Button
-              sx={{ ml: 2 }}
-              disableElevation
-              onClick={() => push("/mentor")}
-            >
-              Mentor
-            </Button>
-          </>
-        )}
       </Toolbar>
     </AppBar>
   );
-};
+}

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useHistory, useRouteMatch } from "react-router-dom";
 
-export default function ({ course }) {
+export default function PortalCourseItem({ course }) {
   const { push } = useHistory();
   const { url } = useRouteMatch();
   const { imageUrl, id } = course;
@@ -20,7 +20,7 @@ export default function ({ course }) {
       xs={3}
       sx={{ cursor: "pointer" }}
     >
-      <Paper sx={{ p: 2 }}>
+      <Paper elevation={0} sx={{ p: 2 }}>
         <Stack spacing={3}>
           <Box
             sx={{

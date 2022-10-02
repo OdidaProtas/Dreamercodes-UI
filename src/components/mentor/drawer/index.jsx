@@ -50,13 +50,14 @@ export default function MentorDashDrawer(props) {
         </Box>
       </Toolbar>
       <Divider />
-      <List sx={{ bgcolor: "azure" }}>
+      <List sx={{ bgcolor: "#eaf1fb" }}>
         {[
           { name: "Overview", slug: "" },
           { name: "Courses", slug: "/courses" },
           { name: "Subjects", slug: "/subjects" },
           { name: "Assesments", slug: "/assesments" },
           { name: "Students", slug: "/students" },
+          { name: "Classes", slug: "/classes" },
         ].map((item, index) => (
           <ListItem
             selected={
@@ -86,7 +87,7 @@ export default function MentorDashDrawer(props) {
         ))}
       </List>
       <Divider />
-      <List sx={{ bgcolor: "azure" }}>
+      <List sx={{ bgcolor: "#eaf1fb" }}>
         {["Blog"].map((text, index) => (
           <ListItem
             selected={isBlog}
@@ -160,7 +161,7 @@ export default function MentorDashDrawer(props) {
               boxSizing: "border-box",
               width: drawerWidth,
             },
-            bgcolor: "azure",
+            bgcolor: "#eaf1fb",
           }}
         >
           {drawer}
@@ -173,7 +174,7 @@ export default function MentorDashDrawer(props) {
               boxSizing: "border-box",
               width: drawerWidth,
             },
-            bgcolor: "azure",
+            bgcolor: "#eaf1fb",
           }}
           open
         >
@@ -184,8 +185,8 @@ export default function MentorDashDrawer(props) {
         component="main"
         sx={{
           flexGrow: 1,
-          py: 3,
           width: { sm: `calc(100% - ${drawerWidth}px)` },
+          p: 2,
         }}
       >
         <Toolbar />

@@ -13,13 +13,23 @@ import {
 import { useState, useCallback } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { useHistory } from "react-router-dom";
-import { useAuth, useAxios, useDocTitle, useToast } from "../../../../hooks";
-import ImageUpload from "./imageUpload";
+import { useHistory, useLocation } from "react-router-dom";
+import {
+  useAuth,
+  useAxios,
+  useDocTitle,
+  useItem,
+  useToast,
+} from "../../../../hooks";
 import network from "../../../../network";
 import TopicsForm from "./topicsForm";
 import { useActions } from "./actions";
-import useUpload from "../../../../hooks/useUpload";
+import useUpload, {
+  useToggleUploadProgress,
+} from "../../../../hooks/useUpload";
+import { useDispatch } from "../../../../state/hooks";
+import { useEffect } from "react";
+import ImageUpload from "../../subjects/add/imageUpload";
 
 const formats = [
   "header",
@@ -39,12 +49,10 @@ const formats = [
   "align",
 ];
 
-export default function () {
+export default function AddCourse() {
   useDocTitle("New Course");
 
   const { addCourseToState } = useActions();
-
-  const [topics, setTopics] = useState([]);
 
   const [value, setValue] = useState("");
 
@@ -89,29 +97,54 @@ export default function () {
     }));
   };
   const uploadImages = useUpload();
+  const toggleUpload = useToggleUploadProgress();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const uploads = await uploadImages([
-      { fileData: banner, field: "bannerUrl" },
-      { fileData: logo, field: "imageUrl" },
-    ]);
+    toggleUpload();
+    let uploads;
+    try {
+      uploads = await uploadImages([
+        { fileData: banner, field: "bannerUrl" },
+        { fileData: logo, field: "imageUrl" },
+      ]);
+      toggleUpload();
+    } catch (e) {
+      toggleUpload();
+    }
 
     const images = uploads.reduce((p, c) => {
       return { ...p, [c.field]: c.url };
     }, {});
+
+    let data = { ...state, description: value };
+
+    if (Boolean(images?.bannerUrl)) {
+      data = { ...data, bannerUrl: images.bannerUrl };
+    }
+
+    if (Boolean(images?.imageUrl)) {
+      data = { ...data, imageUrl: images.imageUrl };
+    }
+
     axiosAction({
       method: "post",
       successHandler,
       errorHandler,
-      payload: { ...state, description: value, ...images },
+      payload: { ...data },
       endpoint: COURSES_URLS.courses,
     });
   };
 
+  const dispatch = useDispatch();
+
   function successHandler(res) {
     const { data } = res;
-    addCourseToState(data);
+    dispatch({
+      type: "ADD_ENTRY",
+      payload: { ...data },
+      context: "courses",
+    });
     push(`/mentor/courses/${data.id}`);
   }
 
@@ -120,16 +153,43 @@ export default function () {
     showToast("error", "An error occured");
   }
 
+  const { search } = useLocation();
+  const params = new URLSearchParams(search);
+
+  const itemId = params.get("item_id");
+  const mode = params.get("mode");
+  const isEdit = mode === "edit";
+
+  const { getItem: getCourse } = useItem({
+    slug: "courses",
+    instance: "courses",
+    itemId: { id: itemId },
+  });
+
+  const course = getCourse();
+
+  useEffect(() => {
+    if (Boolean(course)) {
+      setState({ ...course });
+    }
+  }, [course]);
+
   return (
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         <Box>
-          <Toolbar sx={{ bgcolor: "#68B0AB" }}>
+          <Toolbar sx={{ bgcolor: "background.default" }}>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h4">New Course</Typography>
+              <Typography variant="h4">
+                {isEdit ? "Edit" : "New"} Course
+              </Typography>
             </Box>
             <Box>
-              <Button startIcon={<ArrowBackIosIcon />} onClick={goBack}>
+              <Button
+                variant="outlined"
+                startIcon={<ArrowBackIosIcon />}
+                onClick={goBack}
+              >
                 Go Back
               </Button>
             </Box>
@@ -141,18 +201,23 @@ export default function () {
           name={"title"}
           required
           label="Course title"
+          value={course?.title}
         />
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={4}>
               <ImageUpload
+                isEdit={isEdit}
                 value={logo}
+                existing={state?.imageUrl}
                 handleChange={handleLogoChange}
                 desc="Drag 'n' drop course logo image or click to upload"
               />
             </Grid>
             <Grid item xs>
               <ImageUpload
+                isEdit={isEdit}
+                existing={state?.bannerUrl}
                 value={banner}
                 handleChange={handleBannerChange}
                 desc="Drag 'n' drop course banner image or click to upload"

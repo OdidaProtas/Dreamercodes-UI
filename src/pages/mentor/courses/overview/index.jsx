@@ -9,18 +9,20 @@ import {
   LinearProgress,
   Link,
   Paper,
+  Toolbar,
   Typography,
 } from "@mui/material";
 import { useRef } from "react";
-import { CSSTransition, Transition } from "react-transition-group";
+import { CSSTransition } from "react-transition-group";
 import CourseCard from "../../../../components/mentor/courseCard";
-import CoursesFab from "../../../../components/mentor/coursesFab";
 import ErrorComponent from "../../../../components/shared/error";
 import LoaderComponent from "../../../../components/shared/loader";
 import { useDocTitle, useList } from "../../../../hooks";
 import AddCourseCategory from "../../../../components/dialogs/addCourseCategory";
+import { Add } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
 
-export default function () {
+export default function CoursesOverview() {
   useDocTitle("Courses Overview");
 
   const {
@@ -46,29 +48,37 @@ export default function () {
 
   const nodeRef = useRef(null);
 
+  const { push, goBack } = useHistory();
+
   return (
     <>
-      <Box sx={{ display: "flex" }}>
-        <Box sx={{ flexGrow: 1 }}>
-          <Typography variant="h4" sx={{ mb: 2 }}>
-            Courses
-          </Typography>
-        </Box>
-        <Box>
-          <AddCourseCategory />
-        </Box>
-      </Box>
-      {loadingCourses && <LoaderComponent desc="Courses" />}
-      {coursesError && !Boolean(courses.length) && !loadingCourses && (
-        <ErrorComponent
-          action="Refresh the page to try again, or contact support"
-          desc="An error occured while fetching courses"
-        />
-      )}
-
-      <Box>
+      <Box sx={{ p: 2 }}>
         <Grid container spacing={1}>
           <Grid item xs={8}>
+            <Box sx={{ display: "flex" }}>
+              <Box sx={{ flexGrow: 1 }}>
+                <Typography variant="h4" sx={{ mb: 2 }}>
+                  Courses
+                </Typography>
+              </Box>
+              <Box>
+                <Button
+                  startIcon={<Add />}
+                  disableElevation
+                  variant="contained"
+                  onClick={() => push("/mentor/courses/new")}
+                >
+                  Add Course
+                </Button>
+              </Box>
+            </Box>
+            {loadingCourses && <LoaderComponent desc="Courses" />}
+            {coursesError && !Boolean(courses.length) && !loadingCourses && (
+              <ErrorComponent
+                action="Refresh the page to try again, or contact support"
+                desc="An error occured while fetching courses"
+              />
+            )}
             <Box>
               {Boolean(courses.length) && (
                 <Grid container spacing={2}>
@@ -96,7 +106,7 @@ export default function () {
           <Grid
             item
             xs={3}
-            sx={{ p: 2, ml: 3, bgcolor: "azure" }}
+            sx={{ p: 2, ml: 3, bgcolor: "background.newWhite" }}
             elevation={0}
             component={Paper}
           >
@@ -108,7 +118,17 @@ export default function () {
               timeout={800}
             >
               <Box ref={nodeRef}>
-                <Typography variant="h6">Categories</Typography>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <Box
+                    sx={{ flexGrow: 1, display: "flex", alignItems: "center" }}
+                  >
+                    <Typography variant="h6">Categories</Typography>
+                  </Box>
+                  <Box>
+                    <AddCourseCategory icon />
+                  </Box>
+                </Box>
+
                 <Divider />
 
                 {loadingCoursesCategory && (
@@ -153,8 +173,6 @@ export default function () {
           </Grid>
         </Grid>
       </Box>
-
-      <CoursesFab />
     </>
   );
 }

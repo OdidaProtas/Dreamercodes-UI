@@ -11,7 +11,7 @@ export default function ({ noMargin }) {
         elevation={0}
         sx={{
           p: 2,
-          bgcolor: "azure",
+          bgcolor: "#eaf1fb",
           m: { lg: noMargin ? 0 : 6 },
           textAlign: "center",
         }}

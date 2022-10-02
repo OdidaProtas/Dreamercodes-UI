@@ -16,8 +16,9 @@ import { useToast, useAuth, useAxios, useQueryParams } from "../../../hooks";
 
 import network from "../../../network";
 import Logo from "../../../components/shared/logo";
+import useOrg from "../../../hooks/useOrg";
 
-export default function () {
+export default function LoginPage() {
   const { push } = useHistory();
   const { login } = useAuth();
 
@@ -36,8 +37,6 @@ export default function () {
   };
 
   const [next] = useQueryParams(["next"]);
-
-  console.log(next)
 
   function successHandler(res) {
     try {
@@ -67,14 +66,16 @@ export default function () {
       endpoint: endpoints.AUTH_URLS.login,
     });
   };
+
+  const [org, loadingOrg] = useOrg();
+
   return (
     <Container>
       <form onSubmit={handleSubmit}>
         <Stack spacing={3}>
           <Box sx={{ textAlign: "center" }}>
-            <Logo />
+            <Logo image={org?.imageUrl} />
             <Typography variant="h4">Welcome back</Typography>
-
             <Typography>
               Get started building your dream projects sooner, not later.
             </Typography>

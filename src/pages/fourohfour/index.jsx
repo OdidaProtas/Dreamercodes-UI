@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 export default () => {
   const { goBack, push } = useHistory();
   return (
-    <Box sx={{ bgcolor: "azure" }}>
+    <Box sx={{ bgcolor: "background.default" }}>
       <Box
         sx={{
           minHeight: "96vh",
@@ -14,7 +14,7 @@ export default () => {
           textAlign: "center",
         }}
       >
-        <Paper sx={{ p: 3 }}>
+        <Paper elevation={0} sx={{ p: 3 }}>
           <Stack spacing={3}>
             <Typography variant="h4">Dreamercodes</Typography>
             <Typography variant="h5">Requested resource not found</Typography>

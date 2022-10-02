@@ -13,7 +13,7 @@ import { Box, CircularProgress, Grid, Stack, TextField } from "@mui/material";
 import ReactQuill from "react-quill";
 import ImageUpload from "../../../pages/mentor/courses/add/imageUpload";
 import { useCallback } from "react";
-import { Add } from "@mui/icons-material";
+import { Add, AddCircle } from "@mui/icons-material";
 import { useAuth, useAxios, useToast } from "../../../hooks";
 import useUpload from "../../../hooks/useUpload";
 import useActions from "./actions";
@@ -56,7 +56,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function (props) {
+export default function AddDialogCategory(props) {
   const [open, setOpen] = React.useState(false);
   const { addToState } = useActions();
   const [state, setState] = React.useState({
@@ -137,7 +137,7 @@ export default function (props) {
     <div>
       {props.icon && (
         <IconButton onClick={handleClickOpen}>
-          <Add />
+          <AddCircle />
         </IconButton>
       )}
       {!props.icon && (

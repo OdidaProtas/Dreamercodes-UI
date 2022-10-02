@@ -41,7 +41,7 @@ export default function ({ title }) {
           }}
         >
           <Container
-            sx={{ width: "69vw", bgcolor: "azure", minHeight: "100vh", pt: 3 }}
+            sx={{ width: "69vw", bgcolor: "#eaf1fb", minHeight: "100vh", pt: 3 }}
           >
             <Stack spacing={2}>
               <Paper

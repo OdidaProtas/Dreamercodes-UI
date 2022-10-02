@@ -1,5 +1,9 @@
+import { Container } from "@mui/material";
+import { ThemeProvider } from "@mui/system";
 import { lazy } from "react";
+import Navbar from "../components/shared/navbar";
 import Navigation from "../features/navigation";
+import theme from "./landingPage/theme";
 
 const LandingPage = lazy(() => import("./landingPage"));
 const AuthPages = lazy(() => import("./auth"));
@@ -12,6 +16,7 @@ const Blog = lazy(() => import("./blog"));
 const Courses = lazy(() => import("./courses"));
 const About = lazy(() => import("./about"));
 const Community = lazy(() => import("./community"));
+const Dash = lazy(() => import("../pages/mentor/apps"));
 
 const navOptions = [
   { exact: true, children: <LandingPage />, route: "/" },
@@ -24,6 +29,18 @@ const navOptions = [
   { exact: true, children: <Courses />, route: "courses" },
   { exact: true, children: <About />, route: "about-us" },
   { exact: true, children: <Community />, route: "community" },
+  {
+    exact: false,
+    children: (
+      <ThemeProvider theme={theme} >
+        <Navbar />
+        <Container>
+          <Dash />
+        </Container>
+      </ThemeProvider>
+    ),
+    route: "dashboard",
+  },
   { exact: false, children: <Fourohfour />, route: "*" },
 ];
 

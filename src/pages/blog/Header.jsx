@@ -8,11 +8,16 @@ import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import { useHistory } from "react-router-dom";
 import { LinearProgress } from "@mui/material";
+import { useAuth } from "../../hooks";
+import AccountMenu from "../../components/auth/accountMenu";
 
 function Header(props) {
   const { sections, title, loading } = props;
 
   const { push } = useHistory();
+
+  const { checkLoginStatus } = useAuth();
+  const isLoggedIn = checkLoginStatus();
 
   return (
     <React.Fragment>
@@ -32,9 +37,12 @@ function Header(props) {
         <IconButton>
           <SearchIcon />
         </IconButton>
-        <Button variant="outlined" size="small">
-          Sign up
-        </Button>
+        {!isLoggedIn && (
+          <Button variant="outlined" size="small">
+            Sign up
+          </Button>
+        )}
+        {isLoggedIn && <AccountMenu />}
       </Toolbar>
       <Toolbar
         component="nav"

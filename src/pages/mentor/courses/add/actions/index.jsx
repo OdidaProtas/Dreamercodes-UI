@@ -7,13 +7,13 @@ export function useActions() {
   const addCourseToState = useMemo(
     (course) => {
       const allCourses = { ...prevCourses, [course?.id]: course };
-      dispatch({
-        type: "ADD_ENTRIES",
-        context: "courses",
-        payload: allCourses,
-      });
+      // dispatch({
+      //   type: "ADD_ENTRIES",
+      //   context: "courses",
+      //   payload: allCourses,
+      // });
     },
-    [prevCourses]
+    []
   );
 
   return { addCourseToState };

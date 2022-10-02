@@ -45,7 +45,6 @@ export default function () {
         </>
       )}
       {Boolean(students.length) && <CourseCard />}
-      <CoursesFab />
     </>
   );
 }

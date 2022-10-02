@@ -40,6 +40,7 @@ export default function ({ desc, value, handleChange, isEdit, existing }) {
         textAlign: "center",
       }}
       {...rootProps}
+      elevation={0}
     >
       <Box>
         {(Boolean(image) || existing) && (

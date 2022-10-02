@@ -15,8 +15,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { useHistory } from "react-router-dom";
 import { useAuth, useAxios, useDocTitle, useToast } from "../../../../hooks";
-import ImageUpload from "./imageUpload";
 import network from "../../../../network";
+import ImageUpload from "../../subjects/add/imageUpload";
 import TopicsForm from "./topicsForm";
 
 const formats = [
@@ -37,7 +37,7 @@ const formats = [
   "align",
 ];
 
-export default function () {
+export default function AddPersons() {
   useDocTitle("New Course");
 
   const [topics, setTopics] = useState([]);
@@ -133,9 +133,9 @@ export default function () {
     <form onSubmit={handleSubmit}>
       <Stack spacing={2}>
         <Box>
-          <Toolbar sx={{ bgcolor: "#68B0AB" }}>
+          <Toolbar sx={{ bgcolor: "background.newWhite" }}>
             <Box sx={{ flexGrow: 1 }}>
-              <Typography variant="h4">New Course</Typography>
+              <Typography variant="h4">New User</Typography>
             </Box>
             <Box>
               <Button startIcon={<ArrowBackIosIcon />} onClick={goBack}>
@@ -144,13 +144,29 @@ export default function () {
             </Box>
           </Toolbar>
         </Box>
+        <Box>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                onChange={handleChange}
+                name={"firstName"}
+                required
+                fullWidth
+                label="First Name"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                onChange={handleChange}
+                name={"lastName"}
+                required
+                fullWidth
+                label="Last Name"
+              />
+            </Grid>
+          </Grid>
+        </Box>
 
-        <TextField
-          onChange={handleChange}
-          name={"title"}
-          required
-          label="Course title"
-        />
         <Box>
           <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={4}>

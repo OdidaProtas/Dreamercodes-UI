@@ -109,7 +109,7 @@ export default function () {
                 {Boolean(articles.length) &&
                   articles.map((article) => {
                     return (
-                      <Grid key={article.id} item xs={6}>
+                      <Grid key={article.id} item xs={5}>
                         <Card sx={{ maxWidth: 345, mt: 2 }}>
                           <CardMedia
                             component="img"

@@ -1,8 +1,11 @@
-import { Box, Container, Grid } from "@mui/material";
+import { Box, Container, Grid, Typography } from "@mui/material";
 import { lazy } from "react";
 import { useHistory } from "react-router-dom";
 import bgImg from "../../assets/defaultBg.png";
 import Navigation from "../../features/navigation";
+import useOrg from "../../hooks/useOrg";
+import withRoot from "../landingPage/withRoot";
+import AuthOrgCarousel from "./carousel";
 
 const LoginPage = lazy(() => import("./login"));
 const RegistrationPage = lazy(() => import("./registration"));
@@ -22,8 +25,9 @@ const navOptions = [
   { exact: false, children: <Fourohfour />, route: "*" },
 ];
 
-export default function () {
+function Auth() {
   const { push } = useHistory();
+  const [organization, loadingOrg] = useOrg();
   return (
     <Grid container>
       <Grid item xs sx={{ maxHeight: "100vh", overflow: "auto" }}>
@@ -38,7 +42,7 @@ export default function () {
         lg={6}
         sx={{
           height: "97vh",
-          bgcolor: "azure",
+          bgcolor: "#eaf1fb",
           display: { xs: "none", md: "none", lg: "inline" },
         }}
       >
@@ -48,9 +52,20 @@ export default function () {
             width: "100%",
           }}
         >
-          <img height={"100%"} width="100%" src={bgImg} alt="" />
+          {Boolean(organization) && <AuthOrgCarousel bgImg={bgImg} />}
+          {Boolean(organization) && (
+            <Box sx={{ p: 1 }}>
+              <Typography>Organization: {organization?.name}</Typography>
+              <Typography>Site id: {organization?.name}</Typography>
+            </Box>
+          )}
+          {!Boolean(organization) && (
+            <img height={"100%"} width="100%" src={bgImg} alt="" />
+          )}
         </Box>
       </Grid>
     </Grid>
   );
 }
+
+export default withRoot(Auth);

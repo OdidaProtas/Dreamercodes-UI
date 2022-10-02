@@ -16,12 +16,17 @@ import {
 } from "@mui/material";
 import { Link, useHistory, useLocation, useRouteMatch } from "react-router-dom";
 
-export default function CourseCard({ course, handleClick, disabled }) {
+export default function CourseCard({
+  course,
+  handleClick,
+  disabled,
+  textOnly,
+}) {
   const { push } = useHistory();
 
   const { url } = useRouteMatch();
 
-  const { imageUrl, bannerUrl, title, description, id } = course;
+  const { imageUrl, bannerUrl, title, name, id } = course;
 
   return (
     <Paper
@@ -37,21 +42,34 @@ export default function CourseCard({ course, handleClick, disabled }) {
         bgcolor: "rgba(117, 117, 117, 0.2)",
         backgroundImage: `url(${bannerUrl})`,
         backdropFilter: "blur(200px)",
-        borderBottom: "1px solid lightgray",
         cursor: "pointer",
-        pt: 2,
+        pt: textOnly ? 0 : 2,
+        borderRadius: textOnly ? "4px" : "none",
       }}
     >
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <Avatar style={{ width: 69, height: 69 }} src={imageUrl} alt={title}>
-            <LandscapeIcon />
-          </Avatar>
-        </Box>
-
-        <Divider sx={{ my: 1 }} />
-        <Box sx={{ bgcolor: "azure", p: 1 }}>
-          <Typography variant="h5">{title}</Typography>
+        {!textOnly && (
+          <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Avatar
+              sx={{ width: 69, height: 69, mb: 2 }}
+              src={imageUrl}
+              alt={title}
+            >
+              <LandscapeIcon />
+            </Avatar>
+          </Box>
+        )}
+        <Box
+          sx={{
+            bgcolor: "#d3e3fd",
+            p: 1,
+            borderRadius: textOnly ? "4px" : "none",
+          }}
+        >
+          <Typography variant="h6">
+            {title ?? name?.split("_").join(" ")}
+          </Typography>
+          <div>{}</div>
         </Box>
       </Box>
     </Paper>

@@ -4,6 +4,9 @@ import Link from "@mui/material/Link";
 import AppBar from "./components/AppBar";
 import Toolbar from "./components/Toolbar";
 import { useHistory, useLocation } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import AccountMenu from "../../components/auth/accountMenu";
+import useSubdomain from "../../hooks/useSubdomain";
 
 const rightLink = {
   fontSize: 16,
@@ -17,6 +20,13 @@ function AppAppBar() {
   const isCourses = /\/course/.test(pathname);
   const isAbout = /\/about/.test(pathname);
   const isCommunity = /\/community/.test(pathname);
+  const { checkLoginStatus } = useAuth();
+  const isLoggedIn = checkLoginStatus();
+
+  const subdomain = useSubdomain();
+
+  const isPrivate = Boolean(subdomain);
+
   return (
     <div>
       <AppBar position="fixed">
@@ -25,11 +35,11 @@ function AppAppBar() {
           <Link
             variant="h6"
             underline="none"
-            color="inherit"
+            color="secondary"
             onClick={() => push("/")}
             sx={{ fontSize: 24, cursor: "pointer" }}
           >
-            {"dreamercodes"}
+            {"Dreamercodes"}
           </Link>
           <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
             <Link
@@ -56,7 +66,8 @@ function AppAppBar() {
               color="inherit"
               variant="h6"
               underline="none"
-              onClick={() => push("/blog")}
+              href="/"
+              onClick={() => {push("/blog")}}
               sx={rightLink}
             >
               {"Blog"}
@@ -81,14 +92,21 @@ function AppAppBar() {
             >
               {"Students"}
             </Link>
-            <Link
-              variant="h6"
-              underline="none"
-              onClick={() => push("/accounts")}
-              sx={{ ...rightLink, color: "secondary.main" }}
-            >
-              {"Sign in"}
-            </Link>
+            {!isLoggedIn && (
+              <Link
+                variant="h6"
+                underline="none"
+                onClick={() => push("/accounts")}
+                sx={{ ...rightLink, color: "secondary.main" }}
+              >
+                {"Sign in"}
+              </Link>
+            )}
+            {isLoggedIn && (
+              <Box sx={{ mt: -1.2 }}>
+                <AccountMenu />
+              </Box>
+            )}
           </Box>
         </Toolbar>
       </AppBar>

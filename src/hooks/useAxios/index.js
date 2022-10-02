@@ -41,8 +41,7 @@ export default function (mode) {
     );
     axios_instance.interceptors.request.use(
       (config) => {
-        if (/\/check_stale/.test(config?.url)) return config;
-        if (config.method === "post") return config;
+        if (config?.method === "post") return config;
 
         if (requestCache.isCached(config)) {
           let skipXHRError = new Error("skip");

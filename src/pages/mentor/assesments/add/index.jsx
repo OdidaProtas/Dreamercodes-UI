@@ -103,7 +103,7 @@ export default function () {
   }
 
   function errorHandler(e) {
-    console.log(e);
+    console.error(e);
     showToast("error", "An error occured");
   }
 

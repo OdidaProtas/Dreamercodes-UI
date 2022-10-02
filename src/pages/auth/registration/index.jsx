@@ -75,6 +75,7 @@ export default function () {
     return state?.password?.length < 8;
   }, [state?.password]);
 
+
   return (
     <Container>
       <form onSubmit={handleSubmit}>

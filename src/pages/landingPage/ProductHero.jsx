@@ -41,8 +41,8 @@ export default function ProductHero({ courses, about, community }) {
         alt="increase priority"
       />
       <Typography
-        sx={{ zIndex: 2 }}
-        color="inherit"
+        sx={{ zIndex: 2, }}
+        color="secondary"
         align="center"
         variant="h2"
         marked="center"
@@ -70,7 +70,7 @@ export default function ProductHero({ courses, about, community }) {
       {!about && (
         <>
           <Button
-            color="secondary"
+            color="primary"
             variant="contained"
             size="large"
             component="a"

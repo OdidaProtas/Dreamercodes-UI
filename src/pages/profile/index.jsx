@@ -17,6 +17,8 @@ const Overview = lazy(() => import("./overview"));
 const Update = lazy(() => import("./update"));
 const Certifications = lazy(() => import("./certifications"));
 
+import withRoot from "../landingPage/withRoot";
+
 const navigationOptions = [
   { exact: true, children: <Overview />, route: "" },
   { exact: true, children: <Update />, route: "/update" },
@@ -24,7 +26,7 @@ const navigationOptions = [
   { exact: false, children: <Fourohfour />, route: "*" },
 ];
 
-export default function () {
+export default withRoot(() => {
   const { url } = useRouteMatch();
   const { push } = useHistory();
 
@@ -58,19 +60,8 @@ export default function () {
             <Typography variant="h5"> My Certifications</Typography>
             <CertGrid />
           </Box>
-          <Box sx={{ textAlign: "center" }}>
-            <Button
-              onClick={handleLogout}
-              color="error"
-              disableElevation
-              variant="contained"
-              sx={{ mt: 6, mb: 6 }}
-            >
-              Logout
-            </Button>
-          </Box>
         </>
       )}
     </Container>
   );
-}
+});

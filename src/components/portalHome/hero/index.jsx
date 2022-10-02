@@ -11,7 +11,7 @@ export default function () {
       <Box
         sx={{
           height: "45vh",
-          bgcolor: "azure",
+          bgcolor: "#eaf1fb",
           borderBottomRightRadius: "50%",
           display: "flex",
           alignItems: "center",

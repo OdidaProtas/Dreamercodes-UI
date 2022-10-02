@@ -31,6 +31,7 @@ export default function ({ desc, value, handleChange }) {
 
   return (
     <Paper
+      elevation={0}
       sx={{
         height: "100%",
         p: 2,
@@ -38,6 +39,7 @@ export default function ({ desc, value, handleChange }) {
         justifyContent: "center",
         alignItems: "center",
         textAlign: "center",
+        bgcolor: "background.newWhite",
       }}
       {...rootProps}
     >

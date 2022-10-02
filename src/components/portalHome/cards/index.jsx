@@ -84,14 +84,18 @@ export default function () {
                 <Typography sx={{ my: 3 }}>
                   You don’t have any saved codes yet
                 </Typography>
-                <Button fullWidth variant="outlined">
+                <Button
+                  onClick={() => push("/portal/snippets")}
+                  fullWidth
+                  variant="outlined"
+                >
                   ADD NEW
                 </Button>
               </Paper>
               <Paper sx={{ p: 2 }}>
                 <Typography variant="h5">Your Resume</Typography>
                 <Typography sx={{ my: 3 }}>Update your resume below</Typography>
-                <Button fullWidth variant="outlined">
+                <Button onClick={() => push("/portal/resume")} fullWidth variant="outlined">
                   Update resume
                 </Button>
               </Paper>

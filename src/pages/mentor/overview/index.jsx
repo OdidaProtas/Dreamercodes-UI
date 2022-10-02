@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   CircularProgress,
   Divider,
@@ -19,8 +20,7 @@ export default function () {
     });
   const courses = getCourses();
   return (
-    <>
-      <Typography variant="h4">Dashboard</Typography>
+    <Box sx={{ minHeight: "100vh" }}>
       <Grid container spacing={2} sx={{ mt: 2 }}>
         <Grid item xs={6}>
           <Paper elevation={0} sx={{ p: 2, bgcolor: "azure" }}>
@@ -45,11 +45,11 @@ export default function () {
             </Button>
             <Button onClick={() => push("/mentor/courses/new")}>
               Add course
-            </Button> 
+            </Button>
           </Paper>
         </Grid>
         <Grid item xs></Grid>
       </Grid>
-    </>
+    </Box>
   );
 }

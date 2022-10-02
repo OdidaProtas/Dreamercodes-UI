@@ -1,16 +1,25 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Avatar from '@mui/material/Avatar';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Tooltip from '@mui/material/Tooltip';
-import PersonAdd from '@mui/icons-material/PersonAdd';
-import Settings from '@mui/icons-material/Settings';
-import Logout from '@mui/icons-material/Logout';
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import Tooltip from "@mui/material/Tooltip";
+import PersonAdd from "@mui/icons-material/PersonAdd";
+import Settings from "@mui/icons-material/Settings";
+import Logout from "@mui/icons-material/Logout";
+import { useHistory } from "react-router-dom";
+import {
+  AdminPanelSettings,
+  Book,
+  FamilyRestroom,
+  Fax,
+  School,
+} from "@mui/icons-material";
+import useAuth from "../../../hooks/useAuth";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -21,9 +30,15 @@ export default function AccountMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const { push } = useHistory();
+
+  const { logout, getCurrentUser } = useAuth();
+
+  const user = getCurrentUser();
+
   return (
     <React.Fragment>
-      <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center' }}>
+      <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
         {/* <Typography sx={{ minWidth: 100 }}>Add course</Typography> */}
         {/* <Typography sx={{ minWidth: 100 }}>Assesments</Typography> */}
         <Tooltip title="Account settings">
@@ -31,11 +46,21 @@ export default function AccountMenu() {
             onClick={handleClick}
             size="small"
             sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
+            color="secondary"
+            aria-controls={open ? "account-menu" : undefined}
             aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
+            aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar
+              color="primary"
+              sx={{
+                width: 32,
+                height: 32,
+                bgcolor: "background.secondary",
+              }}
+            >
+              {user?.firstName[0]}
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>
@@ -48,52 +73,77 @@ export default function AccountMenu() {
         PaperProps={{
           elevation: 0,
           sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            width: 200,
+            overflow: "visible",
+            filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
             mt: 1.5,
-            '& .MuiAvatar-root': {
+            "& .MuiAvatar-root": {
               width: 32,
               height: 32,
               ml: -0.5,
               mr: 1,
             },
-            '&:before': {
+            "&:before": {
               content: '""',
-              display: 'block',
-              position: 'absolute',
+              display: "block",
+              position: "absolute",
               top: 0,
               right: 14,
               width: 10,
               height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
+              bgcolor: "background.paper",
+              transform: "translateY(-50%) rotate(45deg)",
               zIndex: 0,
             },
           },
         }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
-        <MenuItem>
-          <Avatar /> Profile
+        <MenuItem onClick={() => push("/dashboard")}>
+          <Avatar>
+            <AdminPanelSettings />
+          </Avatar>{" "}
+          Admin
         </MenuItem>
-        <MenuItem>
-          <Avatar /> My account
+        <MenuItem onClick={() => push("/mentor")}>
+          <Avatar>
+            <Fax />
+          </Avatar>{" "}
+          Staff
+        </MenuItem>
+        <MenuItem onClick={() => push("/portal")}>
+          <Avatar>
+            <School />
+          </Avatar>{" "}
+          Students
+        </MenuItem>
+        <MenuItem onClick={() => push("/parents")}>
+          <Avatar>
+            <FamilyRestroom />
+          </Avatar>{" "}
+          Parents
+        </MenuItem>
+        <MenuItem onClick={() => push("/blog")}>
+          <Avatar>
+            <Book />
+          </Avatar>{" "}
+          Blog
         </MenuItem>
         <Divider />
-        <MenuItem>
+        <MenuItem onClick={() => push("/profile")}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
-          Add another account
+          My profile
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={() => push("/settings")}>
           <ListItemIcon>
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={logout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

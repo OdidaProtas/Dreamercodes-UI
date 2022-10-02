@@ -8,7 +8,6 @@ export default function (options) {
   const { slug, instance, itemId } = options;
   const { id } = itemId ?? useParams();
 
-
   const state = useStateValue();
   const dispatch = useDispatch();
   const { showToast } = useToast();
@@ -61,7 +60,6 @@ export default function (options) {
       payload: true,
     });
     console.error(err);
-    showToast("error", `An error occured while fetching ${slug} item`);
   };
 
   const updateItem = () => {

@@ -12,6 +12,8 @@ import useDocTitle from "../../hooks/useDocTitle";
 import Testimonials from "./testimonials";
 import { useList } from "../../hooks";
 import useOnboardingProfile from "../portal/onboarding/hooks/useOnboardingProfile";
+import { Redirect, useRouteMatch } from "react-router-dom";
+import useSubdomain from "../../hooks/useSubdomain";
 
 function Index() {
   useDocTitle("Home");
@@ -24,6 +26,10 @@ function Index() {
     instance: "courses",
   });
   useOnboardingProfile();
+  const subdomain = useSubdomain();
+
+  if (subdomain) return <Redirect to={`/accounts`} />;
+
   return (
     <React.Fragment>
       <AppAppBar />

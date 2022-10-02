@@ -5,13 +5,21 @@ import "./index.css";
 import { Provider } from "./state";
 
 import { BrowserRouter } from "react-router-dom";
-
-ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+if (import.meta.env.SSR) {
+  ReactDOM.hydrateRoot(
+    document?.getElementById("app"),
     <BrowserRouter>
-      <Provider>
-        <App />
-      </Provider>
+      <App />
     </BrowserRouter>
-  </React.StrictMode>
-);
+  );
+} else {
+  ReactDOM.createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <Provider>
+          <App />
+        </Provider>
+      </BrowserRouter>
+    </React.StrictMode>
+  );
+}

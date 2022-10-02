@@ -1,3 +1,5 @@
+import { useDispatch, useStateValue } from "../../state/hooks";
+
 export default function () {
   function uploadImages(files) {
     return new Promise((resolve) => {
@@ -24,4 +26,20 @@ export default function () {
   }
 
   return uploadImages;
+}
+
+export function useToggleUploadProgress() {
+  const dispatch = useDispatch();
+
+  const { uploadProgress } = useStateValue();
+
+  const toggle = () => {
+    dispatch({
+      type: "ADD_ENTRIES",
+      payload: !Boolean(uploadProgress),
+      context: "uploadProgress",
+    });
+  };
+
+  return toggle;
 }

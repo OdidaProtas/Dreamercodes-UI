@@ -1,21 +1,21 @@
-import { createTheme } from '@mui/material/styles';
-import { green, grey, red } from '@mui/material/colors';
+import { createTheme } from "@mui/material/styles";
+import { green, grey, red } from "@mui/material/colors";
 
 const rawTheme = createTheme({
   palette: {
     primary: {
-      // light: '#69696a',
-      main: '#28282a',
-      // dark: '#1e1e1f',
+      light: "#69696a",
+      main: "#0A1045",
+      dark: "#1e1e1f",
     },
     secondary: {
-      light: '#fff5f8',
-      main: '#0080FF',
-      dark: '#e62958',
+      light: "#fff5f8",
+      main: "#F9E900",
+      dark: "#e62958",
     },
     warning: {
-      main: '#ffc071',
-      dark: '#ffb25e',
+      main: "#ffc071",
+      dark: "#ffb25e",
     },
     error: {
       light: red[50],
@@ -41,7 +41,6 @@ const fontHeader = {
   color: rawTheme.palette.text.primary,
   fontWeight: rawTheme.typography.fontWeightMedium,
   fontFamily: "'Roboto Condensed', sans-serif",
-  textTransform: 'uppercase',
 };
 
 const theme = {
@@ -50,13 +49,19 @@ const theme = {
     ...rawTheme.palette,
     background: {
       ...rawTheme.palette.background,
-      default: rawTheme.palette.common.white,
+      default: "#F0F7FF",
       placeholder: grey[200],
+      newWhite: "#eaf1fb",
+      ogWhite: "#f3f4f6",
+      secondary: "#F9E900",
     },
   },
   typography: {
     ...rawTheme.typography,
     fontHeader,
+    button: {
+      textTransform: "none",
+    },
     h1: {
       ...rawTheme.typography.h1,
       ...fontHeader,
