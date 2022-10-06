@@ -14,7 +14,7 @@ import {
   TextField,
   Toolbar,
   Typography,
-} from "@mui/material";
+  } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Search } from "@mui/icons-material";

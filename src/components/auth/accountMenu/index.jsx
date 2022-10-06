@@ -10,10 +10,11 @@ import Tooltip from "@mui/material/Tooltip";
 import PersonAdd from "@mui/icons-material/PersonAdd";
 import Settings from "@mui/icons-material/Settings";
 import Logout from "@mui/icons-material/Logout";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   AdminPanelSettings,
   Book,
+  Duo,
   FamilyRestroom,
   Fax,
   School,
@@ -34,6 +35,8 @@ export default function AccountMenu() {
   const { logout, getCurrentUser } = useAuth();
 
   const user = getCurrentUser();
+
+  const { pathname } = useLocation();
 
   return (
     <React.Fragment>
@@ -123,11 +126,21 @@ export default function AccountMenu() {
           </Avatar>{" "}
           Parents
         </MenuItem>
+        <Divider />
+        <MenuItem
+          selected={/\/rooms/.test(pathname)}
+          onClick={() => push("/rooms")}
+        >
+          <Avatar>
+            <Duo />
+          </Avatar>{" "}
+          Rooms
+        </MenuItem>
         <MenuItem onClick={() => push("/blog")}>
           <Avatar>
             <Book />
           </Avatar>{" "}
-          Blog
+          Digest
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => push("/profile")}>

@@ -26,6 +26,7 @@
     "react": "^18.2.0",
     "react-ace": "^10.1.0",
     "react-big-calendar": "^1.5.0",
+    "react-chat-elements": "^12.0.5",
     "react-code-blocks": "^0.0.9-0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.2",
@@ -37,7 +38,8 @@
     "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^5.3.0",
     "react-transition-group": "^4.4.5",
-    "react-verification-code-input": "^1.2.9"
+    "react-verification-code-input": "^1.2.9",
+    "socket.io-client": "^4.5.2"
   },
   "devDependencies": {
     "@types/react": "^18.0.15",
