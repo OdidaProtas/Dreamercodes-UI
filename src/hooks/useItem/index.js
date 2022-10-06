@@ -10,7 +10,6 @@ export default function (options) {
 
   const state = useStateValue();
   const dispatch = useDispatch();
-  const { showToast } = useToast();
   const { axiosAction, loading: loadingRequest } = useAxios(instance);
 
   const items = state[slug];
@@ -32,8 +31,8 @@ export default function (options) {
       const allData = { ...items, [data.id]: data };
       dispatch({
         type: "ADD_ENTRIES",
-        context: slug,
-        payload: allData,
+        context: `${slug}`,
+        payload: { ...allData },
       });
       dispatch({
         type: "ADD_ENTRIES",
@@ -88,6 +87,7 @@ export default function (options) {
   return {
     getItem,
     [`loading_${slug}_item`]: loading,
+    [`${slug}_item`]: getItem,
     error,
   };
 }

@@ -1,6 +1,6 @@
 import { ContactSupport } from "@mui/icons-material";
 import { Box, Button, Container, Toolbar, Typography } from "@mui/material";
-import { lazy } from "react";
+import { lazy, useMemo } from "react";
 import {
   Redirect,
   useHistory,
@@ -19,31 +19,28 @@ const Certifications = lazy(() => import("./certifications"));
 
 import withRoot from "../landingPage/withRoot";
 
-const navigationOptions = [
-  { exact: true, children: <Overview />, route: "" },
-  { exact: true, children: <Update />, route: "/update" },
-  { exact: true, children: <Certifications />, route: "/cert/:id" },
-  { exact: false, children: <Fourohfour />, route: "*" },
-];
-
 export default withRoot(() => {
   const { url } = useRouteMatch();
-  const { push } = useHistory();
 
   const { pathname } = useLocation();
 
   const isCert = /\/cert/.test(pathname);
   const isUpdate = /\/update/.test(pathname);
 
-  const { checkLoginStatus, logout, checkVerificationStatus } = useAuth();
+  const { checkLoginStatus, checkVerificationStatus } = useAuth();
 
   const isLoggedIn = checkLoginStatus();
   const isVerified = checkVerificationStatus();
 
-  const handleLogout = () => {
-    logout();
-    push("/accounts");
-  };
+  const navigationOptions = useMemo(
+    () => [
+      { exact: true, children: <Overview />, route: "" },
+      { exact: true, children: <Update />, route: "/update" },
+      { exact: true, children: <Certifications />, route: "/cert/:id" },
+      { exact: false, children: <Fourohfour />, route: "*" },
+    ],
+    []
+  );
 
   if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
   if (!isVerified)

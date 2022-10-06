@@ -14,10 +14,25 @@ import { useState } from "react";
 export default function () {
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((o) => !o);
+
   return (
     <>
-      <Button onClick={toggle}>Update Password</Button>
-      <Dialog fullWidth maxWidth="sm" open={open} onClose={toggle}>
+      <Button
+        disableElevation
+        variant="contained"
+        sx={{ mb: 6 }}
+        onClick={toggle}
+      >
+        Update Password
+      </Button>
+      <Dialog
+        hideBackdrop
+        sx={{ backdropFilter: "blur(4px)", bgcolor: "" }}
+        fullWidth
+        maxWidth="sm"
+        open={open}
+        onClose={toggle}
+      >
         <DialogTitle>Update password</DialogTitle>
         <DialogContent dividers>
           <DialogContentText>
@@ -31,8 +46,8 @@ export default function () {
           </Stack>
         </DialogContent>
         <DialogActions>
-          <Button onClick={toggle} >Cancel</Button>
-          <Button onClick={toggle} >Confirm</Button>
+          <Button onClick={toggle}>Cancel</Button>
+          <Button onClick={toggle}>Confirm</Button>
         </DialogActions>
       </Dialog>
     </>

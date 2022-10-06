@@ -24,7 +24,7 @@ export default function (options) {
       dispatch({
         type: "ADD_ENTRIES",
         context: alias ?? slug,
-        payload: allData,
+        payload: { ...allData },
       });
     }
     dispatch({

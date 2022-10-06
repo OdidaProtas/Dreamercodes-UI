@@ -3,7 +3,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import { useHistory, useRouteMatch } from "react-router-dom";
 import { useAuth } from "../../../hooks";
 
-export default function () {
+export default function ProfileOverview() {
   const { push } = useHistory();
   const { url } = useRouteMatch();
 
@@ -17,6 +17,7 @@ export default function () {
         mt: 3,
         display: "flex",
         justifyContent: "center",
+        minHeight: "80vh",
       }}
     >
       <Box>
