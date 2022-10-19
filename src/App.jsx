@@ -1,4 +1,5 @@
 import "./App.css";
+import Bot from "./components/bot";
 
 import CookieBanner from "./components/cookie-banner";
 import NoInternet from "./components/dialogs/noInternet";
@@ -17,6 +18,7 @@ export default function App() {
       <Toast />
       <NoInternet />
       <CookieBanner />
+      <Bot/>
     </SocketProvider>
   );
 }

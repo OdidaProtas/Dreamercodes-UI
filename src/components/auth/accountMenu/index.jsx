@@ -20,6 +20,8 @@ import {
   School,
 } from "@mui/icons-material";
 import useAuth from "../../../hooks/useAuth";
+import { Badge } from "@mui/material";
+import { useOnlineStatus } from "../../../features/socket";
 
 export default function AccountMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -38,6 +40,8 @@ export default function AccountMenu() {
 
   const { pathname } = useLocation();
 
+  const isOffline = !useOnlineStatus();
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -53,16 +57,26 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar
-              color="primary"
-              sx={{
-                width: 32,
-                height: 32,
-                bgcolor: "background.secondary",
+            <Badge
+              color="success"
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
               }}
+              invisible={isOffline}
+              variant="dot"
             >
-              {user?.firstName[0]}
-            </Avatar>
+              <Avatar
+                color="primary"
+                sx={{
+                  width: 32,
+                  height: 32,
+                  bgcolor: "background.secondary",
+                }}
+              >
+                {user?.firstName[0]}
+              </Avatar>
+            </Badge>
           </IconButton>
         </Tooltip>
       </Box>

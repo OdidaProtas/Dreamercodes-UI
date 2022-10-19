@@ -12,8 +12,9 @@ import useDocTitle from "../../hooks/useDocTitle";
 import Testimonials from "./testimonials";
 import { useList } from "../../hooks";
 import useOnboardingProfile from "../portal/onboarding/hooks/useOnboardingProfile";
-import { Redirect, useRouteMatch } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import useSubdomain from "../../hooks/useSubdomain";
+import { useSocket, useSocketEvent } from "../../features/socket";
 
 function Index() {
   useDocTitle("Home");
@@ -27,7 +28,7 @@ function Index() {
   });
   useOnboardingProfile();
   const subdomain = useSubdomain();
-
+ 
   if (subdomain) return <Redirect to={`/accounts`} />;
 
   return (

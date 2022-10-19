@@ -1,21 +1,28 @@
-import { Toolbar } from "@mui/material";
-import { lazy } from "react";
-import { useMemo } from "react";
-import Navbar from "../../components/shared/navbar";
+import { lazy, useMemo } from "react";
+
 import Navigation from "../../features/navigation";
-import { useSocketEvent } from "../../features/socket";
 import withRoot from "../landingPage/withRoot";
 import RoomsLayout from "./components/layout";
 
+import { useSocketActions, useSocketEvent } from "../../features/socket";
+
 const RoomsOverview = lazy(() => import("./overview"));
+const AddRoom = lazy(() => import("./add"));
 
 function Rooms() {
+
+  
   const navOptions = useMemo(
-    () => [{ exact: true, children: <RoomsOverview />, route: "" }],
+    () => [
+      { exact: true, children: <RoomsOverview />, route: "" },
+      { exact: true, children: <AddRoom />, route: "/new" },
+    ],
     []
   );
 
-  useSocketEvent("connect",()=>  console.log("whoa"))
+  const { handleOnlineStatus } = useSocketActions();
+
+  useSocketEvent("connect", handleOnlineStatus);
 
   return (
     <RoomsLayout>

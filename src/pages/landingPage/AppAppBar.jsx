@@ -66,7 +66,7 @@ function AppAppBar() {
               color="inherit"
               variant="h6"
               underline="none"
-              href="/"
+              href="/blog"
               onClick={() => {push("/blog")}}
               sx={rightLink}
             >

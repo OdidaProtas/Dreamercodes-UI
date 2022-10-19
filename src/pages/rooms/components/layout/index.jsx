@@ -4,22 +4,22 @@ import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 import AccountMenu from "../../../../components/auth/accountMenu";
 import Logo from "../../../../components/shared/logo";
 import { ChatList } from "react-chat-elements";
+import { IconButton, TextField } from "@mui/material";
+import { Add } from "@mui/icons-material";
+import { useHistory } from "react-router-dom";
+import { useAuth } from "../../../../hooks";
 
 const drawerWidth = 300;
 
 export default function RoomsLayout({ children }) {
+  const { push } = useHistory();
+  const { getCurrentUser } = useAuth();
+  const user = getCurrentUser();
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -38,6 +38,7 @@ export default function RoomsLayout({ children }) {
           >
             Rooms
           </Typography>
+          <TextField />
           <AccountMenu />
         </Toolbar>
       </AppBar>
@@ -56,18 +57,29 @@ export default function RoomsLayout({ children }) {
         <Toolbar sx={{}}>
           <Logo textOnly />
         </Toolbar>
-        <Box sx={{ p: 2, bgcolor: "background.newWhite" }}>
-          <Typography>My Rooms</Typography>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            p: 2,
+            bgcolor: "background.newWhite",
+          }}
+        >
+          <Typography sx={{ mt: 1 }}>My Rooms</Typography>
+          <Box>
+            <IconButton onClick={() => push("/rooms/new")}>
+              <Add />
+            </IconButton>
+          </Box>
         </Box>
         <Divider />
-
         <ChatList
           className="chat-list"
           dataSource={[
             {
-              avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
-              alt: "kursat_avatar",
-              title: "Kursat",
+              avatar: "http://res.cloudinary.com/dreamercodes/image/upload/v1663485380/Screenshot_2022-09-17_212633_wqhday.png",
+              alt: `${user?.firstName}_avatar`,
+              title: `${user?.firstName}`,
               subtitle:
                 "Why don't we go to the No Way Home movie this weekend ?",
               date: new Date(),
@@ -79,47 +91,7 @@ export default function RoomsLayout({ children }) {
           <Typography>Direct Messages</Typography>
         </Box>
         <Divider />
-        <ChatList
-          className="chat-list"
-          dataSource={[
-            {
-              avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
-              alt: "kursat_avatar",
-              title: "Kursat",
-              subtitle:
-                "Why don't we go to the No Way Home movie this weekend ?",
-              date: new Date(),
-              unread: 3,
-            },
-            {
-                avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
-                alt: "kursat_avatar",
-                title: "Kursat",
-                subtitle:
-                  "Why don't we go to the No Way Home movie this weekend ?",
-                date: new Date(),
-                unread: 3,
-              },
-              {
-                avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
-                alt: "kursat_avatar",
-                title: "Kursat",
-                subtitle:
-                  "Why don't we go to the No Way Home movie this weekend ?",
-                date: new Date(),
-                unread: 3,
-              },
-              {
-                avatar: "https://avatars.githubusercontent.com/u/80540635?v=4",
-                alt: "kursat_avatar",
-                title: "Kursat",
-                subtitle:
-                  "Why don't we go to the No Way Home movie this weekend ?",
-                date: new Date(),
-                unread: 3,
-              },
-          ]}
-        />
+        <ChatList className="chat-list" dataSource={[]} />
       </Drawer>
       <Box
         component="main"

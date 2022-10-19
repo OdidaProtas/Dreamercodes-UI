@@ -3,6 +3,7 @@ const BASE_URLS = {
   onboarding: import.meta.env.VITE_ONBOARDING_SERVICE__BASE_URL,
   compiler: import.meta.env.VITE_COMPILE_SERVICE__BASE_URL,
   courses: import.meta.env.VITE_COURSES_SERVICE__BASE_URL,
+  rt: import.meta.env.VITE_APP_DREAMERCODES_RT,
 };
 
 const AUTH_URLS = {
@@ -21,7 +22,7 @@ const ONBOARDING_URLS = {
 
 const COURSES_URLS = {
   courses: "/courses",
-  subjects:"/subjects"
+  subjects: "/subjects",
 };
 
 const COMPILER_URLS = {
