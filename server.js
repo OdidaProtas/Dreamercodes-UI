@@ -6,7 +6,7 @@ import { createServer as createViteServer } from "vite";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-async function createServer() {
+(async function () {
   const app = express();
 
   // Create Vite server in middleware mode and configure the app type as
@@ -40,9 +40,9 @@ async function createServer() {
       // 3. Load the server entry. vite.ssrLoadModule automatically transforms
       //    your ESM source code to be usable in Node.js! There is no bundling
       //    required, and provides efficient invalidation similar to HMR.
-      const { render } = await vite.ssrLoadModule("/src/entry-server.jsx");
+      const { render } = await vite.ssrLoadModule("./src/ssr.jsx");
 
-      // 4. render the app HTML. This assumes entry-server.js's exported `render`
+      // 4. render the app omo HTML. This assumes entry-server.js's exported `render`
       //    function calls appropriate framework SSR APIs,
       //    e.g. ReactDOMServer.renderToString()
       const appHtml = await render(url);
@@ -61,7 +61,5 @@ async function createServer() {
   });
 
   app.listen(5173);
-  console.log("listening");
-}
-
-createServer();
+  console.log("Express server started");
+})();

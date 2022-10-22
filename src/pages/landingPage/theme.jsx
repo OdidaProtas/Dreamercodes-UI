@@ -43,7 +43,7 @@ const fontHeader = {
   fontFamily: "'Roboto Condensed', sans-serif",
 };
 
-const theme = {
+export const theme = {
   ...rawTheme,
   palette: {
     ...rawTheme.palette,

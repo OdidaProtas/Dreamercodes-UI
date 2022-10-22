@@ -1,12 +1,7 @@
-import { useRef } from "react";
-import { useContext } from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { createContext } from "react";
 import { io } from "socket.io-client";
 import useAuth from "../../hooks/useAuth";
 import { useDispatch, useStateValue } from "../../state/hooks";
-
+import { useRef, useContext, useEffect, useState, createContext } from "react";
 const SocketContext = createContext();
 
 export function SocketProvider({ children }) {
@@ -54,7 +49,10 @@ export function useSocketEvent(event, callback) {
     if (socket) {
       socket.on(event, (data) => callback(data));
     }
-  }, [socket]);
+    return () => {
+      socket.off(event, (data) => callback(data));
+    };
+  }, [socket, event]);
 }
 
 export function useOnlineStatus() {

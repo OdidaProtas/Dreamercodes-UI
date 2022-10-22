@@ -1,7 +1,9 @@
+import { useHistory } from "react-router-dom";
 import { useDispatch } from "../../state/hooks";
 
 export default function useAuthActions() {
   const dispatch = useDispatch();
+  const { push } = useHistory();
 
   function handleLoginSuccess(userData) {
     dispatch({
@@ -29,6 +31,7 @@ export default function useAuthActions() {
     dispatch({
       type: "RESET",
     });
+    push("/");
   }
 
   return { handleLoginSuccess, handleLoginFailure, handleLogout };

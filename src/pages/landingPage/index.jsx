@@ -28,8 +28,9 @@ function Index() {
   });
   useOnboardingProfile();
   const subdomain = useSubdomain();
- 
-  if (subdomain) return <Redirect to={`/accounts`} />;
+
+  if (subdomain && subdomain !== "dreamercodes")
+    return <Redirect to={`/accounts`} />;
 
   return (
     <React.Fragment>

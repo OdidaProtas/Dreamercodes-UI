@@ -1,7 +1,6 @@
-import { Box, CircularProgress, Toolbar } from "@mui/material";
+import { Box, Toolbar } from "@mui/material";
 import { lazy } from "react";
 import { Redirect, useRouteMatch } from "react-router-dom";
-import Fallback from "../../components/shared/fallback";
 import LoaderComponent from "../../components/shared/loader";
 import Navbar from "../../components/shared/navbar";
 import Navigation from "../../features/navigation";
@@ -23,16 +22,13 @@ const navOptions = [
 ];
 
 export default withRoot(() => {
-  const { checkLoginStatus, checkVerificationStatus } = useAuth();
+  const { checkVerificationStatus } = useAuth();
 
-  const isLoggedIn = checkLoginStatus();
   const isVerified = checkVerificationStatus();
 
   const { url } = useRouteMatch();
 
-  const { loading, profile } = useOnboardingProfile();
-
-  if (!isLoggedIn) return <Redirect to={`/accounts?next=${url}`} />;
+  const { loading } = useOnboardingProfile();
 
   if (!isVerified)
     return <Redirect to={`/accounts/email-verification?next=${url}`} />;

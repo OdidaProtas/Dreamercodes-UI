@@ -51,12 +51,14 @@ export default function () {
         payload: true,
         context: "loading_student_profile",
       });
-      axiosAction({
-        successHandler,
-        errorHandler,
-        method: "get",
-        endpoint: `/onboarding-byuser/${user?.id}`,
-      });
+      if (user?.id) {
+        axiosAction({
+          successHandler,
+          errorHandler,
+          method: "get",
+          endpoint: `/onboarding-byuser/${user?.id}`,
+        });
+      }
     }
   }, [user?.id]);
 

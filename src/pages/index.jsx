@@ -1,8 +1,11 @@
 import { Container } from "@mui/material";
 import { ThemeProvider } from "@mui/system";
+import { useMemo } from "react";
 import { lazy } from "react";
 import Navbar from "../components/shared/navbar";
+import { data } from "../data";
 import Navigation from "../features/navigation";
+import security from "../security";
 
 import theme from "./landingPage/theme";
 
@@ -20,33 +23,63 @@ const Community = lazy(() => import("./community"));
 const Dash = lazy(() => import("../pages/mentor/apps"));
 const Rooms = lazy(() => import("./rooms"));
 
-const navOptions = [
-  { exact: true, children: <LandingPage />, route: "/" },
-  { exact: false, children: <AuthPages />, route: "accounts" },
-  { exact: false, children: <Portal />, route: "portal" },
-  { exact: false, children: <Profile />, route: "profile" },
-  { exact: false, children: <Cert />, route: "cert/:id" },
-  { exact: false, children: <Mentor />, route: "mentor" },
-  { exact: false, children: <Blog />, route: "blog" },
-  { exact: true, children: <Courses />, route: "courses" },
-  { exact: true, children: <About />, route: "about-us" },
-  { exact: true, children: <Community />, route: "community" },
-  { exact: false, children: <Rooms  />, route: "rooms" },
-  {
-    exact: false,
-    children: (
-      <ThemeProvider theme={theme}>
-        <Navbar />
-        <Container>
-          <Dash />
-        </Container>
-      </ThemeProvider>
-    ),
-    route: "dashboard",
-  },
-  { exact: false, children: <Fourohfour />, route: "*" },
-];
-
-export default function () {
+export default function Pages() {
+  const navOptions = useMemo(
+    () => [
+      { exact: true, children: <LandingPage />, route: "/" },
+      { exact: false, children: <AuthPages />, route: "accounts" },
+      {
+        exact: false,
+        children: <Portal />,
+        route: "portal",
+        guard: security.pages.portal,
+      },
+      {
+        exact: false,
+        children: <Profile />,
+        route: "profile",
+        guard: security.pages.profile,
+      },
+      { exact: false, children: <Cert />, route: "cert/:id" },
+      {
+        exact: false,
+        children: <Mentor />,
+        route: "mentor",
+        guard: security.pages.mentor,
+      },
+      {
+        exact: true,
+        children: <Courses />,
+        route: "courses",
+        prefetch: data.list.courses,
+      },
+      { exact: true, children: <About />, route: "about-us" },
+      { exact: true, children: <Community />, route: "community" },
+      {
+        exact: false,
+        children: <Rooms />,
+        route: "rooms",
+        guard: security.pages.rooms,
+      },
+      {
+        exact: false,
+        children: wrappedDash,
+        route: "dashboard",
+        guard: security.pages.dashboard,
+      },
+      { exact: false, children: <Blog />, route: "blog" },
+      { exact: false, children: <Fourohfour />, route: "*" },
+    ],
+    []
+  );
   return <Navigation options={navOptions} />;
 }
+
+var wrappedDash = (
+  <ThemeProvider theme={theme}>
+    <Navbar />
+    <Container>
+      <Dash />
+    </Container>
+  </ThemeProvider>
+);

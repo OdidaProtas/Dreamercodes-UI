@@ -42,11 +42,24 @@ export default function useAuth() {
     [state]
   );
 
+  const userHasRoles = useCallback(
+    function (roles = []) {
+      const { userRoles = [] } = state;
+      let transformed = roles.map((role) => {
+        if (role === "*") return true;
+        return Boolean(userRoles.find((r) => r === role));
+      });
+      return Boolean(transformed.filter(Boolean).length);
+    },
+    [state?.user?.roles]
+  );
+
   return {
     login,
     logout,
     checkLoginStatus,
     getCurrentUser,
-    checkVerificationStatus
+    checkVerificationStatus,
+    userHasRoles,
   };
 }
