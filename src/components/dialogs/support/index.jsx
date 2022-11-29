@@ -4,24 +4,23 @@ import {
   Dialog,
   DialogContent,
   DialogContentText,
-  Grid,
-  ThemeProvider,
+  TextField,
 } from "@mui/material";
-import AccountMenu from "../../components/auth/accountMenu";
-import SupportDialog from "../../components/dialogs/support";
-
-import Logo from "../../components/shared/logo";
-import theme from "../landingPage/theme";
-
-export default function FourOhFour() {
+import useDialog from "../../../hooks/useDialog";
+import AccountMenu from "../../auth/accountMenu";
+import Logo from "../../shared/logo";
+export default function SupportDialog() {
+  const [open, toggle] = useDialog()
   return (
-    <ThemeProvider theme={theme}>
+    <>
+      <Button fullWidth disableElevation onClick={toggle} variant="contained">Get help</Button>
       <Dialog
         fullWidth
         maxWidth="sm"
-        open
+        open={open}
         hideBackdrop
-        sx={{ backdropFilter: "blur(4px)", }}
+        sx={{ backdropFilter: "blur(4px)" }}
+        onClose={toggle}
       >
         <DialogContent>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -36,17 +35,20 @@ export default function FourOhFour() {
             >
               <AccountMenu />
             </Box>
-          </div>  
+          </div>
           <DialogContentText sx={{ my: 3 }}>
             This page does not exist. This URL {window.location.pathname} is
             invalid.
           </DialogContentText>
-          <DialogContentText sx={{ my: 3, color: "red" }}>
-            Error code: 404
-          </DialogContentText>
-          <SupportDialog />
+          <TextField label="Email address" fullWidth />
+          <TextField label="Alternative email" fullWidth />
+          <TextField label="Subject" fullWidth />
+          <TextField label="Description" sx={{ my: 3 }} fullWidth />
+          <Button fullWidth variant="contained">
+            Submit
+          </Button>
         </DialogContent>
       </Dialog>
-    </ThemeProvider>
+    </>
   );
 }

@@ -53,7 +53,7 @@ export default function ProductHero({ courses, about, community }) {
           ? "About Us"
           : community
           ? "Our Community"
-          : "Learn to code online"}
+          : "The school operating system"}
       </Typography>
       <Typography
         color="inherit"
@@ -65,7 +65,7 @@ export default function ProductHero({ courses, about, community }) {
           ? "Market-aligned Courses Curated to help you build your dream projects"
           : community
           ? "Connect with an exciting community of dreamers, get help and discover events"
-          : "Learn to code and build your dream projects, from the comfort of your home"}
+          : "All level school, lms with all education tools"}
       </Typography>
       {!about && (
         <>

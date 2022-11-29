@@ -10,7 +10,7 @@ import { useEffect } from "react";
 import { useStateValue } from "../../../state/hooks";
 
 export default function NoInternet() {
-  const { uploadProgress } = useStateValue();
+  const { uploadProgress = false } = useStateValue();
   return (
     <>
       <Dialog

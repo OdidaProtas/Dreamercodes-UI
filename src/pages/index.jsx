@@ -6,6 +6,7 @@ import Navbar from "../components/shared/navbar";
 import { data } from "../data";
 import Navigation from "../features/navigation";
 import security from "../security";
+import { ssrFbs } from "../ssr/pages";
 
 import theme from "./landingPage/theme";
 
@@ -26,32 +27,38 @@ const Rooms = lazy(() => import("./rooms"));
 export default function Pages() {
   const navOptions = useMemo(
     () => [
-      { exact: true, children: <LandingPage />, route: "/" },
+      {
+        exact: true,
+        children: <LandingPage />,
+        route: "/",
+        ssr: ssrFbs.landigPage(),
+      },
       { exact: false, children: <AuthPages />, route: "accounts" },
       {
         exact: false,
         children: <Portal />,
         route: "portal",
-        guard: security.pages.portal,
+        secure: security.pages.portal,
       },
       {
         exact: false,
         children: <Profile />,
         route: "profile",
-        guard: security.pages.profile,
+        secure: security.pages.profile,
       },
       { exact: false, children: <Cert />, route: "cert/:id" },
       {
         exact: false,
         children: <Mentor />,
         route: "mentor",
-        guard: security.pages.mentor,
+        secure: security.pages.mentor,
       },
       {
         exact: true,
         children: <Courses />,
         route: "courses",
         prefetch: data.list.courses,
+        ssr: ssrFbs.courses(),
       },
       { exact: true, children: <About />, route: "about-us" },
       { exact: true, children: <Community />, route: "community" },
@@ -59,13 +66,13 @@ export default function Pages() {
         exact: false,
         children: <Rooms />,
         route: "rooms",
-        guard: security.pages.rooms,
+        secure: security.pages.rooms,
       },
       {
         exact: false,
         children: wrappedDash,
         route: "dashboard",
-        guard: security.pages.dashboard,
+        secure: security.pages.dashboard,
       },
       { exact: false, children: <Blog />, route: "blog" },
       { exact: false, children: <Fourohfour />, route: "*" },

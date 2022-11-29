@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useLayoutEffect } from "react";
 import useOrg from "../useOrg";
 
 export default function (title) {
   const [org] = useOrg();
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.title = `${title} - ${
       Boolean(org) ? org.name : "Dreamercodes School"
     } `;

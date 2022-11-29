@@ -7,5 +7,7 @@
 			"path": "../../chat-service"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"liveServer.settings.multiRootWorkspaceName": "schoo"
+	}
 }

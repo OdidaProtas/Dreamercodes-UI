@@ -34,6 +34,8 @@ export default function AppOverview() {
         </Button>
       </Box>
       <Box sx={{ mt: 2 }}>
+        {!Boolean(apps.length) && !loadingApps && <>0 apps</>}
+
         <Grid spacing={2} container>
           {apps.map((app) => {
             return (

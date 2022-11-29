@@ -42,6 +42,8 @@ export default function AccountMenu() {
 
   const isOffline = !useOnlineStatus();
 
+
+
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -155,6 +157,12 @@ export default function AccountMenu() {
             <Book />
           </Avatar>{" "}
           Digest
+        </MenuItem>
+        <MenuItem onClick={() => push("/editor")}>
+          <Avatar>
+            <Book />
+          </Avatar>{" "}
+          Code Playground
         </MenuItem>
         <Divider />
         <MenuItem onClick={() => push("/profile")}>

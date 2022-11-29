@@ -1,12 +1,11 @@
-import { CircularProgress } from "@mui/material";
 import ReactDOMServer from "react-dom/server";
 import { StaticRouter } from "react-router-dom";
-import App from "./App";
+import SuAdmin from "./su-admin";
 
 export function render(url, context) {
   return ReactDOMServer.renderToString(
     <StaticRouter location={url} context={context}>
-      <App/>
+      <SuAdmin />
     </StaticRouter>
   );
 }

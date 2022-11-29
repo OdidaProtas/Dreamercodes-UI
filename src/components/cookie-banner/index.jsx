@@ -1,15 +1,17 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
-import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Stack from "@mui/material/Stack";
 import SnackbarContent from "@mui/material/SnackbarContent";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { Window } from "../../utils/utils";
 export default function () {
   const [open, setOpen] = React.useState(
-    () => !Boolean(localStorage.getItem("cookie-consented") === "true")
+    () =>
+      !Boolean(
+        Window.exists() &&
+          window?.localStorage.getItem("cookie-consented") === "true"
+      )
   );
 
   const handleClose = (event, reason) => {
@@ -21,8 +23,10 @@ export default function () {
   };
 
   useEffect(() => {
-    const isConsented = window.localStorage.getItem("cookie-consented");
-    if (!Boolean(isConsented)) {
+    const isConsented = Window.exists()
+      ? window.localStorage.getItem("cookie-consented")
+      : "";
+    if (!Boolean(isConsented) && Window.exists()) {
       setTimeout(() => {
         localStorage.setItem("cookie-consented", true);
       }, 69000);

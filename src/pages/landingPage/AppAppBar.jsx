@@ -7,6 +7,7 @@ import { useHistory, useLocation } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 import AccountMenu from "../../components/auth/accountMenu";
 import useSubdomain from "../../hooks/useSubdomain";
+import { OpenInNew } from "@mui/icons-material";
 
 const rightLink = {
   fontSize: 16,
@@ -42,7 +43,7 @@ function AppAppBar() {
             {"Dreamercodes"}
           </Link>
           <Box sx={{ flex: 1, display: "flex", justifyContent: "flex-end" }}>
-            <Link
+            {/* <Link
               color="inherit"
               variant="h6"
               underline="none"
@@ -50,7 +51,7 @@ function AppAppBar() {
               sx={{ ...rightLink, color: isCourses ? "pink" : "white" }}
             >
               {"Courses"}
-            </Link>
+            </Link> */}
 
             <Link
               color="inherit"
@@ -67,12 +68,16 @@ function AppAppBar() {
               variant="h6"
               underline="none"
               href="/blog"
-              onClick={() => {push("/blog")}}
+              target={"blank"}
+              onClick={() => {
+                push("/blog");
+              }}
               sx={rightLink}
             >
               {"Blog"}
+              <OpenInNew sx={{fontSize:"13px"}} />
             </Link>
-
+            {/* 
             <Link
               color="inherit"
               variant="h6"
@@ -81,17 +86,17 @@ function AppAppBar() {
               sx={{ ...rightLink, color: isCommunity ? "pink" : "white" }}
             >
               {"Community"}
-            </Link>
+            </Link> */}
 
-            <Link
-              color="inherit"
-              variant="h6"
-              underline="none"
-              onClick={() => push("/portal")}
-              sx={rightLink}
-            >
-              {"Students"}
-            </Link>
+            {/* <Link
+                color="inherit"
+                variant="h6"
+                underline="none"
+                onClick={() => push("/portal")}
+                sx={rightLink}
+              >
+                {"Students"}
+              </Link> */}
             {!isLoggedIn && (
               <Link
                 variant="h6"

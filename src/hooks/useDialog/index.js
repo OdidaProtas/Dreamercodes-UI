@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useStateValue } from "../../state/hooks";
 import useDialogActions from "./actions";
 
-export default function useDialog({ scope = "LOCAL", name }) {
+export default function useDialog(opts = {}) {
+  const { scope = "LOCAL", name = "default" } = opts;
   const [open, setOpen] = useState(false);
   const { toggleGlobalDialog } = useDialogActions();
 

@@ -23,6 +23,8 @@ export default function Navigation({ options }) {
 
   const isLoggedIn = checkLoginStatus();
 
+  const { isSSR } = state;
+
   const navData = useMemo(
     () =>
       (options ?? []).map((option) => ({
@@ -34,7 +36,7 @@ export default function Navigation({ options }) {
 
   const routes = useMemo(
     () =>
-      navData.map(({ route, exact, children, secure, prefetch }) => {
+      navData.map(({ route, exact, children, secure, prefetch, ssr }) => {
         if (secure) {
           secure = secure();
           const { roles, loginRequired } = secure;
@@ -52,9 +54,12 @@ export default function Navigation({ options }) {
 
         return (
           <Route exact={exact} key={route} path={route}>
-            <ErrorBoundary>
-              <Suspense fallback={<Fallback />}>{children}</Suspense>
-            </ErrorBoundary>
+            {isSSR && <>{ssr}</>}
+            {!isSSR && (
+              <ErrorBoundary>
+                <Suspense fallback={<Fallback />}>{children}</Suspense>
+              </ErrorBoundary>
+            )}
           </Route>
         );
       }),

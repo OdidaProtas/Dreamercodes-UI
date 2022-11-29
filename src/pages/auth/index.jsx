@@ -1,8 +1,10 @@
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Select, Typography } from "@mui/material";
+import { useEffect } from "react";
 import { lazy } from "react";
 import { useHistory } from "react-router-dom";
 import bgImg from "../../assets/defaultBg.png";
 import Navigation from "../../features/navigation";
+import { useAuth } from "../../hooks";
 import useOrg from "../../hooks/useOrg";
 import withRoot from "../landingPage/withRoot";
 import AuthOrgCarousel from "./carousel";
@@ -28,9 +30,21 @@ const navOptions = [
 function Auth() {
   const { push } = useHistory();
   const [organization, loadingOrg] = useOrg();
+  const { logout } = useAuth();
+  // useEffect(() => {
+  //   logout();
+  // }, []);
   return (
     <Grid container>
       <Grid item xs sx={{ maxHeight: "100vh", overflow: "auto" }}>
+        <Box sx={{ m: 2, display: "flex", justifyContent: "right" }}>
+          <select name="" id="">
+            <option value="students">Student</option>
+            <option value="students">Staff</option>
+            <option value="students">Admin</option>
+            <option value="students">Parents</option>
+          </select>
+        </Box>
         <Container sx={{ mt: { xs: 9 } }}>
           <Navigation options={navOptions} />
         </Container>
